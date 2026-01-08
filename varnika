@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoodSpace - Emotional Wellness & Music</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base Styles & Variables */
+        :root {
+            --primary-blue: #1a6bb3;
+            --light-blue: #e6f2ff;
+            --medium-blue: #4a90e2;
+            --dark-blue: #0d4a8a;
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --border-gray: #e0e0e0;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --border-radius: 16px;
+            --transition: all 0.3s ease;
+
+            /* Larger font sizes */
+            font-size: 18px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e6f2ff 0%, #f0f7ff 100%);
+            color: var(--text-dark);
+            line-height: 1.7;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* Page transitions */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Header with Back Button */
+        header {
+            background-color: var(--white);
+            padding: 25px 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            border-left: 10px solid var(--primary-blue);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .back-btn-top {
+            position: absolute;
+            left: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--white);
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .back-btn-top:hover {
+            background-color: var(--light-blue);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        h1 {
+            color: var(--dark-blue);
+            margin-bottom: 15px;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 15px;
+        }
+
+        .tagline {
+            background-color: var(--light-blue);
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            color: var(--dark-blue);
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        /* Big Mood Buttons - Page 1 */
+        .mood-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .big-mood-btn {
+            background-color: var(--white);
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 35px 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-bottom: 8px solid transparent;
+        }
+
+        .big-mood-btn:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .big-mood-btn i {
+            font-size: 3.2rem;
+            margin-bottom: 15px;
+        }
+
+        .big-mood-btn span {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        /* Emotion Grid - Page 2 */
+        .emotion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .emotion-option {
+            background-color: var(--white);
+            border: none;
+            border-radius: 15px;
+            padding: 25px 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-left: 6px solid var(--primary-blue);
+        }
+
+        .emotion-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .emotion-option.selected {
+            background-color: var(--light-blue);
+            box-shadow: 0 0 0 3px rgba(26, 107, 179, 0.3);
+        }
+
+        .emotion-emoji {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .emotion-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .emotion-subtitle {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-top: 8px;
+        }
+
+        /* Coping Strategies */
+        .coping-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .coping-card {
+            background-color: var(--white);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            border-top: 8px solid var(--medium-blue);
+        }
+
+        .coping-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .coping-card h3 {
+            color: var(--dark-blue);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .coping-card p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Enhanced Music Player with Spotify */
+        .music-player {
+            background-color: var(--white);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin: 30px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .song-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .song-item {
+            background-color: var(--light-blue);
+            border-radius: 12px;
+            transition: var(--transition);
+            border-left: 5px solid var(--medium-blue);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .song-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .song-item.active {
+            background-color: var(--white);
+            border-left-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(26, 107, 179, 0.2);
+        }
+
+        .song-info {
+            padding: 20px;
+            cursor: pointer;
+        }
+
+        .song-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--dark-blue);
+        }
+
+        .song-artist {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .song-help {
+            font-size: 1rem;
+            color: var(--medium-blue);
+            font-style: italic;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .spotify-player {
+            width: 100%;
+            height: 152px;
+            border: none;
+            border-top: 1px solid var(--border-gray);
+            display: block;
+        }
+
+        .song-item.active .spotify-player {
+            display: block;
+        }
+
+        .auto-play-notice {
+            background-color: rgba(30, 215, 96, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #1DB954;
+            border-left: 4px solid #1DB954;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .auto-play-notice i {
+            font-size: 1.2rem;
+        }
+
+        /* Enhanced Games Section */
+        .games-section {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            margin: 30px 0;
+            box-shadow: var(--shadow);
+        }
+
+        .games-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .game-card {
+            background-color: var(--light-blue);
+            padding: 30px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .game-card i {
+            font-size: 3rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+
+        .game-card h3 {
+            font-size: 1.5rem;
+            color: var(--dark-blue);
+            margin-bottom: 15px;
+        }
+
+        .game-card p {
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        /* Save Button */
+        .save-section {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid var(--border-gray);
+        }
+
+        .save-btn {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.3rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(26, 107, 179, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 0 auto;
+        }
+
+        .save-btn:hover {
+            background-color: var(--dark-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(26, 107, 179, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            padding: 25px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .emergency-contact {
+            background-color: var(--light-blue);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            font-weight: 600;
+            color: var(--dark-blue);
+            font-size: 1.1rem;
+        }
+
+        /* Game Popups */
+        .game-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .game-popup.active {
+            display: flex;
+        }
+
+        .game-content {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            max-width: 700px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-game {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        /* Number Find Game - CORRECTED */
+        .number-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin: 25px 0;
+        }
+
+        .number-cell {
+            background-color: var(--light-blue);
+            border-radius: 8px;
+            padding: 25px 10px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            user-select: none;
+            color: var(--dark-blue);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80px;
+        }
+
+        .number-cell:hover {
+            background-color: var(--medium-blue);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .number-cell.next {
+            background-color: rgba(26, 107, 179, 0.2);
+            border: 2px solid var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(26, 107, 179, 0.3);
+            animation: pulse 1s infinite;
+        }
+
+        .number-cell.found {
+            background-color: #4CAF50;
+            color: white;
+            transform: scale(1.05);
+            animation: none !important;
+            cursor: default;
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid var(--border-gray);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+
+        /* Color Match Game */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .color-btn {
+            height: 80px;
+            border-radius: 10px;
+            border: 3px solid white;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .color-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .color-btn.active {
+            border: 3px solid var(--dark-blue);
+            box-shadow: 0 0 0 3px var(--primary-blue);
+        }
+
+        #targetColor {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            border-radius: 10px;
+            border: 4px solid white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            :root {
+                font-size: 16px;
+            }
+
+            .container {
+                gap: 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+                padding-left: 60px;
+                padding-right: 60px;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .back-btn-top {
+                position: relative;
+                left: 0;
+                top: 0;
+                transform: none;
+                margin-bottom: 20px;
+                align-self: flex-start;
+            }
+
+            header {
+                padding: 20px;
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .mood-buttons {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+
+            .big-mood-btn {
+                padding: 25px 15px;
+            }
+
+            .emotion-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+
+            .coping-grid, .games-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .song-list {
+                grid-template-columns: 1fr;
+            }
+
+            .number-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+            }
+
+            .color-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            .mood-buttons, .emotion-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .big-mood-btn i {
+                font-size: 2.8rem;
+            }
+
+            .big-mood-btn span {
+                font-size: 1.4rem;
+            }
+
+            .number-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .number-cell {
+                padding: 20px 5px;
+                font-size: 1.5rem;
+                min-height: 70px;
+            }
+
+            .color-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes celebrate {
+            0% { transform: translateY(0) rotate(0); }
+            25% { transform: translateY(-10px) rotate(-5deg); }
+            50% { transform: translateY(0) rotate(0); }
+            75% { transform: translateY(-10px) rotate(5deg); }
+            100% { transform: translateY(0) rotate(0); }
+        }
+
+        /* Emotion-specific colors */
+        .happy-color { border-bottom-color: #FFD166; }
+        .sad-color { border-bottom-color: #6A8CAF; }
+        .angry-color { border-bottom-color: #EF476F; }
+        .anxious-color { border-bottom-color: #A882DD; }
+        .overwhelmed-color { border-bottom-color: #FF9A76; }
+        .lonely-color { border-bottom-color: #8D99AE; }
+        .tired-color { border-bottom-color: #06D6A0; }
+        .calm-color { border-bottom-color: #4A90E2; }
+
+        /* Game-specific colors for color game */
+        .game-color-1 { background-color: #FF6B6B; }
+        .game-color-2 { background-color: #4ECDC4; }
+        .game-color-3 { background-color: #FFD166; }
+        .game-color-4 { background-color: #06D6A0; }
+        .game-color-5 { background-color: #118AB2; }
+        .game-color-6 { background-color: #9B5DE5; }
+        .game-color-7 { background-color: #F15BB5; }
+        .game-color-8 { background-color: #00BBF9; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Page 1: Quick Emotion Selection -->
+    <section class="page active" id="page1">
+        <header>
+            <h1><i class="fas fa-heart"></i> MoodSpace</h1>
+            <p class="subtitle">Quick emotional check-in for tired students. Just tap how you're feeling - no long forms, no pressure.</p>
+            <div class="tagline">"Checking in takes 30 seconds. Feeling better lasts longer."</div>
+        </header>
+
+        <div class="mood-buttons">
+            <button class="big-mood-btn happy-color" data-emotion="happy">
+                <i class="fas fa-smile-beam"></i>
+                <span>Happy</span>
+            </button>
+
+            <button class="big-mood-btn sad-color" data-emotion="sad">
+                <i class="fas fa-sad-tear"></i>
+                <span>Sad</span>
+            </button>
+
+            <button class="big-mood-btn angry-color" data-emotion="angry">
+                <i class="fas fa-angry"></i>
+                <span>Angry/Irritated</span>
+            </button>
+
+            <button class="big-mood-btn anxious-color" data-emotion="anxious">
+                <i class="fas fa-surprise"></i>
+                <span>Fearful/Anxious</span>
+            </button>
+
+            <button class="big-mood-btn overwhelmed-color" data-emotion="overwhelmed">
+                <i class="fas fa-cloud-rain"></i>
+                <span>Overwhelmed</span>
+            </button>
+
+            <button class="big-mood-btn lonely-color" data-emotion="lonely">
+                <i class="fas fa-user-alone"></i>
+                <span>Lonely</span>
+            </button>
+
+            <button class="big-mood-btn tired-color" data-emotion="tired">
+                <i class="fas fa-tired"></i>
+                <span>Tired/Burnt Out</span>
+            </button>
+
+            <button class="big-mood-btn calm-color" data-emotion="calm">
+                <i class="fas fa-peace"></i>
+                <span>Calm/Peaceful</span>
+            </button>
+        </div>
+
+        <footer>
+            <p>This is your private space. No one sees your emotions but you.</p>
+            <div class="emergency-contact">
+                <p><i class="fas fa-exclamation-triangle"></i> Immediate help: Crisis Text Line: Text HOME to 741741 | Suicide Prevention: 988</p>
+            </div>
+        </footer>
+    </section>
+
+    <!-- Page 2: Specific Emotion & Coping -->
+    <section class="page" id="page2">
+        <header>
+            <button class="back-btn-top" id="backToPage1Top">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <h1><i class="fas fa-search-heart"></i> Let's Get Specific</h1>
+            <p class="subtitle">Tap the specific feeling that matches best. Then we'll give you personalized help.</p>
+            <div class="tagline" id="selectedEmotionTag">Feeling: <span id="selectedEmotionText">Happy</span></div>
+        </header>
+
+        <div id="emotionGridContainer">
+            <!-- Emotions will be loaded here based on selection -->
+        </div>
+
+        <div id="copingSection" style="display: none;">
+            <h2 style="color: var(--dark-blue); margin: 40px 0 20px; font-size: 2rem;">
+                <i class="fas fa-life-ring"></i> Coping Strategies
+            </h2>
+            <div id="copingGrid" class="coping-grid">
+                <!-- Coping strategies will be loaded here -->
+            </div>
+
+            <div id="musicPlayer" class="music-player">
+                <h2 style="color: var(--dark-blue); margin-bottom: 20px; font-size: 2rem;">
+                    <i class="fab fa-spotify"></i> Curated Music for Your Mood
+                </h2>
+                <p style="font-size: 1.2rem; margin-bottom: 20px;">These songs might help. Click any song to automatically play to help lighten the mood for 30 seconds:</p>
+
+                <div id="songList" class="song-list">
+                    <!-- Songs will be loaded here -->
+                </div>
+
+                <div class="auto-play-notice">
+                    <i class="fas fa-volume-up"></i>
+                </div>
+            </div>
+
+            <div class="games-section">
+                <div class="games-header">
+                    <h2 style="color: var(--dark-blue); margin-bottom: 10px; font-size: 2rem;">
+                        <i class="fas fa-gamepad"></i> Quick Games to Reset
+                    </h2>
+                    <p style="font-size: 1.2rem;">Take a 2-minute break with these calming games:</p>
+                </div>
+
+                <div class="games-grid">
+                    <div class="game-card" id="numberFindGame">
+                        <i class="fas fa-search"></i>
+                        <h3>Find Numbers Fast</h3>
+                        <p>Click numbers 1-25 in order as quickly as you can</p>
+                    </div>
+
+                    <div class="game-card" id="colorMatchGame">
+                        <i class="fas fa-palette"></i>
+                        <h3>Color Match</h3>
+                        <p>Match colors to improve focus</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="save-section">
+                <button class="save-btn" id="saveEntryBtn">
+                    <i class="fas fa-save"></i> Save & Finish
+                </button>
+            </div>
+        </div>
+
+        <footer>
+            <p>Remember: It's okay to have hard days. You're doing your best.</p>
+        </footer>
+    </section>
+</div>
+
+<!-- Game Popups -->
+<div class="game-popup" id="numberFindPopup">
+    <div class="game-content">
+        <h2 style="color: var(--dark-blue); margin-bottom: 20px; font-size: 2rem;">Find Numbers Fast</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 20px;" id="numberFindInstruction">Click numbers 1-25 in order as quickly as you can!</p>
+
+        <div class="number-grid" id="numberGrid">
+            <!-- Numbers will be generated here -->
+        </div>
+
+        <div class="game-stats">
+            <div class="stat-item">
+                <div class="stat-value" id="currentNumber">1</div>
+                <div class="stat-label">Next Number</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="timer">0</div>
+                <div class="stat-label">Seconds</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="foundCount">0</div>
+                <div class="stat-label">Found</div>
+            </div>
+        </div>
+
+        <button class="save-btn" style="margin-top: 30px;" id="closeNumberFind">Done</button>
+    </div>
+    <button class="close-game" id="closeNumberFindBtn">×</button>
+</div>
+
+<div class="game-popup" id="colorMatchPopup">
+    <div class="game-content">
+        <h2 style="color: var(--dark-blue); margin-bottom: 20px; font-size: 2rem;">Color Match Challenge</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 20px;" id="colorGameInstruction">Match the target color by clicking the squares. You have 60 seconds!</p>
+
+        <div id="targetColor">
+            <!-- Target color will appear here -->
+        </div>
+
+        <div class="color-grid" id="colorGrid">
+            <!-- Color buttons will be generated here -->
+        </div>
+
+        <div class="game-stats">
+            <div class="stat-item">
+                <div class="stat-value" id="timeLeft">60</div>
+                <div class="stat-label">Seconds</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="matches">0</div>
+                <div class="stat-label">Matches</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="accuracy">0%</div>
+                <div class="stat-label">Accuracy</div>
+            </div>
+        </div>
+
+        <button class="save-btn" style="margin-top: 30px;" id="closeColorGame">Done</button>
+    </div>
+    <button class="close-game" id="closeColorGameBtn">×</button>
+</div>
+
+<script>
+    // Emotion data
+    const emotions = {
+        happy: [
+            { name: "Joyful", emoji: "😄", specifics: "Lighthearted, Cheerful" },
+            { name: "Content", emoji: "😌", specifics: "Satisfied, At Peace" },
+            { name: "Hopeful", emoji: "🌈", specifics: "Optimistic, Looking Forward" },
+            { name: "Excited", emoji: "🤩", specifics: "Energetic, Anticipating" },
+            { name: "Grateful", emoji: "🙏", specifics: "Thankful, Appreciative" }
+        ],
+        sad: [
+            { name: "Heartbroken", emoji: "💔", specifics: "Deeply Hurt, Grieving" },
+            { name: "Lonely", emoji: "🥺", specifics: "Isolated, Longing" },
+            { name: "Disappointed", emoji: "😞", specifics: "Let Down, Unfulfilled" },
+            { name: "Hopeless", emoji: "😔", specifics: "Despairing, No Energy" },
+            { name: "Numb", emoji: "😶", specifics: "Empty, Detached" }
+        ],
+        angry: [
+            { name: "Frustrated", emoji: "😤", specifics: "Annoyed, Stuck" },
+            { name: "Irritated", emoji: "😠", specifics: "On Edge, Agitated" },
+            { name: "Resentful", emoji: "🤬", specifics: "Bitterness, Hostile" },
+            { name: "Betrayed", emoji: "😡", specifics: "Let Down, Hurt" },
+            { name: "Outraged", emoji: "👿", specifics: "Furious, Enraged" }
+        ],
+        anxious: [
+            { name: "Worried", emoji: "😟", specifics: "Concerned, Stressed" },
+            { name: "Panicked", emoji: "😨", specifics: "Overwhelmed, Racing" },
+            { name: "Overthinking", emoji: "🤯", specifics: "Looping Thoughts" },
+            { name: "Insecure", emoji: "😕", specifics: "Self-Doubt, Uncertainty" },
+            { name: "Restless", emoji: "😰", specifics: "Can't Settle, Tense" }
+        ],
+        overwhelmed: [
+            { name: "Stressed", emoji: "😫", specifics: "Pressure, Too Much" },
+            { name: "Burnt Out", emoji: "😩", specifics: "Exhausted, Drained" },
+            { name: "Overloaded", emoji: "🏋️", specifics: "Too Many Tasks" },
+            { name: "Confused", emoji: "😵", specifics: "Can't Think Clearly" },
+            { name: "Stuck", emoji: "🫠", specifics: "Paralyzed, Frozen" }
+        ],
+        lonely: [
+            { name: "Isolated", emoji: "👤", specifics: "Alone, No Connection" },
+            { name: "Unseen", emoji: "👻", specifics: "Invisible, Ignored" },
+            { name: "Longing", emoji: "💭", specifics: "Missing Connection" },
+            { name: "Misunderstood", emoji: "🤷", specifics: "Not Heard, Alien" },
+            { name: "Homesick", emoji: "🏠", specifics: "Nostalgic, Yearning" }
+        ],
+        tired: [
+            { name: "Exhausted", emoji: "😴", specifics: "Drained, No Energy" },
+            { name: "Burnt Out", emoji: "🔥", specifics: "Emotionally Drained" },
+            { name: "Unmotivated", emoji: "🛌", specifics: "No Drive, Lethargic" },
+            { name: "Foggy", emoji: "🌫️", specifics: "Can't Focus, Hazy" },
+            { name: "Weary", emoji: "😮‍💨", specifics: "Tired of Everything" }
+        ],
+        calm: [
+            { name: "Peaceful", emoji: "☮️", specifics: "Serene, Tranquil" },
+            { name: "Content", emoji: "😊", specifics: "Satisfied, At Ease" },
+            { name: "Grounded", emoji: "🌳", specifics: "Centered, Present" },
+            { name: "Relaxed", emoji: "🪷", specifics: "At Rest, Unwound" },
+            { name: "Balanced", emoji: "⚖️", specifics: "Harmonious, Steady" }
+        ]
+    };
+
+    // Coping strategies
+    const copingStrategies = {
+        happy: [
+            { title: "Share the Joy", description: "Text a friend about something good that happened. Happiness grows when shared." },
+            { title: "Savor the Moment", description: "Take 2 minutes to fully notice and appreciate this good feeling. Where do you feel it in your body?" },
+            { title: "Spread Positivity", description: "Do one small kind thing for someone else - even just a compliment." }
+        ],
+        sad: [
+            { title: "Self-Compassion Pause", description: "Put your hand on your heart and say: 'This is really hard right now. It's okay to feel this way.'" },
+            { title: "Gentle Release", description: "Write what you're feeling on paper, then safely tear it up or keep it private." },
+            { title: "Comfort Activity", description: "Do one comforting thing: warm drink, soft blanket, favorite old movie scene." }
+        ],
+        angry: [
+            { title: "Physical Release", description: "Do 10 jumping jacks, squeeze a stress ball, or punch a pillow. Get the energy out." },
+            { title: "Cool Down", description: "Hold an ice cube in your hand or splash cold water on your face for 30 seconds." },
+            { title: "Write & Rip", description: "Write what you're angry about on paper, then rip it up. No one sees it." }
+        ],
+        anxious: [
+            { title: "Grounding Exercise", description: "Name: 5 things you see, 4 things you feel, 3 things you hear, 2 things you smell, 1 thing you taste." },
+            { title: "Safety Check", description: "Ask: 'Am I actually in danger right now, or just uncomfortable?' Look for evidence of safety." },
+            { title: "Controlled Breathing", description: "Breathe in for 4 counts, hold for 4, exhale for 6. Repeat 5 times." }
+        ],
+        overwhelmed: [
+            { title: "One Thing Only", description: "Close all tabs, put away everything except ONE small task. Do just that." },
+            { title: "Permission to Pause", description: "Set a timer for 5 minutes and do absolutely nothing. You have permission." },
+            { title: "Tiny Step", description: "What's the smallest possible next step? Just do that one tiny thing." }
+        ],
+        lonely: [
+            { title: "Virtual Presence", description: "Put on a comforting TV show or YouTube video just for background human presence." },
+            { title: "Reach Out Simply", description: "Send a simple text to someone: 'Thinking of you' or a funny meme." },
+            { title: "Self-Companionship", description: "Talk to yourself kindly, as you would to a friend. Make yourself a comforting drink." }
+        ],
+        tired: [
+            { title: "Hydration First", description: "Drink a full glass of water right now. Dehydration amplifies exhaustion." },
+            { title: "Micro-Break", description: "Set a timer for 5 minutes and rest your eyes. No screens, no tasks." },
+            { title: "Tiny Nourishment", description: "Eat one small, easy thing (fruit, nuts, yogurt). Low blood sugar worsens fatigue." }
+        ],
+        calm: [
+            { title: "Mindful Appreciation", description: "Notice this peaceful feeling. Where do you feel it in your body? Savor it." },
+            { title: "Gentle Movement", description: "Do some slow stretching or take a gentle walk to maintain this state." },
+            { title: "Quiet Reflection", description: "Write a few notes about what helped you reach this calm state for future reference." }
+        ]
+    };
+
+    // Updated songs with your verified Spotify track IDs
+    const songs = {
+        happy: [
+            {
+                title: "Golden",
+                artist: "Harry Styles",
+                spotifyId: "45S5WTQEGOB1VHr1Q4FuPl",
+                help: "Warm, light, effortless joy"
+            },
+            {
+                title: "Ilahi",
+                artist: "Arijit Singh",
+                spotifyId: "3YJ5Z0kF9Nq7sYcYV5fGZT",
+                help: "Free-spirited, uplifting melody"
+            },
+            {
+                title: "Sunset Lover",
+                artist: "Petit Biscuit",
+                spotifyId: "3WRQUvzRvBDr4AxMWhXc5E",
+                help: "Calm happiness without lyrics"
+            }
+        ],
+        sad: [
+            {
+                title: "Fix You",
+                artist: "Coldplay",
+                spotifyId: "7LVHVU3tWfcxj5aiPFEW4Q",
+                help: "Emotional release and comfort in lyrics"
+            },
+            {
+                title: "Agar Tum Saath Ho",
+                artist: "Alka Yagnik, Arijit Singh",
+                spotifyId: "1dNIEtp7AY3oDAKCGg2XkH",
+                help: "Gentle validation of sadness"
+            },
+            {
+                title: "River",
+                artist: "Leon Bridges",
+                spotifyId: "2zz0p1rP6tJxP8n0uFf9zX",
+                help: "Soulful, grounding melody"
+            }
+        ],
+        angry: [
+            {
+                title: "Numb",
+                artist: "Linkin Park",
+                spotifyId: "2nLtzopw4rPReszdYBJU6h",
+                help: "Channel frustration through powerful lyrics"
+            },
+            {
+                title: "Therefore I Am",
+                artist: "Billie Eilish",
+                spotifyId: "54bFM56PmE4YLRnqpW6Tha",
+                help: "Controlled, confident expression"
+            },
+            {
+                title: "Shiv Tandav Stotram (Instrumental)",
+                artist: "Traditional",
+                spotifyId: "5aXQpVqN1dGxFhF7LQvXWc",
+                help: "Channel intensity, regain power"
+            }
+        ],
+        anxious: [
+            {
+                title: "Weightless",
+                artist: "Marconi Union",
+                spotifyId: "6kkwzB6hXLIONkEk9JciA6",
+                help: "Scientifically proven to reduce anxiety"
+            },
+            {
+                title: "Breathe Me",
+                artist: "Sia",
+                spotifyId: "4sPmO7WMQUAf45kwMOtONw",
+                help: "Gentle emotional safety and release"
+            },
+            {
+                title: "Kasoor",
+                artist: "Prateek Kuhad",
+                spotifyId: "0E0DRHf5PfMeor0ZCwBqaN",
+                help: "Soft reassurance and calm"
+            }
+        ],
+        overwhelmed: [
+            {
+                title: "Let It Be",
+                artist: "The Beatles",
+                spotifyId: "7iN1s7xHE4ifF5povM6A48",
+                help: "Permission to pause and accept"
+            },
+            {
+                title: "Holocene",
+                artist: "Bon Iver",
+                spotifyId: "4fbvXwMTXPWaFyaMWUm9CR",
+                help: "Perspective without pressure"
+            },
+            {
+                title: "Nuvole Bianche",
+                artist: "Ludovico Einaudi",
+                spotifyId: "0hNduWmlWmEmuwEFcYvRu1",
+                help: "Emotional reset through piano"
+            }
+        ],
+        lonely: [
+            {
+                title: "Someone You Loved",
+                artist: "Lewis Capaldi",
+                spotifyId: "7qEHsqek33rTcFNT9PFqLf",
+                help: "Feeling understood in loneliness"
+            },
+            {
+                title: "Phir Le Aaya Dil",
+                artist: "Rekha Bhardwaj",
+                spotifyId: "0pqnGHJpmpxLKifKRmU6WP",
+                help: "Quiet companionship in melody"
+            },
+            {
+                title: "Bloom",
+                artist: "The Paper Kites",
+                spotifyId: "6iX5fIJy0GUp6k8a8xyR9o",
+                help: "Soft emotional warmth"
+            }
+        ],
+        tired: [
+            {
+                title: "Night Owl",
+                artist: "Galimatias",
+                spotifyId: "1Q4lV5Z1gZ9k6ePj4bZQJz",
+                help: "Mental decompression"
+            },
+            {
+                title: "Khamoshiyan",
+                artist: "Arijit Singh",
+                spotifyId: "2RSHsoi04658QL5xgQVov3",
+                help: "Slow emotional rest"
+            },
+            {
+                title: "Moon",
+                artist: "Kid Francescoli",
+                spotifyId: "3xXBsjrbG1xQIm1xv1cKOt",
+                help: "Gentle escape from fatigue"
+            }
+        ],
+        calm: [
+            {
+                title: "Circles",
+                artist: "Post Malone",
+                spotifyId: "21jGcNKet2qwijlDFuPiPb",
+                help: "Safe emotional grounding"
+            },
+            {
+                title: "Iktara",
+                artist: "Amit Trivedi, Kavita Seth",
+                spotifyId: "2Fv2injs4qAm8mJBGaxVKU",
+                help: "Soft emotional clarity"
+            },
+            {
+                title: "Clair de Lune",
+                artist: "Claude Debussy",
+                spotifyId: "6s6HnsYJmK0jVbTTGo9Pz4",
+                help: "Deep peace through classical music"
+            }
+        ]
+    };
+
+    // App state
+    let selectedCoreEmotion = null;
+    let selectedSpecificEmotion = null;
+    let currentlyActiveSong = null;
+
+    // Game state variables
+    let numberFindGame = {
+        currentNumber: 1,
+        foundCount: 0,
+        startTime: null,
+        timerInterval: null,
+        timer: 0
+    };
+
+    let colorGame = {
+        timeLeft: 60,
+        matches: 0,
+        totalClicks: 0,
+        gameInterval: null,
+        targetColor: null
+    };
+
+    // DOM Elements
+    const page1 = document.getElementById('page1');
+    const page2 = document.getElementById('page2');
+    const emotionGridContainer = document.getElementById('emotionGridContainer');
+    const copingSection = document.getElementById('copingSection');
+    const selectedEmotionText = document.getElementById('selectedEmotionText');
+    const selectedEmotionTag = document.getElementById('selectedEmotionTag');
+    const backToPage1Top = document.getElementById('backToPage1Top');
+    const saveEntryBtn = document.getElementById('saveEntryBtn');
+    const moodButtons = document.querySelectorAll('.big-mood-btn');
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+        // Set up mood buttons - auto-navigate to page 2 when clicked
+        moodButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove selection from all buttons
+                moodButtons.forEach(b => {
+                    b.style.opacity = '0.7';
+                    b.style.transform = 'none';
+                });
+
+                // Select this button
+                this.style.opacity = '1';
+                this.style.transform = 'scale(1.05)';
+
+                selectedCoreEmotion = this.dataset.emotion;
+                selectedEmotionText.textContent = this.querySelector('span').textContent;
+
+                // Auto-navigate to page 2
+                setTimeout(() => {
+                    loadPage2();
+                    page1.classList.remove('active');
+                    page2.classList.add('active');
+                }, 300);
+            });
+        });
+
+        // Back button at top
+        backToPage1Top.addEventListener('click', function() {
+            page2.classList.remove('active');
+            page1.classList.add('active');
+            resetPage2();
+        });
+
+        saveEntryBtn.addEventListener('click', saveEntry);
+
+        // Game setup
+        setupGames();
+    });
+
+    function loadPage2() {
+        // Load specific emotions for selected core emotion
+        const specificEmotions = emotions[selectedCoreEmotion];
+
+        // Update header
+        selectedEmotionText.textContent = capitalizeFirstLetter(selectedCoreEmotion);
+        selectedEmotionTag.style.borderBottomColor = getComputedStyle(document.querySelector(`.${selectedCoreEmotion}-color`)).borderBottomColor;
+
+        // Clear previous emotions
+        emotionGridContainer.innerHTML = '';
+
+        // Create emotion grid
+        const grid = document.createElement('div');
+        grid.className = 'emotion-grid';
+
+        specificEmotions.forEach(emotion => {
+            const emotionBtn = document.createElement('button');
+            emotionBtn.className = 'emotion-option';
+            emotionBtn.innerHTML = `
+                    <div class="emotion-emoji">${emotion.emoji}</div>
+                    <div class="emotion-name">${emotion.name}</div>
+                    <div class="emotion-subtitle">${emotion.specifics}</div>
+                `;
+
+            emotionBtn.addEventListener('click', function() {
+                // Remove selection from all
+                document.querySelectorAll('.emotion-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+
+                // Select this one
+                this.classList.add('selected');
+                selectedSpecificEmotion = emotion.name;
+
+                // Show coping strategies after a short delay
+                setTimeout(() => {
+                    showCopingStrategies();
+                }, 300);
+            });
+
+            grid.appendChild(emotionBtn);
+        });
+
+        emotionGridContainer.appendChild(grid);
+
+        // Hide coping section initially
+        copingSection.style.display = 'none';
+    }
+
+    function showCopingStrategies() {
+        // Show coping section
+        copingSection.style.display = 'block';
+
+        // Load coping strategies
+        const strategies = copingStrategies[selectedCoreEmotion];
+        const copingGrid = document.getElementById('copingGrid');
+        copingGrid.innerHTML = '';
+
+        strategies.forEach(strategy => {
+            const card = document.createElement('div');
+            card.className = 'coping-card';
+            card.innerHTML = `
+                    <h3><i class="fas fa-lightbulb"></i> ${strategy.title}</h3>
+                    <p>${strategy.description}</p>
+                `;
+            copingGrid.appendChild(card);
+        });
+
+        // Load songs with Spotify embeds (60-second previews)
+        const songList = document.getElementById('songList');
+        songList.innerHTML = '';
+
+        const emotionSongs = songs[selectedCoreEmotion];
+        emotionSongs.forEach((song, index) => {
+            const songItem = document.createElement('div');
+            songItem.className = 'song-item';
+            if (index === 0) {
+                songItem.classList.add('active');
+                currentlyActiveSong = songItem;
+            }
+
+            // Create Spotify embed URL for 60-second preview
+            const spotifyEmbedUrl = `https://open.spotify.com/embed/track/${song.spotifyId}?utm_source=generator&theme=0`;
+
+            songItem.innerHTML = `
+                    <div class="song-info">
+                        <div class="song-title">${song.title}</div>
+                        <div class="song-artist">${song.artist}</div>
+                        <div class="song-help">${song.help}</div>
+                        <div style="margin-top: 10px; font-size: 0.9rem; color: var(--medium-blue);">
+                            <i class="fab fa-spotify"></i> ${index === 0 ? ' ' : ' '}
+                        </div>
+                    </div>
+                    <iframe
+                        class="spotify-player"
+                        src="${spotifyEmbedUrl}"
+                        width="100%"
+                        height="152"
+                        frameBorder="0"
+                        allowfullscreen=""
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                        loading="lazy">
+                    </iframe>
+                `;
+
+            // Add click event to toggle the Spotify player
+            const songInfo = songItem.querySelector('.song-info');
+            songInfo.addEventListener('click', function(e) {
+                // Close any currently active song
+                if (currentlyActiveSong && currentlyActiveSong !== songItem) {
+                    currentlyActiveSong.classList.remove('active');
+                    const activeIframe = currentlyActiveSong.querySelector('.spotify-player');
+                    if (activeIframe) {
+                        // Reset the iframe to stop playback
+                        const src = activeIframe.src;
+                        activeIframe.src = '';
+                        setTimeout(() => {
+                            activeIframe.src = src;
+                        }, 100);
+                    }
+                }
+
+                // Toggle this song
+                songItem.classList.toggle('active');
+
+                if (songItem.classList.contains('active')) {
+                    currentlyActiveSong = songItem;
+
+                    // Auto-play when clicked - Spotify embeds autoplay by default when shown
+                    // Reset iframe to ensure it plays
+                    const iframe = songItem.querySelector('.spotify-player');
+                    if (iframe) {
+                        const src = iframe.src;
+                        iframe.src = '';
+                        setTimeout(() => {
+                            iframe.src = src;
+                        }, 100);
+                    }
+                } else {
+                    currentlyActiveSong = null;
+                }
+            });
+
+            songList.appendChild(songItem);
+        });
+
+        // Auto-scroll to coping strategies
+        setTimeout(() => {
+            copingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 500);
+    }
+
+    function setupGames() {
+        // Number Find game
+        document.getElementById('numberFindGame').addEventListener('click', function() {
+            document.getElementById('numberFindPopup').classList.add('active');
+            startNumberFindGame();
+        });
+
+        document.getElementById('closeNumberFind').addEventListener('click', closeNumberFindGame);
+        document.getElementById('closeNumberFindBtn').addEventListener('click', closeNumberFindGame);
+
+        // Color Match game
+        document.getElementById('colorMatchGame').addEventListener('click', function() {
+            document.getElementById('colorMatchPopup').classList.add('active');
+            startColorMatchGame();
+        });
+
+        document.getElementById('closeColorGame').addEventListener('click', closeColorGame);
+        document.getElementById('closeColorGameBtn').addEventListener('click', closeColorGame);
+    }
+
+    function startNumberFindGame() {
+        // Reset game state
+        numberFindGame = {
+            currentNumber: 1,
+            foundCount: 0,
+            startTime: Date.now(),
+            timerInterval: null,
+            timer: 0
+        };
+
+        // Update display
+        updateNumberFindDisplay();
+
+        // Create number grid
+        createNumberGrid();
+
+        // Start timer
+        numberFindGame.timerInterval = setInterval(() => {
+            numberFindGame.timer = Math.floor((Date.now() - numberFindGame.startTime) / 1000);
+            document.getElementById('timer').textContent = numberFindGame.timer;
+        }, 100);
+    }
+
+    function createNumberGrid() {
+        const gridEl = document.getElementById('numberGrid');
+        gridEl.innerHTML = '';
+
+        // Create array of numbers 1-25
+        let numbers = [];
+        for (let i = 1; i <= 25; i++) {
+            numbers.push(i);
+        }
+
+        // Shuffle the numbers
+        numbers = shuffleArray(numbers);
+
+        // Create grid cells - SHOW ALL NUMBERS
+        numbers.forEach(num => {
+            const cell = document.createElement('div');
+            cell.className = 'number-cell';
+            cell.textContent = num;
+            cell.dataset.number = num;
+
+            // Highlight the current number we're looking for
+            if (num === numberFindGame.currentNumber) {
+                cell.classList.add('next');
+            }
+
+            cell.addEventListener('click', function() {
+                const clickedNum = parseInt(this.dataset.number);
+
+                // Check if this is the correct next number
+                if (clickedNum === numberFindGame.currentNumber) {
+                    // Mark as found
+                    this.classList.remove('next');
+                    this.classList.add('found');
+                    this.style.pointerEvents = 'none';
+
+                    // Update game state
+                    numberFindGame.foundCount++;
+                    numberFindGame.currentNumber++;
+
+                    // Update display
+                    updateNumberFindDisplay();
+
+                    // Find and highlight next number
+                    const nextCell = document.querySelector(`.number-cell[data-number="${numberFindGame.currentNumber}"]`);
+                    if (nextCell) {
+                        nextCell.classList.add('next');
+                        nextCell.style.animation = 'pulse 1s infinite';
+                    }
+
+                    // Check if game is complete
+                    if (numberFindGame.foundCount >= 25) {
+                        endNumberFindGame();
+                    }
+                } else {
+                    // Wrong number clicked - visual feedback
+                    this.style.transform = 'scale(0.95)';
+                    this.style.backgroundColor = '#FF6B6B';
+                    this.style.color = 'white';
+
+                    // Reset after delay
+                    setTimeout(() => {
+                        this.style.transform = '';
+                        this.style.backgroundColor = '';
+                        this.style.color = '';
+                    }, 300);
+                }
+            });
+
+            gridEl.appendChild(cell);
+        });
+    }
+
+    function updateNumberFindDisplay() {
+        document.getElementById('currentNumber').textContent = numberFindGame.currentNumber;
+        document.getElementById('foundCount').textContent = numberFindGame.foundCount;
+
+        // Update instruction
+        const instruction = document.getElementById('numberFindInstruction');
+        if (numberFindGame.foundCount < 25) {
+            instruction.textContent = `Click number ${numberFindGame.currentNumber} next. ${numberFindGame.foundCount}/25 found!`;
+        }
+    }
+
+    function endNumberFindGame() {
+        clearInterval(numberFindGame.timerInterval);
+
+        const instruction = document.getElementById('numberFindInstruction');
+        instruction.innerHTML = `🎉 Congratulations! You found all 25 numbers in ${numberFindGame.timer} seconds! 🎉`;
+        instruction.style.animation = 'celebrate 2s infinite';
+        instruction.style.color = '#4CAF50';
+
+        // Show celebration effect
+        const cells = document.querySelectorAll('.number-cell');
+        cells.forEach(cell => {
+            cell.style.animation = 'celebrate 1s infinite';
+        });
+    }
+
+    function closeNumberFindGame() {
+        document.getElementById('numberFindPopup').classList.remove('active');
+        if (numberFindGame.timerInterval) {
+            clearInterval(numberFindGame.timerInterval);
+        }
+    }
+
+    function startColorMatchGame() {
+        // Reset game state
+        colorGame = {
+            timeLeft: 60,
+            matches: 0,
+            totalClicks: 0,
+            gameInterval: null,
+            targetColor: null
+        };
+
+        // Update display
+        updateColorGameDisplay();
+
+        // Create color grid
+        createColorGrid();
+
+        // Set target color
+        setNewTargetColor();
+
+        // Start timer
+        colorGame.gameInterval = setInterval(() => {
+            colorGame.timeLeft--;
+            updateColorGameDisplay();
+
+            if (colorGame.timeLeft <= 0) {
+                endColorGame();
+            }
+        }, 1000);
+    }
+
+    function createColorGrid() {
+        const gridEl = document.getElementById('colorGrid');
+        gridEl.innerHTML = '';
+
+        const colors = [
+            '#FF6B6B', '#4ECDC4', '#FFD166', '#06D6A0',
+            '#118AB2', '#9B5DE5', '#F15BB5', '#00BBF9'
+        ];
+
+        // Shuffle colors
+        const shuffledColors = [...colors].sort(() => Math.random() - 0.5);
+
+        shuffledColors.forEach((color, index) => {
+            const btn = document.createElement('div');
+            btn.className = 'color-btn';
+            btn.style.backgroundColor = color;
+            btn.dataset.color = color;
+            btn.dataset.index = index;
+
+            btn.addEventListener('click', function() {
+                if (colorGame.timeLeft <= 0) return;
+
+                colorGame.totalClicks++;
+                const clickedColor = this.dataset.color;
+
+                if (clickedColor === colorGame.targetColor) {
+                    // Correct match
+                    colorGame.matches++;
+                    this.classList.add('correct');
+
+                    // Visual feedback
+                    this.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                        this.classList.remove('correct');
+                    }, 300);
+
+                    // Set new target color
+                    setNewTargetColor();
+                } else {
+                    // Incorrect
+                    this.classList.add('incorrect');
+                    setTimeout(() => {
+                        this.classList.remove('incorrect');
+                    }, 300);
+                }
+
+                updateColorGameDisplay();
+            });
+
+            gridEl.appendChild(btn);
+        });
+    }
+
+    function setNewTargetColor() {
+        const colors = [
+            '#FF6B6B', '#4ECDC4', '#FFD166', '#06D6A0',
+            '#118AB2', '#9B5DE5', '#F15BB5', '#00BBF9'
+        ];
+
+        // Pick a random color from the grid
+        const colorButtons = document.querySelectorAll('.color-btn');
+        if (colorButtons.length > 0) {
+            const randomIndex = Math.floor(Math.random() * colorButtons.length);
+            colorGame.targetColor = colorButtons[randomIndex].dataset.color;
+
+            // Update target color display
+            const targetColorEl = document.getElementById('targetColor');
+            targetColorEl.style.backgroundColor = colorGame.targetColor;
+        }
+    }
+
+    function updateColorGameDisplay() {
+        document.getElementById('timeLeft').textContent = colorGame.timeLeft;
+        document.getElementById('matches').textContent = colorGame.matches;
+
+        const accuracy = colorGame.totalClicks > 0 ?
+            Math.round((colorGame.matches / colorGame.totalClicks) * 100) : 0;
+        document.getElementById('accuracy').textContent = `${accuracy}%`;
+    }
+
+    function endColorGame() {
+        clearInterval(colorGame.gameInterval);
+
+        const instructionEl = document.getElementById('colorGameInstruction');
+        const accuracy = colorGame.totalClicks > 0 ?
+            Math.round((colorGame.matches / colorGame.totalClicks) * 100) : 0;
+
+        instructionEl.textContent = `Time's up! You made ${colorGame.matches} matches with ${accuracy}% accuracy`;
+
+        // Disable buttons
+        const buttons = document.querySelectorAll('.color-btn');
+        buttons.forEach(btn => {
+            btn.style.pointerEvents = 'none';
+            btn.style.opacity = '0.7';
+        });
+    }
+
+    function closeColorGame() {
+        document.getElementById('colorMatchPopup').classList.remove('active');
+        if (colorGame.gameInterval) {
+            clearInterval(colorGame.gameInterval);
+        }
+    }
+
+    // Utility function to shuffle array
+    function shuffleArray(array) {
+        const newArray = [...array];
+        for (let i = newArray.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+        }
+        return newArray;
+    }
+
+    function saveEntry() {
+        if (!selectedSpecificEmotion) {
+            alert("Please select a specific emotion first");
+            return;
+        }
+
+        // Save to localStorage
+        const entry = {
+            date: new Date().toISOString(),
+            coreEmotion: selectedCoreEmotion,
+            specificEmotion: selectedSpecificEmotion,
+            timestamp: Date.now()
+        };
+
+        // Get existing entries
+        let entries = JSON.parse(localStorage.getItem('moodEntries') || '[]');
+        entries.unshift(entry); // Add to beginning
+
+        // Keep only last 50 entries
+        if (entries.length > 50) {
+            entries = entries.slice(0, 50);
+        }
+
+        localStorage.setItem('moodEntries', JSON.stringify(entries));
+
+        // Show confirmation
+        alert("Saved! Your emotional check-in is complete.");
+
+        // Reset and go back to page 1
+        resetPage2();
+        page2.classList.remove('active');
+        page1.classList.add('active');
+
+        // Reset page 1 selections
+        moodButtons.forEach(btn => {
+            btn.style.opacity = '1';
+            btn.style.transform = 'none';
+        });
+        selectedCoreEmotion = null;
+    }
+
+    function resetPage2() {
+        selectedSpecificEmotion = null;
+        copingSection.style.display = 'none';
+
+        // Close any active song players
+        if (currentlyActiveSong) {
+            currentlyActiveSong.classList.remove('active');
+            currentlyActiveSong = null;
+        }
+    }
+
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+</script>
+</body>
+</html>
