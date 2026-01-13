@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Coherent Breathing</title>
+
+<style>
+body{
+  margin:0;
+  background:#0b0f18;
+  color:#e5e7ff;
+  font-family:"Playfair Display", serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+
+/* BACK BUTTON */
+.back-wrap{
+  position:fixed;
+  top:18px;
+  left:18px;
+  font-family: Inter, system-ui;
+  font-weight:600;
+  cursor:pointer;
+  opacity:.9;
+}
+.back-wrap span{
+  padding:8px 10px;
+  border-radius:8px;
+}
+.back-wrap:hover{opacity:1}
+
+/* LAYOUT */
+.container{
+  text-align:center;
+  max-width:520px;
+  padding:18px;
+}
+
+/* SPHERE */
+.sphere{
+  width:280px;
+  height:280px;
+  margin:40px auto 28px;
+  position:relative;
+  border-radius:50%;
+  transform-origin:center;
+  /* Added rotation animation and kept your smooth transition */
+  transition: transform 3.6s ease-in-out;
+  animation: rotateSphere 60s linear infinite;
+}
+
+/* Added rotation to make the dots feel 3D like the screenshot */
+@keyframes rotateSphere {
+  from { transform: rotate(0deg) scale(var(--scale, 1)); }
+  to { transform: rotate(360deg) scale(var(--scale, 1)); }
+}
+
+.dot{
+  position:absolute;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#aebdff;
+  opacity:.95;
+}
+
+/* TEXT */
+.title{font-size:28px;margin-top:4px}
+.subtitle{
+  font-family: Inter;
+  font-size:14px;
+  opacity:.7;
+  margin-bottom:22px;
+}
+
+/* BUTTON */
+.begin-btn{
+  margin-top:16px;
+  padding:14px 22px;
+  border-radius:999px;
+  border:none;
+  background:#ffffff;
+  color:#000;
+  font-weight:600;
+  font-family: Inter;
+  cursor:pointer;
+}
+.begin-btn:active{transform:scale(.97)}
+
+/* breathing step text */
+.step-text{
+  margin-top:10px;
+  font-size:24px;
+}
+
+/* increased settle text size */
+.small-hint{
+  margin-top:10px;
+  font-family: Inter;
+  font-size:16px;
+  opacity:.85;
+}
+
+/* FEEDBACK */
+.feedback{
+  margin-top:26px;
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.fb-btn{
+  border:1px solid #777;
+  background:transparent;
+  color:#fff;
+  padding:12px 18px;
+  border-radius:999px;
+  cursor:pointer;
+  font-family: Inter;
+}
+.fb-btn:hover{background:#ffffff12}
+
+/* Done button */
+.done-btn{
+  margin-top:14px;
+  padding:12px 24px;
+  border-radius:999px;
+  border:none;
+  background:#ffffff;
+  color:#000;
+  font-weight:600;
+  font-family:Inter;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="back-wrap" onclick="location.href='breathing.html'">
+  <span>← Back</span>
+</div>
+
+<div class="container" id="app">
+
+  <div id="intro">
+    <div class="sphere" id="introSphere"></div>
+
+    <div class="title">Coherent Breathing</div>
+
+    <div class="subtitle">
+      Regulate your daily heart rate with this rhythmic breathing exercise
+    </div>
+
+    <button class="begin-btn" onclick="startSettle()">Begin</button>
+  </div>
+
+  <div id="stage" style="display:none">
+    <div class="sphere" id="sphere"></div>
+    <div class="step-text" id="stepLabel"></div>
+    <div class="small-hint" id="hintText"></div>
+  </div>
+
+</div>
+
+<script>
+/* ---------- TIMING ---------- */
+const SETTLE_DURATION = 7000; 
+const INHALE_MS = 4000;
+const EXHALE_MS = 4000;
+const TOTAL_LOOPS = 7;
+
+let loopCount = 0;
+
+/* ---------- SPHERE GRID (Updated for Screenshot Visual) ---------- */
+function buildSphereGrid(el, color){
+  el.innerHTML = "";
+  const SIZE = 280;
+  const cx = SIZE / 2;
+  const cy = SIZE / 2;
+  
+  // Number of dots to match the density in your image
+  const totalDots = 350; 
+  const goldenRatio = (1 + Math.sqrt(5)) / 2;
+
+  for(let i = 0; i < totalDots; i++){
+    // Fibonacci Sphere Algorithm for that specific spiral look
+    const y = 1 - (i / (totalDots - 1)) * 2; 
+    const radiusAtY = Math.sqrt(1 - y * y); 
+    const theta = 2 * Math.PI * goldenRatio * i;
+
+    const xPos = cx + Math.cos(theta) * radiusAtY * 120;
+    const yPos = cy + y * 120;
+
+    const dot = document.createElement("div");
+    dot.className = "dot";
+    dot.style.background = color;
+
+    // Scale dots slightly based on position to simulate depth
+    const depth = 0.5 + ((y + 1) / 2) * 0.5;
+    dot.style.width = (4 * depth) + "px";
+    dot.style.height = (4 * depth) + "px";
+
+    dot.style.left = xPos + "px";
+    dot.style.top = yPos + "px";
+
+    el.appendChild(dot);
+  }
+}
+
+/* ---------- INTRO ---------- */
+buildSphereGrid(document.getElementById("introSphere"),"#b9c6ff");
+
+/* ---------- SETTLE ---------- */
+function startSettle(){
+  document.getElementById("intro").style.display="none";
+  document.getElementById("stage").style.display="block";
+
+  const sphere=document.getElementById("sphere");
+  buildSphereGrid(sphere,"#aebdff");
+
+  document.getElementById("stepLabel").innerText="Get settled";
+  document.getElementById("hintText").innerText =
+    "You’re doing something good for yourself — stay with this moment.";
+
+  sphere.style.transform="scale(.85)";
+
+  setTimeout(startBreathing, SETTLE_DURATION);
+}
+
+/* ---------- INHALE / EXHALE LOOP ---------- */
+function startBreathing(){
+  loopCount=0;
+  inhale();
+}
+
+function inhale(){
+  const sphere=document.getElementById("sphere");
+  buildSphereGrid(sphere,"#9fb5ff");
+
+  document.getElementById("stepLabel").innerText="Inhale";
+  document.getElementById("hintText").innerText="Slow, gentle breath in";
+
+  sphere.style.transform="scale(1.12)";
+  setTimeout(exhale, INHALE_MS);
+}
+
+function exhale(){
+  const sphere=document.getElementById("sphere");
+  buildSphereGrid(sphere,"#ffd98a");
+
+  document.getElementById("stepLabel").innerText="Exhale";
+  document.getElementById("hintText").innerText="Soft, easy breath out";
+
+  sphere.style.transform="scale(.82)";
+  loopCount++;
+
+  if(loopCount >= TOTAL_LOOPS){
+    setTimeout(showComplete, EXHALE_MS);
+  } else {
+    setTimeout(inhale, EXHALE_MS);
+  }
+}
+
+/* ---------- COMPLETION + FEEDBACK ---------- */
+function showComplete(){
+  const sphere=document.getElementById("sphere");
+  buildSphereGrid(sphere,"#aebdff");
+  sphere.style.transform="scale(.9)";
+
+  document.getElementById("stepLabel").innerText="Well done";
+  document.getElementById("hintText").innerText="";
+
+  const fb=document.createElement("div");
+  fb.className="feedback";
+
+  fb.innerHTML=`
+    <button class="fb-btn" onclick="feedback('Not helpful')">
+      Not helpful
+    </button>
+    <button class="fb-btn" onclick="feedback('A little helpful')">
+      A little helpful
+    </button>
+    <button class="fb-btn" onclick="feedback('Very helpful')">
+      Very helpful
+    </button>
+  `;
+
+  document.getElementById("stage").appendChild(fb);
+}
+
+/* ---------- FEEDBACK HANDLER ---------- */
+function feedback(value){
+  const done=document.createElement("button");
+  done.className="done-btn";
+  done.innerText="Done";
+  done.onclick = ()=>location.href='breathing.html';
+  document.getElementById("stage").appendChild(done);
+}
+</script>
+
+</body>
+</html>
