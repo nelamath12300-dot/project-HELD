@@ -10,25 +10,56 @@
             sidebar.classList.toggle('active');
         }
         
+        function closeSidebar() {
+            sidebar.classList.remove('active');
+        }
+        
         if (sidebarToggle) {
             sidebarToggle.addEventListener('click', toggleSidebar);
             sidebarToggle.addEventListener('touchend', (e) => { e.preventDefault(); toggleSidebar(); });
         }
+
+        // Make brand/logo act as "Home / Dashboard" button
+        const homeBtn = document.getElementById('homeBtn');
+        const homeBtnMobile = document.getElementById('homeBtnMobile');
+
+        function goHome() {
+            // switch to dashboard view and close sidebar on mobile
+            try { switchTab('dashboard'); } catch (err) { /* ignore */ }
+            closeSidebar();
+        }
+
+        if (homeBtn) {
+            homeBtn.addEventListener('click', goHome);
+            homeBtn.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goHome(); } });
+        }
+
+        if (homeBtnMobile) {
+            homeBtnMobile.addEventListener('click', goHome);
+            homeBtnMobile.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goHome(); } });
+        }
         
-        // Close sidebar when a nav item is clicked on mobile
-        document.querySelectorAll('.nav-item').forEach(item => {
+        // Close sidebar when a nav link is clicked on mobile
+        document.querySelectorAll('.nav a').forEach(item => {
             item.addEventListener('click', function() {
                 if (window.innerWidth <= 768) {
-                    sidebar.classList.remove('active');
+                    closeSidebar();
                 }
             });
         });
         
-        // Close sidebar when clicking outside
+        // Close sidebar when clicking on the sidebar backdrop/overlay
+        sidebar.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768 && e.target === sidebar) {
+                closeSidebar();
+            }
+        });
+        
+        // Close sidebar when clicking outside on mobile
         document.addEventListener('click', function(e) {
             if (window.innerWidth <= 768 && sidebar.classList.contains('active')) {
                 if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
-                    sidebar.classList.remove('active');
+                    closeSidebar();
                 }
             }
         });
@@ -52,7 +83,7 @@
 
         // Navigation
         function switchTab(tabName) {
-            document.querySelectorAll('.nav-item').forEach(item => {
+            document.querySelectorAll('.nav a').forEach(item => {
                 item.classList.remove('active');
                 if(item.innerText.toLowerCase().includes(tabName)) {
                     item.classList.add('active');
@@ -73,10 +104,12 @@
         }
         
         // Add touch support for nav items
-        document.querySelectorAll('.nav-item').forEach(item => {
+        document.querySelectorAll('.nav a').forEach(item => {
             item.addEventListener('touchend', function(e) {
                 e.preventDefault();
-                const tabName = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+                const onclickAttr = this.getAttribute('onclick') || '';
+                const match = onclickAttr.match(/'([^']+)'/);
+                const tabName = match ? match[1] : this.innerText.split('\n')[0].trim().toLowerCase();
                 switchTab(tabName);
             });
         });
