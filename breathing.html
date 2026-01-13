@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Breathing</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      background: #f4f9ff;
+      color: #0f172a;
+    }
+
+    .back-btn{
+      position:fixed;
+      top:12px;
+      left:12px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:#ffffff;
+      color:#fff;
+      font-size:16px;
+      font-weight:700;
+      cursor:pointer;
+      z-index:20;
+      border:1px solid#777;
+      cursor:pointer;
+      color:#4b3b7a;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 16px 20px 32px;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #475569;
+      margin-bottom: 32px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      color: #ffffff;
+      border-radius: 20px;
+      padding: 28px;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .card h2 {
+      font-size: 22px;
+      margin: 0 0 6px 0;
+    }
+
+    .card p {
+      font-size: 14px;
+      opacity: 0.85;
+    }
+
+    .open {
+      margin-top: 16px;
+      align-self: flex-start;
+      background: rgba(255,255,255,0.15);
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Back button -->
+  <div class="back-btn" onclick="location.href='index.html'">
+    ← Back
+  </div>
+
+  <div class="container">
+    <h1>Breathing</h1>
+    <p class="subtitle">
+      Simple guided breathing practices to calm your mind and body.
+    </p>
+
+    <div class="grid">
+
+      <!-- Physiological Sigh -->
+      <div class="card" onclick="location.href='physiological-sigh.html'">
+        <div>
+          <h2>Physiological Sigh</h2>
+          <p>Quick reset for stress and anxiety</p>
+        </div>
+        <div class="open">Open</div>
+      </div>
+
+      <!-- Box Breathing -->
+      <div class="card" onclick="location.href='box-breathing.html'">
+        <div>
+          <h2>Box Breathing</h2>
+          <p>Balanced breathing for focus and control</p>
+        </div>
+        <div class="open">Open</div>
+      </div>
+
+      <!-- Coherent Breathing -->
+      <div class="card" onclick="location.href='coherent-breathing.html'">
+        <div>
+          <h2>Coherent Breathing</h2>
+          <p>Steady rhythm for emotional balance</p>
+        </div>
+        <div class="open">Open</div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
