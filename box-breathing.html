@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Box Breathing</title>
+
+<style>
+:root{
+  --inhale:#f5b97a;
+  --hold:#b7e3a1;
+  --exhale:#8fd3f4;
+  --muted:#9aa4c7;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  height:100vh;
+  background:radial-gradient(circle at top,#0d1a38,#05070f);
+  font-family:"Playfair Display", serif;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+.back-btn{
+  position:absolute;
+  top:20px;
+  left:20px;
+  padding:8px 16px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.15);
+  cursor:pointer;
+}
+
+.container{
+  width:360px;
+  background:linear-gradient(180deg,#0f1e45,#080c18);
+  border-radius:28px;
+  padding:28px 22px 30px;
+  text-align:center;
+}
+
+.grid-wrap{
+  margin:28px auto 16px;
+  width:220px;
+  height:220px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.grid{
+  position:relative;
+  display:grid;
+  grid-template-columns:repeat(11,1fr);
+  gap:10px;
+}
+
+.grid span{
+  width:8px;
+  height:8px;
+  background:#ffd9a6;
+  border-radius:50%;
+  opacity:0;
+  animation:fadeIn .8s forwards;
+}
+
+@keyframes fadeIn{
+  to{opacity:1}
+}
+
+.mover{
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  position:absolute;
+  top:-3px;
+  left:-3px;
+  background:var(--inhale);
+  transition:transform 4s linear, background 1s ease;
+}
+
+.phase{
+  font-size:22px;
+  margin-top:12px;
+}
+
+.subtext{
+  font-family:Inter,sans-serif;
+  font-size:14px;
+  color:var(--muted);
+  margin-top:6px;
+}
+
+button{
+  margin-top:20px;
+  padding:10px 26px;
+  border-radius:999px;
+  border:none;
+  cursor:pointer;
+}
+
+.feedback{
+  display:none;
+  margin-top:22px;
+}
+
+.feedback h3{
+  font-size:20px;
+  margin-bottom:14px;
+}
+
+.choices{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+}
+
+.choice{
+  border:1px solid #444;
+  border-radius:999px;
+  padding:8px 14px;
+  font-size:13px;
+  cursor:pointer;
+}
+.choice.active{
+  background:#fff;
+  color:#000;
+}
+</style>
+</head>
+
+<body>
+
+<div class="back-btn" onclick="location.href='breathing.html'">← Back</div>
+
+<div class="container">
+  <h1>Box Breathing</h1>
+  <p class="subtext">Breathe in four calm steps</p>
+
+  <div class="grid-wrap">
+    <div class="grid" id="grid">
+      <div class="mover" id="mover"></div>
+    </div>
+  </div>
+
+  <div class="phase" id="phase">Ready</div>
+  <div class="subtext" id="helperText"></div>
+
+  <button id="startBtn">Start</button>
+
+  <!-- FEEDBACK -->
+  <div class="feedback" id="feedback">
+    <h3>How helpful was this exercise?</h3>
+    <div class="choices">
+      <div class="choice">Not helpful</div>
+      <div class="choice">A little helpful</div>
+      <div class="choice">Very helpful</div>
+    </div>
+    <button onclick="location.href='breathing.html'">Done</button>
+  </div>
+</div>
+
+<script>
+const grid = document.getElementById("grid");
+const mover = document.getElementById("mover");
+const phase = document.getElementById("phase");
+const helperText = document.getElementById("helperText");
+const startBtn = document.getElementById("startBtn");
+const feedback = document.getElementById("feedback");
+
+/* build dots */
+for(let i=0;i<121;i++){
+  const d=document.createElement("span");
+  grid.appendChild(d);
+}
+
+const STEP = 18;
+const EDGE = STEP * 10;
+
+const steps = [
+  { name:"Inhale", color:"var(--inhale)", x:EDGE, y:0 },
+  { name:"Hold",   color:"var(--hold)",   x:EDGE, y:EDGE },
+  { name:"Exhale", color:"var(--exhale)", x:0,    y:EDGE },
+  { name:"Hold",   color:"var(--hold)",   x:0,    y:0 }
+];
+
+let index=0;
+let cycles=0;
+const MAX=4;
+
+function getSettled(){
+  phase.textContent="Get settled";
+  helperText.textContent="Allow your shoulders to relax and gently focus on your breath.";
+  mover.style.transform="translate(0,0)";
+  mover.style.background="var(--hold)";
+
+  setTimeout(()=>{
+    helperText.textContent="";
+    runStep();
+  },6000);
+}
+
+function runStep(){
+  const s=steps[index];
+  phase.textContent=s.name;
+  mover.style.background=s.color;
+  mover.style.transform=`translate(${s.x}px,${s.y}px)`;
+
+  index=(index+1)%steps.length;
+  if(index===0) cycles++;
+
+  if(cycles<MAX){
+    setTimeout(runStep,4000);
+  }else{
+    endSession();
+  }
+}
+
+function endSession(){
+  phase.textContent="Well done";
+  helperText.textContent="Take a moment to notice how your body feels.";
+  feedback.style.display="block";
+}
+
+startBtn.onclick=()=>{
+  startBtn.remove();
+  getSettled();
+};
+
+/* feedback UI */
+document.querySelectorAll(".choice").forEach(c=>{
+  c.onclick=()=>{
+    document.querySelectorAll(".choice").forEach(x=>x.classList.remove("active"));
+    c.classList.add("active");
+  };
+});
+</script>
+
+</body>
+</html>
