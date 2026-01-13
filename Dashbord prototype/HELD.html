@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>HELD - Student Counseling Dashboard</title>
     <!-- Fonts: Outfit for Dashboard, Google Sans for Chatbot -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -14,38 +14,33 @@
 
     <!-- MOBILE HEADER WITH LOGO -->
     <div class="mobile-header">
-        <div class="logo">
-            <img src="https://www.sju.edu.in/uploads/userfiles/image/St%20Joseph's%20University%20Emblem.png">
+        <button class="sidebar-toggle" id="sidebarToggle">
+            <span class="material-symbols-rounded">menu</span>
+        </button>
+        <div class="logo" id="homeBtnMobile" role="button" tabindex="0" aria-label="Go to HELD home">
+            <img src="Logo.jpg">
             <span>HELD</span>
         </div>
     </div>
 
     <!-- APP LAYOUT: SIDEBAR + MAIN -->
     <div class="app-layout">
-        <aside class="sidebar" aria-label="Primary sidebar">
-            <div class="brand">
-                <img src="https://www.sju.edu.in/uploads/userfiles/image/St%20Joseph's%20University%20Emblem.png" alt="logo">
+        <aside class="sidebar" id="sidebar" aria-label="Primary sidebar">
+            <div class="brand" id="homeBtn" role="button" tabindex="0" aria-label="Go to HELD home">
+                <img src="Logo.jpg" alt="logo">
                 <div class="brand-title">HELD</div>
             </div>
             <nav class="nav">
-                <a href="#view-dashboard"><span class="material-symbols-rounded">home</span> Dashboard</a>
-                <a href="#view-counselors"><span class="material-symbols-rounded">group</span> Counselors</a>
-                <a href="#view-games"><span class="material-symbols-rounded">sports_esports</span> Games</a>
-                <a href="#view-tools"><span class="material-symbols-rounded">build</span> Tools</a>
-                <a href="#" style="margin-top:12px;color:var(--muted);font-weight:500">Settings</a>
+                <a href="#view-counselors" onclick="switchTab('counselors')"><span class="material-symbols-rounded">group</span> Counselors</a>
+                <a href="#view-games" onclick="switchTab('games')"><span class="material-symbols-rounded">sports_esports</span> Games</a>
+                <a href="#view-tools" onclick="switchTab('tools')"><span class="material-symbols-rounded">build</span> Tools</a>
             </nav>
+            
         </aside>
     
 
     <!-- MAIN CONTENT -->
-    <main class="main-content">
-        <div class="topbar">
-            <div class="title">HELD</div>
-            <div class="user">
-                <div class="avatar">A</div>
-                <div style="font-weight:600">Alen</div>
-            </div>
-        </div>
+    <main class="main-content">  
         <header>
             <div class="greeting">
                 <h1 id="greeting-text">Good Morning, Alen</h1>
@@ -224,7 +219,7 @@
                         <span class="material-symbols-rounded gemini-icon">smart_toy</span>
                     </div>
                     <div class="message-content">
-                        Hi! I'm here to support your mental wellness. How are you feeling today?
+                        Hi Alen! 👋 I'm your wellness companion. How are you feeling today?
                     </div>
                 </div>
 
