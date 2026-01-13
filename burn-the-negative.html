@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Burn the Negative</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,system-ui;
+  background:#0b1220;
+  color:#fff;
+  padding:28px;
+  overflow-x:hidden;
+}
+
+/* BACK BUTTON — left side like breathing tools */
+.back-btn{
+  display:inline-block;
+  margin-bottom:14px;
+  padding:10px 14px;
+  border-radius:999px;
+  background:rgba(255,255,255,.12);
+  color:#d8c9ff;
+  font-weight:700;
+  cursor:pointer;
+}
+.back-btn:hover{
+  background:rgba(255,255,255,.18);
+}
+
+/* page layout */
+.page{max-width:980px;margin:auto}
+h1{font-family:"Playfair Display",serif;font-size:42px;margin:0}
+p.lead{color:#cbd5e1;margin:10px 0 26px}
+
+/* layout */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{
+  background:linear-gradient(180deg,#0f1724,#071024);
+  border-radius:14px;
+  padding:18px;
+}
+
+/* input */
+textarea{
+  width:100%;
+  min-height:140px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  color:#fff;
+  padding:14px;
+  font-size:15px;
+}
+
+/* buttons */
+.btn{
+  padding:10px 16px;
+  border-radius:999px;
+  font-weight:600;
+  cursor:pointer;
+  border:none;
+}
+.primary{background:#fff;color:#071024}
+.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.15)}
+
+#actionMsg{margin-left:10px;font-size:14px;color:#a7f3d0}
+
+/* overlay */
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(3,6,20,.85);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:50;
+}
+
+/* burn card */
+.burn-card{
+  width:300px;
+  height:420px;
+  border-radius:22px;
+  background:linear-gradient(180deg,#7b68b8,#8b79d6);
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 0 60px rgba(150,120,255,.4);
+}
+
+.burn-title{
+  position:absolute;
+  top:18px;
+  left:18px;
+  font-family:"Playfair Display",serif;
+  font-size:18px;
+}
+
+.burn-text{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+  font-weight:600;
+  text-align:center;
+  padding:20px;
+}
+
+/* FIRE */
+.fire{
+  position:absolute;
+  bottom:-80px;
+  left:-20%;
+  width:140%;
+  height:200px;
+  background:
+    radial-gradient(circle at 50% 20%, #fff2 0 30%, transparent 60%),
+    radial-gradient(circle at 40% 40%, #ffcc66 0 40%, transparent 65%),
+    radial-gradient(circle at 60% 40%, #ff6b00 0 45%, transparent 70%);
+  filter:blur(6px);
+  animation:fireMove 1.2s infinite alternate;
+}
+
+@keyframes fireMove{
+  from{transform:translateY(0)}
+  to{transform:translateY(-18px)}
+}
+
+/* burn mask */
+.burn-mask{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,transparent 0%, #000 65%);
+  clip-path:inset(100% 0 0 0);
+  transition:clip-path 4.5s ease-in;
+}
+.burn-mask.active{clip-path:inset(0 0 0 0)}
+
+/* sparks */
+.sparks span{
+  position:absolute;
+  bottom:0;
+  width:4px;height:4px;
+  background:#ffb703;
+  border-radius:50%;
+  animation:spark 2.5s linear infinite;
+}
+@keyframes spark{
+  from{transform:translateY(0) scale(1);opacity:1}
+  to{transform:translateY(-260px) scale(.2);opacity:0}
+}
+
+/* done message */
+.done{
+  background:linear-gradient(180deg,#0b1220,#020617);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size:22px;
+  font-weight:600;
+  padding:30px;
+}
+
+@media(max-width:800px){
+  .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ⬅️ Back to BEST-SELF tools (not main tools page) -->
+<div class="back-btn" onclick="location.href='best-self.html'">← Back</div>
+
+<div class="page">
+
+  <h1>Burn the Negative</h1>
+
+  <p class="lead">
+    Identify negative stories you tell yourself — write them down
+    and burn them to let go.
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Write your negative story</h3>
+      <textarea id="text" placeholder="e.g. I'm not good enough..."></textarea>
+      <div style="margin-top:14px;display:flex;gap:10px;align-items:center">
+        <button class="btn primary" id="burn">Burn it 🔥</button>
+        <button class="btn ghost" id="preview">Preview</button>
+        <div id="actionMsg"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>For You</h3>
+      <p style="color:#cbd5e1;line-height:1.6">
+        Letting go creates space — for calm, clarity, and trust in yourself.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- overlay -->
+<div class="overlay" id="overlay">
+  <div class="burn-card" id="burnCard">
+    <div class="burn-title">My negative story</div>
+    <div class="burn-text" id="burnText"></div>
+    <div class="fire"></div>
+    <div class="sparks" id="sparks"></div>
+    <div class="burn-mask" id="mask"></div>
+  </div>
+</div>
+
+<script>
+const overlay = document.getElementById("overlay");
+const burnText = document.getElementById("burnText");
+const mask = document.getElementById("mask");
+const sparks = document.getElementById("sparks");
+const text = document.getElementById("text");
+
+function addSparks(){
+  sparks.innerHTML="";
+  for(let i=0;i<25;i++){
+    const s=document.createElement("span");
+    s.style.left=Math.random()*100+"%";
+    s.style.animationDelay=Math.random()*1.5+"s";
+    sparks.appendChild(s);
+  }
+}
+
+document.getElementById("preview").onclick=()=>{
+  if(!text.value.trim()) return;
+  burnText.textContent=text.value;
+  overlay.style.display="flex";
+  setTimeout(()=>overlay.style.display="none",2000);
+};
+
+document.getElementById("burn").onclick=()=>{
+  if(!text.value.trim()) return;
+
+  burnText.textContent=text.value;
+  overlay.style.display="flex";
+  addSparks();
+
+  setTimeout(()=>mask.classList.add("active"),300);
+
+  setTimeout(()=>{
+    document.getElementById("burnCard").innerHTML=
+      `<div class="done">You did it.<br/>Letting go is an act of strength.</div>`;
+  },4700);
+
+  setTimeout(()=>{
+    overlay.style.display="none";
+    location.reload();
+  },7200);
+};
+</script>
+</body>
+</html>
