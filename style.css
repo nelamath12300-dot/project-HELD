@@ -1,0 +1,141 @@
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#fbfbff;
+  --text:#222;
+  --muted:#7a7a86;
+  --radius:20px;
+  --gap:24px;
+
+  --c2:#2f5bd6;
+  --c3:#4a90e2;
+  --c5:#8e44ad;
+}
+
+/* page */
+body{
+  background:#fbf5ff2d;
+  color:var(--text);
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  padding:28px 32px;
+}
+
+/* header */
+.site-header{max-width:1200px;margin:0 auto 18px}
+.site-header h1{
+  font-family:"Playfair Display", serif;
+  font-size:48px;
+  margin-bottom:6px
+}
+.subtitle{color:var(--muted);font-size:15px}
+
+/* grid */
+.wrap{max-width:1200px;margin:0 auto}
+.tool-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:var(--gap);
+  margin-top:20px;
+}
+
+/* card */
+.tool-card{
+  border-radius:var(--radius);
+  overflow:hidden;
+  position:relative;
+  height:180px;
+  display:flex;
+  align-items:flex-end;
+  padding:20px;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(0,0,0,.06);
+  transition:.3s ease;
+  text-decoration:none;
+}
+
+.tool-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 20px 40px rgba(0,0,0,.12);
+}
+
+.card-bg{
+  position:absolute;
+  inset:0;
+  z-index:0;
+}
+
+.card-inner{
+  position:relative;
+  z-index:2;
+}
+
+.card-title{
+  color:#fff;
+  font-size:22px;
+  font-weight:700;
+  font-family:"Playfair Display", serif;
+}
+.card-sub{
+  color:rgba(255,255,255,.9);
+  font-size:13px;
+  margin-top:6px;
+}
+
+/* animations */
+.mini-anim{
+  margin-bottom:12px;
+}
+
+/* breathing */
+.pulse{
+  fill:#fff;
+  animation:pulse 3.5s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%{transform:scale(.8);opacity:.6}
+  50%{transform:scale(1.3);opacity:1}
+  100%{transform:scale(.8);opacity:.6}
+}
+
+/* quotes */
+.pattern-3 path{
+  stroke:#fff;
+  stroke-width:2.5;
+  animation:wave 4s ease-in-out infinite;
+}
+@keyframes wave{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+}
+
+/* BEST SELF – NEW PROFESSIONAL ANIMATION */
+.best-self-anim .ring{
+  stroke:#fff;
+  stroke-width:2;
+  opacity:.7;
+  animation:ring 6s ease-in-out infinite;
+}
+.best-self-anim .ring-2{
+  animation-delay:1.5s;
+}
+
+.best-self-anim .spark{
+  fill:#fff;
+  opacity:.9;
+  animation:spark 3s ease-in-out infinite;
+}
+
+@keyframes ring{
+  0%{transform:scale(.9);opacity:.4}
+  50%{transform:scale(1.05);opacity:1}
+  100%{transform:scale(.9);opacity:.4}
+}
+@keyframes spark{
+  0%,100%{transform:scale(.9) rotate(0deg)}
+  50%{transform:scale(1.2) rotate(12deg)}
+}
+
+/* colors */
+.pattern-2 .card-bg{background:linear-gradient(135deg,var(--c2),#163d8b)}
+.pattern-3 .card-bg{background:linear-gradient(135deg,var(--c3),#ff5b6a)}
+.pattern-5 .card-bg{background:linear-gradient(135deg,var(--c5),#f0c5ff)}
