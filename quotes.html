@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Quotes</title>
+
+<style>
+body{
+  margin:0;
+  font-family:"Playfair Display", serif;
+  background:#000;
+  color:#fff;
+}
+
+.page{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+}
+
+/* BACK BUTTON (same style as other tools) */
+.back-btn{
+  position:fixed;
+  top:12px;
+  left:12px;
+  padding:10px 14px;
+  border-radius:999px;
+  background:#111;
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
+  z-index:20;
+  border:1px solid #777;
+}
+.back-btn:hover{background:#1a1a1a}
+
+/* QUOTE CARD — slightly smaller now */
+.card{
+  width:90%;
+  max-width:460px;
+  height:70vh;        /* reduced from 78vh */
+  border-radius:32px; /* slightly smaller radius */
+  padding:26px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  text-align:center;
+  color:#fff;
+  transition:.4s ease;
+}
+
+.quote{font-size:24px;line-height:1.28;margin-bottom:14px}
+.author{font-size:16px;opacity:.9;margin-top:4px}
+
+/* Controls */
+.controls{
+  margin-top:18px;
+  display:flex;
+  gap:16px;
+}
+
+.nav-btn{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  border:1px solid #777;
+  background:#111;
+  color:#fff;
+  font-size:22px;
+  cursor:pointer;
+}
+
+/* Top Right Buttons */
+.topbar{
+  position:fixed;
+  top:10px;
+  right:10px;
+  display:flex;
+  gap:10px;
+}
+
+.top-btn{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  border:1px solid #777;
+  background:#111;
+  font-size:20px;
+  color:#fff;
+  cursor:pointer;
+}
+
+/* Modal */
+.modal-bg{
+  position:fixed;
+  inset:0;
+  background:#000a;
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+.modal{
+  background:#111;
+  padding:18px;
+  border-radius:18px;
+  width:90%;
+  max-width:420px;
+  text-align:center;
+}
+.modal h3{margin:6px 0 8px}
+.modal input,.modal textarea{
+  width:100%;
+  padding:10px;
+  margin-top:8px;
+  border-radius:10px;
+  border:none;
+}
+.modal button{
+  margin-top:12px;
+  padding:10px 16px;
+  border-radius:12px;
+  border:none;
+  cursor:pointer;
+  font-weight:600;
+}
+
+/* Gradient themes */
+.bg-1{background:linear-gradient(#1f4f34,#0f2b1a);}
+.bg-2{background:linear-gradient(#244b66,#101f2c);}
+.bg-3{background:linear-gradient(#5a1f1f,#2b0f0f);}
+.bg-4{background:linear-gradient(#6a5820,#3c2f10);}
+.bg-5{background:linear-gradient(#3c2c66,#191433);}
+.bg-6{background:linear-gradient(#264653,#0f252c);}
+.bg-7{background:linear-gradient(#2a9d8f,#14574f);}
+.bg-8{background:linear-gradient(#1d3557,#0c1b2e);}
+.bg-9{background:linear-gradient(#3a0ca3,#180449);}
+.bg-10{background:linear-gradient(#4a148c,#1f0540);}
+.bg-11{background:linear-gradient(#7b2cbf,#391366);}
+.bg-12{background:linear-gradient(#b5179e,#5a0b52);}
+.bg-13{background:linear-gradient(#9c6644,#5e3a22);}
+.bg-14{background:linear-gradient(#5c6f68,#2c3834);}
+.bg-15{background:linear-gradient(#2f3e46,#141c20);}
+</style>
+</head>
+
+<body>
+
+<!-- BACK TO MAIN TOOLS -->
+<div class="back-btn" onclick="location.href='index.html'">← Back</div>
+
+<!-- Top buttons -->
+<div class="topbar">
+  <button class="top-btn" onclick="openHelp()">?</button>
+  <button class="top-btn" onclick="openAddQuote()">＋</button>
+  <button class="top-btn" onclick="shareQuote()">⇧</button>
+</div>
+
+<div class="page">
+
+  <div id="quoteCard" class="card">
+    <div id="quoteText" class="quote"></div>
+    <div id="quoteAuthor" class="author"></div>
+  </div>
+
+  <div class="controls">
+    <button class="nav-btn" onclick="prevQuote()">‹</button>
+    <button class="nav-btn" onclick="nextQuote()">›</button>
+  </div>
+
+</div>
+
+<!-- ADD QUOTE MODAL -->
+<div class="modal-bg" id="addModal">
+  <div class="modal">
+    <h3>Add your own quote</h3>
+    <textarea id="newQuote" rows="3" placeholder="Write your quote..."></textarea>
+    <input id="newAuthor" placeholder="Author name">
+    <button onclick="saveUserQuote()">Save</button>
+    <button onclick="closeAddQuote()">Cancel</button>
+  </div>
+</div>
+
+<!-- HELP MODAL -->
+<div class="modal-bg" id="helpModal">
+  <div class="modal">
+    <h3>How this works</h3>
+    <p>→ Swipe right for next quote</p>
+    <p>← Swipe left for previous quote</p>
+    <p>＋ Add your own quote</p>
+    <p>⇧ Share quote</p>
+    <button onclick="closeHelp()">Close</button>
+  </div>
+</div>
+
+<script>
+/* Quotes list */
+const quotes = [
+{ text:"Do not let the behavior of others destroy your inner peace", author:"Dalai Lama" },
+{ text:"You cannot swim for new horizons until you have courage to lose sight of the shore", author:"William Faulkner" },
+{ text:"There is no beautifier of complexion, or form, or behavior, like the wish to scatter joy and not pain around us", author:"Ralph Waldo Emerson" },
+{ text:"Out of the quarrel with others we make rhetoric; out of the quarrel with ourselves we make poetry", author:"W.B. Yeats" },
+{ text:"Peace begins with a smile", author:"Mother Teresa" },
+{ text:"The only journey is the one within", author:"Rainer Maria Rilke" },
+{ text:"Happiness depends upon ourselves", author:"Aristotle" },
+{ text:"In the middle of every difficulty lies opportunity", author:"Albert Einstein" },
+{ text:"Turn your wounds into wisdom", author:"Oprah Winfrey" },
+{ text:"What lies behind us and what lies before us are tiny matters compared to what lies within us", author:"Ralph Waldo Emerson" },
+{ text:"Your calm mind is the ultimate weapon against your challenges", author:"Bryant McGill" },
+{ text:"Silence is a source of great strength", author:"Lao Tzu" },
+{ text:"Healing takes courage, and we all have courage, even if we have to dig a little to find it", author:"Tori Amos" },
+{ text:"It is not the mountain we conquer, but ourselves", author:"Edmund Hillary" },
+{ text:"Be faithful to that which exists within yourself", author:"André Gide" },
+{ text:"The best way out is always through", author:"Robert Frost" },
+{ text:"Act as if what you do makes a difference. It does", author:"William James" },
+{ text:"No one can make you feel inferior without your consent", author:"Eleanor Roosevelt" },
+{ text:"We are what we repeatedly do. Excellence, then, is not an act, but a habit", author:"Aristotle" },
+{ text:"Courage is grace under pressure", author:"Ernest Hemingway" },
+{ text:"You yourself… deserve your love and affection", author:"Buddha" },
+{ text:"The greatest weapon against stress is our ability to choose one thought over another", author:"William James" },
+{ text:"Nothing can dim the light that shines from within", author:"Maya Angelou" },
+{ text:"The wound is the place where the Light enters you", author:"Rumi" },
+{ text:"Sometimes the smallest step in the right direction becomes the biggest step of your life", author:"Naeem Callaway" },
+{ text:"The future depends on what you do today", author:"Mahatma Gandhi" },
+{ text:"Wherever you go, go with all your heart", author:"Confucius" },
+{ text:"Every moment is a fresh beginning", author:"T.S. Eliot" },
+{ text:"What we think, we become", author:"Buddha" },
+{ text:"With the new day comes new strength and new thoughts", author:"Eleanor Roosevelt" },
+{ text:"You are never too old to set another goal or dream a new dream", author:"C.S. Lewis" },
+{ text:"A calm mind brings inner strength and self-confidence", author:"Dalai Lama" },
+{ text:"Self-compassion is giving the same kindness to ourselves we give to others", author:"Christopher Germer" },
+{ text:"Be yourself; everyone else is already taken", author:"Oscar Wilde" },
+{ text:"The only real mistake is the one from which we learn nothing", author:"Henry Ford" },
+{ text:"Life isn’t about finding yourself — it’s about creating yourself", author:"George Bernard Shaw" },
+{ text:"What consumes your mind controls your life", author:"Unknown" },
+{ text:"Your present circumstances don’t determine where you can go", author:"Nido Qubein" },
+{ text:"Kindness is a language which the deaf can hear and the blind can see", author:"Mark Twain" },
+{ text:"You don’t have to control your thoughts — just stop letting them control you", author:"Dan Millman" },
+{ text:"Storms make trees take deeper roots", author:"Dolly Parton" },
+{ text:"Every saint has a past, every sinner has a future", author:"Oscar Wilde" },
+{ text:"Healing is not linear", author:"Unknown" }
+];
+
+const colors = ["bg-1","bg-2","bg-3","bg-4","bg-5","bg-6","bg-7","bg-8","bg-9","bg-10","bg-11","bg-12","bg-13","bg-14","bg-15"];
+
+let index=0;
+let lastColor=null;
+
+function renderQuote(){
+  const q=quotes[index];
+
+  quoteText.innerHTML = "❝ " + q.text + " ❞";
+  quoteAuthor.innerText = q.author;
+
+  const card = quoteCard;
+  card.className="card";
+
+  let color;
+  do{ color = colors[Math.floor(Math.random()*colors.length)] }
+  while(color===lastColor);
+
+  lastColor=color;
+  card.classList.add(color);
+}
+
+function nextQuote(){ index=(index+1)%quotes.length; renderQuote(); }
+function prevQuote(){ index=(index-1+quotes.length)%quotes.length; renderQuote(); }
+
+/* Swipe */
+let startX=0;
+document.addEventListener("touchstart",e=>startX=e.touches[0].clientX);
+document.addEventListener("touchend",e=>{
+  const diff=e.changedTouches[0].clientX-startX;
+  if(diff>50) prevQuote();
+  if(diff<-50) nextQuote();
+});
+
+/* Keyboard arrows */
+document.addEventListener("keydown",e=>{
+  if(e.key==="ArrowRight") nextQuote();
+  if(e.key==="ArrowLeft") prevQuote();
+});
+
+/* Add quote modal */
+function openAddQuote(){ addModal.style.display="flex"; }
+function closeAddQuote(){ addModal.style.display="none"; }
+
+function saveUserQuote(){
+  const text=newQuote.value.trim();
+  const author=newAuthor.value.trim() || "Unknown";
+  if(!text) return alert("Please enter a quote");
+
+  quotes.push({text,author});
+  index=quotes.length-1;
+
+  newQuote.value="";
+  newAuthor.value="";
+  closeAddQuote();
+  renderQuote();
+}
+
+/* Help modal */
+function openHelp(){ helpModal.style.display="flex"; }
+function closeHelp(){ helpModal.style.display="none"; }
+
+/* Share */
+function shareQuote(){
+  const q=quotes[index];
+  const msg=`"${q.text}" — ${q.author}`;
+
+  if(navigator.share){
+    navigator.share({text:msg});
+  } else {
+    navigator.clipboard.writeText(msg);
+    alert("Quote copied — you can paste & share");
+  }
+}
+
+renderQuote();
+</script>
+
+</body>
+</html>
