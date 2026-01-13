@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Grateful Moments — Draw</title>
+
+<style>
+  :root{
+    --bg:#6f49a6;
+    --white:#fff;
+    --saved-bg:#e9fff3;
+    --saved-text:#145c2e;
+  }
+
+  html,body{
+    height:100%;
+    margin:0;
+    font-family:Inter, system-ui, sans-serif;
+    background:linear-gradient(180deg,#6f49a6,#5d3b8f);
+    color:var(--white);
+  }
+  .back-btn{
+  position:absolute;
+  top:30px;
+  left:30px;
+  padding:8px 16px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.15);
+  color:#fff;
+  font-size:26px;
+  cursor:pointer;
+}
+  /* LEFT-SIDE BACK BUTTON */
+  .back-btn{
+    position:fixed;
+    top:16px;
+    left:16px;
+    padding:10px 16px;
+    border-radius:999px;
+    background:rgba(0,0,0,.35);
+    color:#e8e2ff;
+    font-weight:700;
+    cursor:pointer;
+    z-index:10;
+  }
+
+  .back-btn:hover{
+    background:rgba(0,0,0,.55);
+  }
+
+  .wrap{
+    padding:24px;
+    max-width:900px;
+    margin:0 auto;
+  }
+
+  /* ⬆️ FONT SIZE for grateful moment */
+  h1{
+    font-family:"Playfair Display",serif;
+    font-size:42px;
+    margin:6px 0;
+  }
+
+  /* ⬆️ FONT SIZE for bS */
+  p.lead{
+    color:rgba(255,255,255,.88);
+    margin-bottom:16px;
+    font-size:22px;
+  }
+
+  .canvas-area{
+    margin-top:18px;
+    border-radius:18px;
+    background:rgba(255,255,255,.04);
+    padding:14px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  canvas{
+    background:transparent;
+    width:100%;
+    max-width:720px;
+    height:480px;
+    border-radius:12px;
+    touch-action:none;
+  }
+
+  .controls{
+    display:flex;
+    gap:10px;
+    margin-top:14px;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .btn{
+    padding:10px 16px;
+    border-radius:12px;
+    border:none;
+    background:var(--white);
+    color:#111;
+    font-weight:700;
+    cursor:pointer;
+  }
+
+  .color{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    border:2px solid rgba(255,255,255,.2);
+    cursor:pointer;
+  }
+
+  .saved-msg{
+    display:none;
+    margin-top:16px;
+    padding:10px 14px;
+    background:var(--saved-bg);
+    color:var(--saved-text);
+    border-radius:10px;
+    font-weight:600;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="back-btn" onclick="location.href='best-self.html'"> ← Back</div>
+
+<div class="wrap">
+  <h1>Grateful Moments — Draw</h1>
+
+  <p class="lead">
+    Draw or sketch something that brought you joy today.
+  </p>
+
+  <div class="canvas-area">
+    <canvas id="sketch" width="800" height="600"></canvas>
+
+    <div class="controls">
+      <button class="btn" id="clearBtn">Clear</button>
+      <button class="btn" id="undoBtn">Undo</button>
+
+      <div class="color" style="background:#ffffff" data-color="#ffffff"></div>
+      <div class="color" style="background:#ffd966" data-color="#ffd966"></div>
+      <div class="color" style="background:#ff7a7a" data-color="#ff7a7a"></div>
+      <div class="color" style="background:#9ad3f5" data-color="#9ad3f5"></div>
+      <div class="color" style="background:#b39ddb" data-color="#b39ddb"></div>
+
+      <button class="btn" id="saveBtn">Save</button>
+    </div>
+
+    <div id="saveMsg" class="saved-msg">
+      Saved — your Grateful Moment is stored.
+    </div>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('sketch');
+const ctx = canvas.getContext('2d');
+
+let drawing = false;
+let strokeColor = '#ffffff';
+let lineWidth = 6;
+
+/* --------- STROKE HISTORY (UNDO FIXED) ---------- */
+const history = [];
+
+/* Save canvas snapshot */
+function saveHistory(){
+  history.push(canvas.toDataURL());
+
+  // limit memory use
+  if(history.length > 40)
+    history.shift();
+}
+
+/* Save initial blank canvas state */
+saveHistory();
+
+/* Proper UNDO — remove last stroke only */
+function undo(){
+  // remove latest snapshot
+  history.pop();
+
+  // if nothing left → clear canvas
+  if(history.length === 0){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    return;
+  }
+
+  // load previous snapshot
+  const img = new Image();
+  img.onload = () => {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.drawImage(img,0,0);
+  };
+  img.src = history[history.length - 1];
+}
+
+/* ---------- POSITION FIX ---------- */
+function getPos(e){
+  const r = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / r.width;
+  const scaleY = canvas.height / r.height;
+  return {
+    x: (e.clientX - r.left) * scaleX,
+    y: (e.clientY - r.top) * scaleY
+  };
+}
+
+/* ---------- DRAWING ---------- */
+canvas.addEventListener('pointerdown', e=>{
+  drawing = true;
+  const pos = getPos(e);
+
+  ctx.strokeStyle = strokeColor;
+  ctx.lineWidth = lineWidth;
+  ctx.lineCap = 'round';
+
+  ctx.beginPath();
+  ctx.moveTo(pos.x,pos.y);
+});
+
+canvas.addEventListener('pointermove', e=>{
+  if(!drawing) return;
+  const pos = getPos(e);
+  ctx.lineTo(pos.x,pos.y);
+  ctx.stroke();
+});
+
+function endStroke(){
+  if(!drawing) return;
+  drawing = false;
+  saveHistory();
+}
+
+canvas.addEventListener('pointerup', endStroke);
+canvas.addEventListener('pointercancel', endStroke);
+
+/* ---------- BUTTONS ---------- */
+document.getElementById('clearBtn').onclick = ()=>{
+  saveHistory();
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+};
+
+document.getElementById('undoBtn').onclick = undo;
+
+document.querySelectorAll('.color').forEach(c=>{
+  c.onclick = ()=> strokeColor = c.dataset.color;
+});
+
+document.getElementById('saveBtn').onclick = ()=>{
+  const data = canvas.toDataURL('image/png');
+  localStorage.setItem('gratefulMomentDrawing', data);
+
+  const msg = document.getElementById('saveMsg');
+  msg.style.display = 'block';
+  setTimeout(()=> msg.style.display='none', 3000);
+};
+</script>
+</body>
+</html>
