@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tools — Counseling</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <h1>Tools</h1>
+    <p class="subtitle">
+      Choose a tool to explore — each tool contains short guided exercises and interactive cards.
+    </p>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-grid" role="list">
+
+      <!-- BREATHING -->
+      <a class="tool-card pattern-2" href="breathing.html">
+        <div class="card-bg"></div>
+        <div class="card-inner">
+          <svg class="mini-anim" viewBox="0 0 80 60" width="80" height="60">
+            <circle class="pulse" cx="40" cy="30" r="6"/>
+          </svg>
+          <div class="card-title">Breathing</div>
+          <div class="card-sub">Find your calm</div>
+        </div>
+      </a>
+
+      <!-- QUOTES -->
+      <button class="tool-card pattern-3" onclick="openTool('quotes.html')">
+        <div class="card-bg"></div>
+        <div class="card-inner">
+          <svg class="mini-anim" viewBox="0 0 80 60" width="80" height="60">
+            <path d="M15 38 Q40 8 65 38" fill="none"/>
+          </svg>
+          <div class="card-title">Quotes</div>
+          <div class="card-sub">Affirmations</div>
+        </div>
+      </button>
+
+      <!-- BEST SELF -->
+      <button class="tool-card pattern-5" onclick="openTool('best-self.html')">
+        <div class="card-bg"></div>
+        <div class="card-inner">
+          <svg class="mini-anim best-self-anim" viewBox="0 0 100 100" width="90" height="90">
+            <circle class="ring ring-1" cx="50" cy="50" r="26" fill="none"/>
+            <circle class="ring ring-2" cx="50" cy="50" r="14" fill="none"/>
+            <path class="spark" d="M50 30 L52 46 L68 50 L52 54 L50 70 L48 54 L32 50 L48 46 Z"/>
+          </svg>
+          <div class="card-title">Best Self</div>
+          <div class="card-sub">Self reflection tools</div>
+        </div>
+      </button>
+
+
+
+      <!-- ⭐ MEME UPLIFT -->
+      <button class="tool-card pattern-3" onclick="openTool('memes.html')">
+        <div class="card-bg"></div>
+        <div class="card-inner">
+          <svg class="mini-anim" viewBox="0 0 80 60" width="80" height="60">
+            <circle cx="30" cy="26" r="4"/>
+            <circle cx="50" cy="26" r="4"/>
+            <path d="M28 36 Q40 44 52 36" fill="none"/>
+          </svg>
+          <div class="card-title">Meme Uplift</div>
+          <div class="card-sub">Laugh & lighten mood</div>
+        </div>
+      </button>
+
+    </div>
+  </main>
+
+  <script>
+    function openTool(href){
+      window.open(href, '_self');
+    }
+  </script>
+</body>
+</html>
