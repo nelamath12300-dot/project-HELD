@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Breathing</title>
+  <title>Breathing</title> 
 
   <style>
     body {
@@ -20,13 +20,11 @@
       padding:10px 14px;
       border-radius:999px;
       background:#ffffff;
-      color:#fff;
       font-size:16px;
       font-weight:700;
       cursor:pointer;
       z-index:20;
-      border:1px solid#777;
-      cursor:pointer;
+      border:1px solid #777;
       color:#4b3b7a;
     }
 
@@ -46,47 +44,51 @@
       margin-bottom: 32px;
     }
 
+    /* GRID – vertical tool style */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 24px;
     }
 
+    /* CARD – tall like main tools */
     .card {
       background: linear-gradient(135deg, #1e3a8a, #2563eb);
       color: #ffffff;
-      border-radius: 20px;
+      border-radius: 24px;
       padding: 28px;
-      min-height: 180px;
+      height: 260px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.12);
     }
 
     .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      transform: translateY(-6px);
+      box-shadow: 0 22px 44px rgba(0,0,0,0.18);
     }
 
     .card h2 {
       font-size: 22px;
-      margin: 0 0 6px 0;
+      margin: 0 0 8px 0;
     }
 
     .card p {
       font-size: 14px;
-      opacity: 0.85;
+      opacity: 0.9;
+      max-width: 90%;
     }
 
     .open {
-      margin-top: 16px;
       align-self: flex-start;
-      background: rgba(255,255,255,0.15);
-      padding: 8px 16px;
+      background: rgba(255,255,255,0.2);
+      padding: 8px 18px;
       border-radius: 999px;
       font-size: 14px;
+      font-weight: 500;
     }
   </style>
 </head>
