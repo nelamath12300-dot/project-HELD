@@ -7,10 +7,11 @@
 
 <style>
 :root{
-  --inhale:#f5b97a;
-  --hold:#b7e3a1;
-  --exhale:#8fd3f4;
-  --muted:#9aa4c7;
+  /* 🌈 BRIGHT COLORS */
+  --inhale:#e066be;     /* pink */
+  --hold:#7df9ff;       /* aqua */
+  --exhale:#9b8cff;     /* lavender */
+  --muted:#e8dfff;
 }
 
 *{box-sizing:border-box}
@@ -18,33 +19,39 @@
 body{
   margin:0;
   height:100vh;
-  background:radial-gradient(circle at top,#0d1a38,#05070f);
+  background:radial-gradient(circle at top,#c084fc,#f0abfc);
   font-family:"Playfair Display", serif;
-  color:#fff;
+  color:#ffffff;
   display:flex;
   align-items:center;
   justify-content:center;
   position:relative;
 }
 
+/* back */
 .back-btn{
   position:absolute;
   top:20px;
   left:20px;
   padding:8px 16px;
   border-radius:999px;
-  background:rgba(255,255,255,0.15);
+  background:rgba(255,255,255,0.25);
   cursor:pointer;
+  color:#3b0764;
+  font-weight:600;
 }
 
+/* card */
 .container{
   width:360px;
-  background:linear-gradient(180deg,#0f1e45,#080c18);
+  background:linear-gradient(180deg,#9062d8,#ca97b1);
   border-radius:28px;
   padding:28px 22px 30px;
   text-align:center;
+  box-shadow:0 25px 60px rgba(0,0,0,0.25);
 }
 
+/* grid */
 .grid-wrap{
   margin:28px auto 16px;
   width:220px;
@@ -64,7 +71,7 @@ body{
 .grid span{
   width:8px;
   height:8px;
-  background:#ffd9a6;
+  background:rgba(255,255,255,0.5);
   border-radius:50%;
   opacity:0;
   animation:fadeIn .8s forwards;
@@ -74,6 +81,7 @@ body{
   to{opacity:1}
 }
 
+/* moving ball */
 .mover{
   width:14px;
   height:14px;
@@ -82,12 +90,15 @@ body{
   top:-3px;
   left:-3px;
   background:var(--inhale);
+  box-shadow:0 0 12px currentColor;
   transition:transform 4s linear, background 1s ease;
 }
 
+/* text */
 .phase{
-  font-size:22px;
+  font-size:24px;
   margin-top:12px;
+  font-weight:700;
 }
 
 .subtext{
@@ -97,14 +108,19 @@ body{
   margin-top:6px;
 }
 
+/* buttons */
 button{
   margin-top:20px;
   padding:10px 26px;
   border-radius:999px;
   border:none;
   cursor:pointer;
+  background:#ffffff;
+  color:#6b21a8;
+  font-weight:600;
 }
 
+/* feedback */
 .feedback{
   display:none;
   margin-top:22px;
@@ -122,15 +138,17 @@ button{
 }
 
 .choice{
-  border:1px solid #444;
+  border:1px solid rgba(255,255,255,0.6);
   border-radius:999px;
   padding:8px 14px;
   font-size:13px;
   cursor:pointer;
+  color:#fff;
 }
+
 .choice.active{
-  background:#fff;
-  color:#000;
+  background:#ffffff;
+  color:#6b21a8;
 }
 </style>
 </head>
