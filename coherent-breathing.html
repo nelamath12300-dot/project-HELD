@@ -8,7 +8,7 @@
 <style>
 body{
   margin:0;
-  background:#0b0f18;
+  background:#097275;
   color:#e5e7ff;
   font-family:"Playfair Display", serif;
   display:flex;
@@ -42,21 +42,13 @@ body{
 
 /* SPHERE */
 .sphere{
-  width:280px;
-  height:280px;
+  width:310px;
+  height:310px;
   margin:40px auto 28px;
   position:relative;
   border-radius:50%;
   transform-origin:center;
-  /* Added rotation animation and kept your smooth transition */
   transition: transform 3.6s ease-in-out;
-  animation: rotateSphere 60s linear infinite;
-}
-
-/* Added rotation to make the dots feel 3D like the screenshot */
-@keyframes rotateSphere {
-  from { transform: rotate(0deg) scale(var(--scale, 1)); }
-  to { transform: rotate(360deg) scale(var(--scale, 1)); }
 }
 
 .dot{
@@ -64,8 +56,11 @@ body{
   width:6px;
   height:6px;
   border-radius:50%;
-  background:#aebdff;
+  background:#17690c;
   opacity:.95;
+  /* Smooth transition for dot movement */
+  transition: all 3.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin:center;
 }
 
 /* TEXT */
@@ -175,45 +170,147 @@ const EXHALE_MS = 4000;
 const TOTAL_LOOPS = 7;
 
 let loopCount = 0;
+let currentDots = [];
+let currentPositions = [];
 
-/* ---------- SPHERE GRID (Updated for Screenshot Visual) ---------- */
-function buildSphereGrid(el, color){
+/* ---------- SPHERE GRID ---------- */
+function buildSphereGrid(el, color, scaleFactor = 1){
   el.innerHTML = "";
   const SIZE = 280;
   const cx = SIZE / 2;
   const cy = SIZE / 2;
   
-  // Number of dots to match the density in your image
   const totalDots = 350; 
   const goldenRatio = (1 + Math.sqrt(5)) / 2;
 
+  currentDots = [];
+  currentPositions = [];
+
   for(let i = 0; i < totalDots; i++){
-    // Fibonacci Sphere Algorithm for that specific spiral look
+    // Fibonacci Sphere Algorithm
     const y = 1 - (i / (totalDots - 1)) * 2; 
     const radiusAtY = Math.sqrt(1 - y * y); 
     const theta = 2 * Math.PI * goldenRatio * i;
 
-    const xPos = cx + Math.cos(theta) * radiusAtY * 120;
-    const yPos = cy + y * 120;
+    // Apply scale factor for expansion/contraction
+    const radius = 140 * scaleFactor;
+    
+    const xPos = cx + Math.cos(theta) * radiusAtY * radius;
+    const yPos = cy + y * radius;
 
     const dot = document.createElement("div");
     dot.className = "dot";
     dot.style.background = color;
 
-    // Scale dots slightly based on position to simulate depth
+    // Store original position for exhale calculations
+    const originalPosition = {
+      x: xPos,
+      y: yPos,
+      theta: theta,
+      radiusAtY: radiusAtY,
+      yPos: y
+    };
+
+    // Scale dots based on position and current scale
     const depth = 0.5 + ((y + 1) / 2) * 0.5;
-    dot.style.width = (4 * depth) + "px";
-    dot.style.height = (4 * depth) + "px";
+    const dotSize = 4 * depth * (scaleFactor < 1 ? scaleFactor * 0.8 : scaleFactor);
+    dot.style.width = dotSize + "px";
+    dot.style.height = dotSize + "px";
 
     dot.style.left = xPos + "px";
     dot.style.top = yPos + "px";
 
     el.appendChild(dot);
+    
+    currentDots.push(dot);
+    currentPositions.push(originalPosition);
   }
 }
 
+/* ---------- ANIMATE DOTS TOGETHER (Inhale) ---------- */
+function animateDotsTogether(color) {
+  const sphere = document.getElementById("sphere");
+  const dots = currentDots;
+  const centerX = 140;
+  const centerY = 140;
+  const gatherRadius = 60; // Smaller radius for tighter gathering
+  
+  dots.forEach((dot, i) => {
+    // Change color
+    dot.style.background = color;
+    
+    // Calculate position in a tight circle
+    const angle = (i / dots.length) * Math.PI * 2;
+    const targetX = centerX + Math.cos(angle) * gatherRadius;
+    const targetY = centerY + Math.sin(angle) * gatherRadius;
+    
+    // Animate to gathered position
+    dot.style.transition = 'all 3.6s cubic-bezier(0.4, 0, 0.2, 1)';
+    dot.style.left = targetX + 'px';
+    dot.style.top = targetY + 'px';
+    dot.style.transform = `scale(1.4)`; // Slightly bigger when gathered
+  });
+  
+  sphere.style.transform = "scale(1.12)";
+}
+
+/* ---------- ANIMATE DOTS SPREAD (Exhale) ---------- */
+function animateDotsSpread(color) {
+  const sphere = document.getElementById("sphere");
+  const dots = currentDots;
+  const positions = currentPositions;
+  const spreadRadius = 120; // Radius for spread out position
+  
+  dots.forEach((dot, i) => {
+    // Change color
+    dot.style.background = color;
+    
+    // Use original Fibonacci positions but scaled down
+    const pos = positions[i];
+    const centerX = 140;
+    const centerY = 140;
+    
+    const targetX = centerX + Math.cos(pos.theta) * pos.radiusAtY * spreadRadius;
+    const targetY = centerY + pos.yPos * spreadRadius;
+    
+    // Animate back to spread position
+    dot.style.transition = 'all 3.6s cubic-bezier(0.4, 0, 0.2, 1)';
+    dot.style.left = targetX + 'px';
+    dot.style.top = targetY + 'px';
+    dot.style.transform = `scale(0.9)`; // Slightly smaller when spread
+  });
+  
+  sphere.style.transform = "scale(0.82)";
+}
+
+/* ---------- RESET TO NEUTRAL ---------- */
+function resetToNeutral(color) {
+  const sphere = document.getElementById("sphere");
+  const dots = currentDots;
+  const positions = currentPositions;
+  const neutralRadius = 120;
+  
+  dots.forEach((dot, i) => {
+    dot.style.background = color;
+    
+    const pos = positions[i];
+    const centerX = 140;
+    const centerY = 140;
+    
+    const targetX = centerX + Math.cos(pos.theta) * pos.radiusAtY * neutralRadius;
+    const targetY = centerY + pos.yPos * neutralRadius;
+    
+    dot.style.transition = 'all 2s ease-out';
+    dot.style.left = targetX + 'px';
+    dot.style.top = targetY + 'px';
+    dot.style.transform = `scale(1)`;
+  });
+  
+  sphere.style.transform = "scale(0.9)";
+}
+
 /* ---------- INTRO ---------- */
-buildSphereGrid(document.getElementById("introSphere"),"#b9c6ff");
+buildSphereGrid(document.getElementById("introSphere"),"#b9c6ff", 0.9);
 
 /* ---------- SETTLE ---------- */
 function startSettle(){
@@ -221,13 +318,19 @@ function startSettle(){
   document.getElementById("stage").style.display="block";
 
   const sphere=document.getElementById("sphere");
-  buildSphereGrid(sphere,"#aebdff");
+  buildSphereGrid(sphere,"#aebdff", 0.9);
 
   document.getElementById("stepLabel").innerText="Get settled";
   document.getElementById("hintText").innerText =
-    "You’re doing something good for yourself — stay with this moment.";
+    "You're doing something good for yourself — stay with this moment.";
 
-  sphere.style.transform="scale(.85)";
+  // Gentle pulse at start
+  setTimeout(() => {
+    sphere.style.transform = "scale(1)";
+    currentDots.forEach(dot => {
+      dot.style.transform = "scale(1.1)";
+    });
+  }, 100);
 
   setTimeout(startBreathing, SETTLE_DURATION);
 }
@@ -239,24 +342,22 @@ function startBreathing(){
 }
 
 function inhale(){
-  const sphere=document.getElementById("sphere");
-  buildSphereGrid(sphere,"#9fb5ff");
-
   document.getElementById("stepLabel").innerText="Inhale";
   document.getElementById("hintText").innerText="Slow, gentle breath in";
 
-  sphere.style.transform="scale(1.12)";
+  // Animate dots to gather together
+  animateDotsTogether("#9fb5ff");
+
   setTimeout(exhale, INHALE_MS);
 }
 
 function exhale(){
-  const sphere=document.getElementById("sphere");
-  buildSphereGrid(sphere,"#ffd98a");
-
   document.getElementById("stepLabel").innerText="Exhale";
   document.getElementById("hintText").innerText="Soft, easy breath out";
 
-  sphere.style.transform="scale(.82)";
+  // Animate dots to spread out from their current gathered position
+  animateDotsSpread("#ffd98a");
+  
   loopCount++;
 
   if(loopCount >= TOTAL_LOOPS){
@@ -268,12 +369,11 @@ function exhale(){
 
 /* ---------- COMPLETION + FEEDBACK ---------- */
 function showComplete(){
-  const sphere=document.getElementById("sphere");
-  buildSphereGrid(sphere,"#aebdff");
-  sphere.style.transform="scale(.9)";
-
   document.getElementById("stepLabel").innerText="Well done";
   document.getElementById("hintText").innerText="";
+
+  // Reset dots to neutral position
+  resetToNeutral("#aebdff");
 
   const fb=document.createElement("div");
   fb.className="feedback";
