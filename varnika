@@ -2882,9 +2882,12 @@
                             <div class="song-title">${song.title}</div>
                             <div class="song-artist">${song.artist}</div>
                             <div class="song-help">${song.help}</div>
-                            <div style="margin-top: 10px; font-size: 0.9rem; color: var(--accent-blue); font-weight: 600;">
-                                <i class="fab fa-spotify"></i> Click to play any music! 🎶
+                            <div style="margin-top: 10px; font-size: 1.3rem; color: var(--accent-blue); font-weight: 600;">
+                                <i class="fas fa-play"></i> Click play button to listen! 🎶\n
+
                             </div>
+                            <i class="fab fa-spotify"></i> Click the name of the song to open it on Spotify
+
                         </div>
                         <iframe
                             class="spotify-player"
@@ -2898,9 +2901,10 @@
                         </iframe>
                     `;
 
+
                     // Add click event to toggle the Spotify player
                     const songInfo = songItem.querySelector('.song-info');
-                    songInfo.addEventListener('click', function(e) {
+                    songInfo.addEventListener('click', function (e) {
                         if (e.type === 'touchstart') {
                             e.preventDefault();
                         }
