@@ -7,27 +7,30 @@
     <title>MoodSpace - Emotional Wellness & Music</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* EXISTING STYLES - UNCHANGED */
+        /* UPDATED COLOR PALETTE: Beige, Light Blue, and Green */
         :root {
-            /* Vibrant Sunshine Color Palette */
-            --sunshine-yellow: #FFD700;
-            --sunshine-orange: #FF8C00;
-            --sky-blue: #87CEEB;
-            --grass-green: #7CFC00;
-            --flower-pink: #FF69B4;
-            --lavender-purple: #9370DB;
-            --coral: #FF7F50;
-            --turquoise: #40E0D0;
+            --beige-light: #F5F5DC;
+            --beige-medium: #E6E6C2;
+            --beige-dark: #D2D2A3;
+            --light-blue-1: #E6F3FF;
+            --light-blue-2: #B3D9FF;
+            --light-blue-3: #80C1FF;
+            --green-light: #D4EDDA;
+            --green-medium: #A3D9A5;
+            --green-dark: #7BC47F;
+            --accent-blue: #4A90E2;
+            --accent-green: #4CAF50;
+            --accent-beige: #C4B7A6;
+
             --white: #FFFFFF;
             --light-gray: #F5F5F5;
             --text-dark: #2C3E50;
             --text-light: #5D6D7E;
 
-            --shadow: 0 8px 25px rgba(255, 215, 0, 0.2);
+            --shadow: 0 8px 25px rgba(100, 149, 237, 0.15);
             --border-radius: 24px;
             --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
 
-            /* Responsive font sizes */
             font-size: 16px;
         }
 
@@ -51,9 +54,9 @@
 
         body {
             background: radial-gradient(circle at 50% 0%,
-            var(--sunshine-yellow) 0%,
-            #FFEC8B 30%,
-            var(--sky-blue) 100%);
+            var(--light-blue-1) 0%,
+            var(--beige-light) 30%,
+            var(--green-light) 100%);
             color: var(--text-dark);
             line-height: 1.7;
             min-height: 100vh;
@@ -66,7 +69,6 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        /* Prevent text size adjustment on orientation change */
         @media screen and (max-device-width: 480px) {
             body {
                 -webkit-text-size-adjust: 100%;
@@ -74,7 +76,6 @@
             }
         }
 
-        /* Animated floating shapes */
         body::before {
             content: '';
             position: fixed;
@@ -83,10 +84,10 @@
             width: 100%;
             height: 100%;
             background-image:
-                    radial-gradient(circle at 15% 10%, rgba(255, 215, 0, 0.15) 0%, transparent 25%),
-                    radial-gradient(circle at 85% 30%, rgba(255, 140, 0, 0.15) 0%, transparent 25%),
-                    radial-gradient(circle at 25% 70%, rgba(255, 105, 180, 0.15) 0%, transparent 25%),
-                    radial-gradient(circle at 75% 90%, rgba(135, 206, 235, 0.15) 0%, transparent 25%);
+                    radial-gradient(circle at 15% 10%, rgba(214, 237, 255, 0.15) 0%, transparent 25%),
+                    radial-gradient(circle at 85% 30%, rgba(245, 245, 220, 0.15) 0%, transparent 25%),
+                    radial-gradient(circle at 25% 70%, rgba(212, 237, 218, 0.15) 0%, transparent 25%),
+                    radial-gradient(circle at 75% 90%, rgba(163, 217, 165, 0.15) 0%, transparent 25%);
             z-index: -1;
             animation: floatBackground 20s infinite alternate ease-in-out;
         }
@@ -100,7 +101,6 @@
             padding-bottom: 20px;
         }
 
-        /* Page transitions */
         .page {
             display: none;
             animation: bounceIn 0.6s ease;
@@ -111,21 +111,20 @@
             display: block;
         }
 
-        /* Header with Back Button - Sunshine Theme */
         header {
             background: linear-gradient(135deg,
             rgba(255, 255, 255, 0.95) 0%,
-            rgba(255, 248, 220, 0.95) 100%);
+            rgba(245, 245, 220, 0.95) 100%);
             padding: 20px 15px;
             border-radius: var(--border-radius);
-            box-shadow: var(--shadow), 0 0 40px rgba(255, 215, 0, 0.3);
+            box-shadow: var(--shadow), 0 0 40px rgba(100, 149, 237, 0.2);
             text-align: center;
-            border-left: 10px solid var(--sunshine-yellow);
-            border-right: 10px solid var(--sunshine-orange);
+            border-left: 10px solid var(--light-blue-3);
+            border-right: 10px solid var(--green-medium);
             margin-bottom: 20px;
             position: relative;
-            border-top: 4px solid var(--flower-pink);
-            border-bottom: 4px solid var(--turquoise);
+            border-top: 4px solid var(--accent-beige);
+            border-bottom: 4px solid var(--accent-green);
             backdrop-filter: blur(10px);
             width: 100%;
         }
@@ -135,7 +134,7 @@
             left: 10px;
             top: 50%;
             transform: translateY(-50%);
-            background: linear-gradient(135deg, var(--sunshine-yellow), var(--sunshine-orange));
+            background: linear-gradient(135deg, var(--light-blue-3), var(--accent-blue));
             color: white;
             border: none;
             border-radius: 50px;
@@ -148,7 +147,7 @@
             align-items: center;
             gap: 8px;
             z-index: 10;
-            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+            box-shadow: 0 5px 15px rgba(100, 149, 237, 0.4);
             white-space: nowrap;
             touch-action: manipulation;
             min-height: 44px;
@@ -156,12 +155,11 @@
         }
 
         .back-btn-top:hover {
-            background: linear-gradient(135deg, var(--sunshine-orange), var(--coral));
+            background: linear-gradient(135deg, var(--accent-blue), var(--green-medium));
             transform: translateY(-50%) scale(1.1) rotate(-2deg);
-            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.4);
+            box-shadow: 0 8px 20px rgba(124, 196, 127, 0.4);
         }
 
-        /* Ensure header text doesn't overlap with back button on mobile */
         header h1 {
             padding-left: 0;
             padding-right: 0;
@@ -184,10 +182,10 @@
             font-size: 2rem;
             font-weight: 900;
             background: linear-gradient(135deg,
-            var(--sunshine-orange),
-            var(--flower-pink),
-            var(--lavender-purple),
-            var(--turquoise));
+            var(--accent-blue),
+            var(--green-medium),
+            var(--accent-beige),
+            var(--light-blue-3));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
@@ -196,7 +194,7 @@
         }
 
         h1 i {
-            background: var(--sunshine-yellow);
+            background: var(--light-blue-3);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -211,13 +209,13 @@
             background: rgba(255, 255, 255, 0.8);
             padding: 12px 15px;
             border-radius: 15px;
-            border: 2px dotted var(--sunshine-yellow);
+            border: 2px dotted var(--light-blue-3);
         }
 
         .tagline {
             background: linear-gradient(135deg,
-            rgba(255, 215, 0, 0.9),
-            rgba(255, 140, 0, 0.9));
+            rgba(100, 149, 237, 0.9),
+            rgba(124, 196, 127, 0.9));
             padding: 12px 18px;
             border-radius: 15px;
             font-size: 0.9rem;
@@ -225,19 +223,33 @@
             font-weight: 800;
             display: inline-block;
             border: 2px solid white;
-            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+            box-shadow: 0 6px 20px rgba(100, 149, 237, 0.4);
             transform: rotate(-1deg);
             animation: bounce 2s infinite;
             margin-top: 10px;
         }
 
-        /* Big Mood Buttons - Rainbow Theme */
+        /* UPDATED MOOD BUTTONS LAYOUT - 5 in first row, 4 in second row */
         .mood-buttons {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
             margin: 20px 0;
             width: 100%;
+        }
+
+        /* For mobile: 2 columns */
+        @media (max-width: 768px) {
+            .mood-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* For tablet: 3 columns */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .mood-buttons {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
 
         .big-mood-btn {
@@ -264,7 +276,6 @@
             width: 100%;
         }
 
-        /* Mobile touch-friendly button sizes */
         @media (max-width: 768px) {
             .big-mood-btn {
                 padding: 20px 10px;
@@ -293,10 +304,9 @@
         .big-mood-btn:hover {
             transform: translateY(-8px) scale(1.05) rotate(2deg);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-            border: 3px solid var(--sunshine-yellow);
+            border: 3px solid var(--light-blue-3);
         }
 
-        /* Touch feedback for mobile */
         .big-mood-btn:active {
             transform: translateY(-2px) scale(0.98);
             transition: transform 0.1s ease;
@@ -307,8 +317,8 @@
             margin-bottom: 15px;
             transition: var(--transition);
             background: linear-gradient(135deg,
-            var(--sunshine-yellow),
-            var(--sunshine-orange));
+            var(--light-blue-3),
+            var(--accent-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -329,11 +339,10 @@
         }
 
         .big-mood-btn:hover span {
-            color: var(--sunshine-orange);
+            color: var(--accent-blue);
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        /* Emotion Grid - Page 2 */
         .emotion-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -345,19 +354,19 @@
         .emotion-option {
             background: linear-gradient(135deg,
             rgba(255, 255, 255, 0.95) 0%,
-            rgba(255, 248, 220, 0.95) 100%);
+            rgba(245, 245, 220, 0.95) 100%);
             border: none;
             border-radius: 18px;
             padding: 20px 15px;
             cursor: pointer;
             transition: var(--transition);
-            box-shadow: 0 6px 15px rgba(255, 140, 0, 0.15);
+            box-shadow: 0 6px 15px rgba(100, 149, 237, 0.15);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            border-left: 8px solid var(--sunshine-yellow);
+            border-left: 8px solid var(--light-blue-3);
             border-top: 4px solid transparent;
             border-bottom: 4px solid transparent;
             backdrop-filter: blur(10px);
@@ -368,13 +377,12 @@
 
         .emotion-option:hover {
             transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 12px 25px rgba(255, 140, 0, 0.25);
-            border-top-color: var(--flower-pink);
-            border-bottom-color: var(--turquoise);
+            box-shadow: 0 12px 25px rgba(100, 149, 237, 0.25);
+            border-top-color: var(--accent-beige);
+            border-bottom-color: var(--green-medium);
             animation: happyWiggle 0.5s ease;
         }
 
-        /* Touch feedback for mobile */
         .emotion-option:active {
             transform: translateY(-2px) scale(0.98);
             transition: transform 0.1s ease;
@@ -382,12 +390,12 @@
 
         .emotion-option.selected {
             background: linear-gradient(135deg,
-            rgba(255, 215, 0, 0.2) 0%,
-            rgba(255, 248, 220, 0.95) 100%);
-            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3),
-            0 10px 20px rgba(255, 215, 0, 0.2);
+            rgba(100, 149, 237, 0.2) 0%,
+            rgba(245, 245, 220, 0.95) 100%);
+            box-shadow: 0 0 0 3px rgba(100, 149, 237, 0.3),
+            0 10px 20px rgba(100, 149, 237, 0.2);
             transform: scale(1.03);
-            border-left-color: var(--coral);
+            border-left-color: var(--accent-blue);
         }
 
         .emotion-emoji {
@@ -418,7 +426,6 @@
             overflow-wrap: break-word;
         }
 
-        /* Coping Strategies - Sunshine Cards */
         .coping-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -430,12 +437,12 @@
         .coping-card {
             background: linear-gradient(135deg,
             rgba(255, 255, 255, 0.95) 0%,
-            rgba(255, 248, 220, 0.95) 100%);
+            rgba(245, 245, 220, 0.95) 100%);
             padding: 25px 20px;
             border-radius: 20px;
             transition: var(--transition);
-            box-shadow: 0 10px 20px rgba(255, 140, 0, 0.15);
-            border-top: 8px solid var(--sunshine-yellow);
+            box-shadow: 0 10px 20px rgba(100, 149, 237, 0.15);
+            border-top: 8px solid var(--light-blue-3);
             position: relative;
             overflow: hidden;
             backdrop-filter: blur(10px);
@@ -450,20 +457,20 @@
             width: 100%;
             height: 4px;
             background: linear-gradient(90deg,
-            var(--sunshine-yellow),
-            var(--flower-pink),
-            var(--turquoise),
-            var(--lavender-purple));
+            var(--light-blue-3),
+            var(--accent-beige),
+            var(--green-medium),
+            var(--accent-blue));
             animation: rainbowLine 3s infinite linear;
         }
 
         .coping-card:hover {
             transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(255, 140, 0, 0.25);
+            box-shadow: 0 15px 30px rgba(100, 149, 237, 0.25);
         }
 
         .coping-card h3 {
-            color: var(--sunshine-orange);
+            color: var(--accent-blue);
             margin-bottom: 15px;
             font-size: 1.3rem;
             display: flex;
@@ -474,7 +481,7 @@
         }
 
         .coping-card h3 i {
-            background: linear-gradient(135deg, var(--flower-pink), var(--lavender-purple));
+            background: linear-gradient(135deg, var(--accent-beige), var(--accent-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-size: 1.5rem;
@@ -488,16 +495,15 @@
             overflow-wrap: break-word;
         }
 
-        /* Music Player - Rainbow Theme */
         .music-player {
             background: linear-gradient(135deg,
             rgba(255, 255, 255, 0.95) 0%,
-            rgba(255, 248, 220, 0.95) 100%);
+            rgba(245, 245, 220, 0.95) 100%);
             padding: 25px 20px;
             border-radius: 20px;
             margin: 30px 0;
-            box-shadow: 0 12px 25px rgba(255, 140, 0, 0.2);
-            border: 3px solid var(--sunshine-yellow);
+            box-shadow: 0 12px 25px rgba(100, 149, 237, 0.2);
+            border: 3px solid var(--light-blue-3);
             backdrop-filter: blur(10px);
             width: 100%;
         }
@@ -512,11 +518,11 @@
 
         .song-item {
             background: linear-gradient(135deg,
-            rgba(255, 215, 0, 0.1) 0%,
-            rgba(255, 248, 220, 0.9) 100%);
+            rgba(100, 149, 237, 0.1) 0%,
+            rgba(245, 245, 220, 0.9) 100%);
             border-radius: 15px;
             transition: var(--transition);
-            border-left: 6px solid var(--lavender-purple);
+            border-left: 6px solid var(--accent-blue);
             position: relative;
             overflow: hidden;
             border: 2px solid transparent;
@@ -525,16 +531,16 @@
 
         .song-item:hover {
             transform: translateY(-5px) rotate(1deg);
-            box-shadow: 0 15px 30px rgba(147, 112, 219, 0.25);
-            border-color: var(--flower-pink);
+            box-shadow: 0 15px 30px rgba(100, 149, 237, 0.25);
+            border-color: var(--accent-beige);
         }
 
         .song-item.active {
             background: linear-gradient(135deg,
             rgba(255, 255, 255, 0.95) 0%,
-            rgba(255, 240, 245, 0.95) 100%);
-            border-left-color: var(--flower-pink);
-            box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.3);
+            rgba(230, 243, 255, 0.95) 100%);
+            border-left-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(100, 149, 237, 0.3);
         }
 
         .song-info {
@@ -549,14 +555,14 @@
             font-size: 1.2rem;
             font-weight: 800;
             margin-bottom: 8px;
-            color: var(--sunshine-orange);
+            color: var(--accent-blue);
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
 
         .song-artist {
             font-size: 1rem;
-            color: var(--lavender-purple);
+            color: var(--accent-blue);
             margin-bottom: 8px;
             font-weight: 600;
             word-wrap: break-word;
@@ -565,7 +571,7 @@
 
         .song-help {
             font-size: 0.9rem;
-            color: var(--turquoise);
+            color: var(--green-dark);
             font-style: italic;
             margin-bottom: 15px;
             line-height: 1.4;
@@ -577,7 +583,7 @@
             width: 100%;
             height: 152px;
             border: none;
-            border-top: 2px solid rgba(255, 215, 0, 0.3);
+            border-top: 2px solid rgba(100, 149, 237, 0.3);
             display: block;
         }
 
@@ -587,14 +593,14 @@
 
         .auto-play-notice {
             background: linear-gradient(135deg,
-            rgba(255, 215, 0, 0.2),
-            rgba(147, 112, 219, 0.15));
+            rgba(100, 149, 237, 0.2),
+            rgba(124, 196, 127, 0.15));
             padding: 15px;
             border-radius: 15px;
             margin-top: 20px;
             font-size: 0.9rem;
-            color: var(--lavender-purple);
-            border-left: 4px solid var(--flower-pink);
+            color: var(--accent-blue);
+            border-left: 4px solid var(--accent-beige);
             display: flex;
             align-items: center;
             gap: 15px;
@@ -605,23 +611,22 @@
 
         .auto-play-notice i {
             font-size: 1.2rem;
-            background: linear-gradient(135deg, var(--flower-pink), var(--lavender-purple));
+            background: linear-gradient(135deg, var(--accent-beige), var(--accent-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: spin 4s infinite linear;
             flex-shrink: 0;
         }
 
-        /* Games Section - Playful Theme */
         .games-section {
             background: linear-gradient(135deg,
             rgba(255, 255, 255, 0.95) 0%,
-            rgba(255, 248, 220, 0.95) 100%);
+            rgba(245, 245, 220, 0.95) 100%);
             padding: 25px 20px;
             border-radius: 20px;
             margin: 30px 0;
-            box-shadow: 0 15px 30px rgba(255, 140, 0, 0.2);
-            border: 3px dotted var(--sunshine-yellow);
+            box-shadow: 0 15px 30px rgba(100, 149, 237, 0.2);
+            border: 3px dotted var(--light-blue-3);
             backdrop-filter: blur(10px);
             width: 100%;
         }
@@ -640,13 +645,13 @@
 
         .game-card {
             background: linear-gradient(135deg,
-            rgba(255, 215, 0, 0.15) 0%,
-            rgba(255, 248, 220, 0.9) 100%);
+            rgba(100, 149, 237, 0.15) 0%,
+            rgba(245, 245, 220, 0.9) 100%);
             padding: 25px 20px;
             border-radius: 20px;
             cursor: pointer;
             transition: var(--transition);
-            box-shadow: 0 10px 20px rgba(255, 140, 0, 0.15);
+            box-shadow: 0 10px 20px rgba(100, 149, 237, 0.15);
             text-align: center;
             height: 100%;
             display: flex;
@@ -669,19 +674,18 @@
             width: 100%;
             height: 6px;
             background: linear-gradient(90deg,
-            var(--sunshine-yellow),
-            var(--flower-pink),
-            var(--turquoise));
+            var(--light-blue-3),
+            var(--accent-beige),
+            var(--green-medium));
             animation: rainbowLine 2s infinite linear;
         }
 
         .game-card:hover {
             transform: translateY(-8px) scale(1.03) rotate(2deg);
-            box-shadow: 0 20px 40px rgba(255, 140, 0, 0.3);
-            border-color: var(--sunshine-yellow);
+            box-shadow: 0 20px 40px rgba(100, 149, 237, 0.3);
+            border-color: var(--light-blue-3);
         }
 
-        /* Touch feedback for mobile */
         .game-card:active {
             transform: translateY(-2px) scale(0.98);
             transition: transform 0.1s ease;
@@ -689,7 +693,7 @@
 
         .game-card i {
             font-size: 2.5rem;
-            background: linear-gradient(135deg, var(--sunshine-yellow), var(--coral));
+            background: linear-gradient(135deg, var(--light-blue-3), var(--accent-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 15px;
@@ -703,7 +707,7 @@
 
         .game-card h3 {
             font-size: 1.3rem;
-            color: var(--sunshine-orange);
+            color: var(--accent-blue);
             margin-bottom: 15px;
             word-wrap: break-word;
             overflow-wrap: break-word;
@@ -717,20 +721,19 @@
             overflow-wrap: break-word;
         }
 
-        /* Save Button - Sunshine Button */
         .save-section {
             text-align: center;
             margin-top: 40px;
             padding-top: 25px;
-            border-top: 3px dashed var(--sunshine-yellow);
+            border-top: 3px dashed var(--light-blue-3);
             width: 100%;
         }
 
         .save-btn {
             background: linear-gradient(135deg,
-            var(--sunshine-yellow),
-            var(--sunshine-orange),
-            var(--flower-pink));
+            var(--light-blue-3),
+            var(--accent-blue),
+            var(--green-medium));
             color: white;
             border: none;
             padding: 15px 30px;
@@ -739,7 +742,7 @@
             cursor: pointer;
             transition: var(--transition);
             font-weight: 800;
-            box-shadow: 0 8px 20px rgba(255, 140, 0, 0.4);
+            box-shadow: 0 8px 20px rgba(100, 149, 237, 0.4);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -775,21 +778,19 @@
 
         .save-btn:hover {
             transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 30px rgba(255, 105, 180, 0.5);
+            box-shadow: 0 15px 30px rgba(124, 196, 127, 0.5);
             background: linear-gradient(135deg,
-            var(--flower-pink),
-            var(--sunshine-orange),
-            var(--sunshine-yellow));
+            var(--green-medium),
+            var(--accent-blue),
+            var(--light-blue-3));
             animation: happyDance 0.5s ease;
         }
 
-        /* Touch feedback for mobile */
         .save-btn:active {
             transform: translateY(-2px) scale(0.98);
             transition: transform 0.1s ease;
         }
 
-        /* Footer - Rainbow Footer */
         footer {
             margin-top: 40px;
             text-align: center;
@@ -800,31 +801,30 @@
             max-width: 1200px;
             background: linear-gradient(135deg,
             rgba(255, 255, 255, 0.95) 0%,
-            rgba(255, 248, 220, 0.95) 100%);
+            rgba(245, 245, 220, 0.95) 100%);
             border-radius: 20px;
-            box-shadow: 0 12px 25px rgba(255, 215, 0, 0.2);
-            border-top: 6px solid var(--sunshine-yellow);
-            border-bottom: 6px solid var(--turquoise);
+            box-shadow: 0 12px 25px rgba(100, 149, 237, 0.2);
+            border-top: 6px solid var(--light-blue-3);
+            border-bottom: 6px solid var(--green-medium);
             backdrop-filter: blur(10px);
         }
 
         .emergency-contact {
             background: linear-gradient(135deg,
-            rgba(255, 105, 180, 0.15) 0%,
-            rgba(135, 206, 235, 0.15) 100%);
+            rgba(196, 183, 166, 0.15) 0%,
+            rgba(100, 149, 237, 0.15) 100%);
             padding: 20px;
             border-radius: 15px;
             margin-top: 20px;
             font-weight: 700;
-            color: var(--sunshine-orange);
+            color: var(--accent-blue);
             font-size: 1rem;
-            border: 3px solid var(--sunshine-yellow);
-            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.2);
+            border: 3px solid var(--light-blue-3);
+            box-shadow: 0 8px 20px rgba(100, 149, 237, 0.2);
             word-wrap: break-word;
             overflow-wrap: break-word;
         }
 
-        /* Game Popups - Bright Game Windows */
         .game-popup {
             position: fixed;
             top: 0;
@@ -832,8 +832,8 @@
             width: 100%;
             height: 100%;
             background: radial-gradient(circle at center,
-            rgba(255, 215, 0, 0.95) 0%,
-            rgba(255, 140, 0, 0.9) 100%);
+            rgba(100, 149, 237, 0.95) 0%,
+            rgba(124, 196, 127, 0.9) 100%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -852,7 +852,7 @@
         .game-content {
             background: linear-gradient(135deg,
             rgba(255, 255, 255, 0.98) 0%,
-            rgba(255, 248, 220, 0.98) 100%);
+            rgba(245, 245, 220, 0.98) 100%);
             padding: 25px 20px;
             border-radius: 25px;
             max-width: 95%;
@@ -861,7 +861,7 @@
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
             max-height: 90vh;
             overflow-y: auto;
-            border: 6px solid var(--sunshine-yellow);
+            border: 6px solid var(--light-blue-3);
             position: relative;
             backdrop-filter: blur(20px);
             -webkit-overflow-scrolling: touch;
@@ -871,7 +871,7 @@
             position: absolute;
             top: 15px;
             right: 15px;
-            background: linear-gradient(135deg, var(--flower-pink), var(--lavender-purple));
+            background: linear-gradient(135deg, var(--accent-beige), var(--accent-blue));
             border: none;
             color: white;
             font-size: 2rem;
@@ -892,20 +892,19 @@
 
         .close-game:hover {
             transform: scale(1.2) rotate(90deg);
-            background: linear-gradient(135deg, var(--coral), var(--flower-pink));
+            background: linear-gradient(135deg, var(--accent-blue), var(--green-medium));
         }
 
-        /* Number Find Game - Sunshine Game */
         .number-game-container {
             background: linear-gradient(135deg,
             rgba(255, 255, 255, 0.95) 0%,
-            rgba(255, 248, 220, 0.95) 100%);
+            rgba(245, 245, 220, 0.95) 100%);
             width: 100%;
             padding: 20px;
             border-radius: 20px;
-            box-shadow: 0 15px 30px rgba(255, 140, 0, 0.2);
+            box-shadow: 0 15px 30px rgba(100, 149, 237, 0.2);
             margin: 0 auto;
-            border: 4px solid var(--sunshine-yellow);
+            border: 4px solid var(--light-blue-3);
         }
 
         .number-game-header {
@@ -916,8 +915,8 @@
             margin: 0;
             font-size: 1.5rem;
             font-weight: 800;
-            color: var(--sunshine-orange);
-            background: linear-gradient(135deg, var(--sunshine-yellow), var(--coral));
+            color: var(--accent-blue);
+            background: linear-gradient(135deg, var(--light-blue-3), var(--accent-blue));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             word-wrap: break-word;
@@ -927,7 +926,7 @@
         .number-game-header p {
             margin: 8px 0 0;
             font-size: 1rem;
-            color: var(--lavender-purple);
+            color: var(--accent-blue);
             font-weight: 600;
             word-wrap: break-word;
             overflow-wrap: break-word;
@@ -939,12 +938,12 @@
             margin-bottom: 20px;
             padding: 15px;
             background: linear-gradient(135deg,
-            rgba(255, 215, 0, 0.15),
-            rgba(255, 248, 220, 0.8));
+            rgba(100, 149, 237, 0.15),
+            rgba(245, 245, 220, 0.8));
             border-radius: 15px;
             font-weight: 700;
             font-size: 1rem;
-            border: 2px solid var(--sunshine-yellow);
+            border: 2px solid var(--light-blue-3);
             flex-wrap: wrap;
             gap: 10px;
         }
@@ -960,8 +959,8 @@
             height: 50px;
             border-radius: 12px;
             background: linear-gradient(135deg,
-            rgba(255, 215, 0, 0.2),
-            rgba(255, 248, 220, 0.9));
+            rgba(100, 149, 237, 0.2),
+            rgba(245, 245, 220, 0.9));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -969,30 +968,29 @@
             font-size: 1.1rem;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            color: var(--sunshine-orange);
-            border: 2px solid var(--sunshine-yellow);
-            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.2);
+            color: var(--accent-blue);
+            border: 2px solid var(--light-blue-3);
+            box-shadow: 0 4px 10px rgba(100, 149, 237, 0.2);
             touch-action: manipulation;
             min-height: 44px;
             min-width: 44px;
         }
 
         .number-game-tile:hover {
-            background: linear-gradient(135deg, var(--sunshine-yellow), var(--sunshine-orange));
+            background: linear-gradient(135deg, var(--light-blue-3), var(--accent-blue));
             transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 15px rgba(255, 140, 0, 0.3);
+            box-shadow: 0 8px 15px rgba(100, 149, 237, 0.3);
             color: white;
             border-color: white;
         }
 
-        /* Touch feedback for mobile */
         .number-game-tile:active {
             transform: translateY(-1px) scale(0.98);
             transition: transform 0.1s ease;
         }
 
         .number-game-tile.correct {
-            background: linear-gradient(135deg, var(--grass-green), #32CD32);
+            background: linear-gradient(135deg, var(--green-medium), #32CD32);
             color: white;
             cursor: default;
             transform: scale(0.95);
@@ -1012,7 +1010,7 @@
 
         .number-game-finish {
             font-weight: 800;
-            color: var(--grass-green);
+            color: var(--green-dark);
             margin-bottom: 15px;
             font-size: 1.1rem;
             animation: celebrateText 1s infinite;
@@ -1021,7 +1019,6 @@
             padding: 0 10px;
         }
 
-        /* Color Match Game - Rainbow Colors */
         .color-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -1046,15 +1043,14 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
 
-        /* Touch feedback for mobile */
         .color-btn:active {
             transform: scale(1.05) rotate(2deg);
             transition: transform 0.1s ease;
         }
 
         .color-btn.active {
-            border: 4px solid var(--sunshine-orange);
-            box-shadow: 0 0 0 6px var(--sunshine-yellow);
+            border: 4px solid var(--accent-blue);
+            box-shadow: 0 0 0 6px var(--light-blue-3);
             animation: pulseColor 1s infinite;
         }
 
@@ -1085,17 +1081,16 @@
         .stat-value {
             font-size: 1.5rem;
             font-weight: 800;
-            color: var(--sunshine-orange);
+            color: var(--accent-blue);
             margin-bottom: 5px;
         }
 
         .stat-label {
             font-size: 0.9rem;
-            color: var(--lavender-purple);
+            color: var(--accent-blue);
             font-weight: 600;
         }
 
-        /* Larger screens adjustments */
         @media (min-width: 768px) {
             :root {
                 font-size: 18px;
@@ -1132,8 +1127,8 @@
             }
 
             .mood-buttons {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 25px;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 20px;
                 margin: 30px 0;
             }
 
@@ -1325,7 +1320,7 @@
 
         @media (min-width: 992px) {
             .mood-buttons {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(5, 1fr);
             }
 
             .emotion-grid {
@@ -1343,7 +1338,7 @@
 
         @media (max-width: 480px) {
             .mood-buttons {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
                 gap: 12px;
             }
 
@@ -1453,8 +1448,8 @@
             }
 
             .mood-buttons {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 10px;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 8px;
                 margin: 15px 0;
             }
 
@@ -1551,66 +1546,66 @@
         }
 
         @keyframes pulseColor {
-            0% { box-shadow: 0 0 0 0 rgba(255, 140, 0, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(255, 140, 0, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 140, 0, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(100, 149, 237, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(100, 149, 237, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(100, 149, 237, 0); }
         }
 
         @keyframes rainbowBorder {
-            0% { border-color: var(--sunshine-yellow); }
-            25% { border-color: var(--flower-pink); }
-            50% { border-color: var(--turquoise); }
-            75% { border-color: var(--lavender-purple); }
-            100% { border-color: var(--sunshine-yellow); }
+            0% { border-color: var(--light-blue-3); }
+            25% { border-color: var(--accent-beige); }
+            50% { border-color: var(--green-medium); }
+            75% { border-color: var(--accent-blue); }
+            100% { border-color: var(--light-blue-3); }
         }
 
-        /* Emotion-specific colors */
+        /* UPDATED Emotion-specific colors */
         .happy-color {
-            border-bottom-color: var(--sunshine-yellow);
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 248, 220, 0.9));
+            border-bottom-color: var(--light-blue-3);
+            background: linear-gradient(135deg, rgba(100, 149, 237, 0.1), rgba(245, 245, 220, 0.9));
         }
         .sad-color {
-            border-bottom-color: var(--sky-blue);
-            background: linear-gradient(135deg, rgba(135, 206, 235, 0.1), rgba(255, 248, 220, 0.9));
+            border-bottom-color: var(--light-blue-2);
+            background: linear-gradient(135deg, rgba(179, 217, 255, 0.1), rgba(245, 245, 220, 0.9));
         }
         .angry-color {
-            border-bottom-color: var(--coral);
-            background: linear-gradient(135deg, rgba(255, 127, 80, 0.1), rgba(255, 248, 220, 0.9));
+            border-bottom-color: var(--accent-blue);
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(245, 245, 220, 0.9));
         }
         .anxious-color {
-            border-bottom-color: var(--lavender-purple);
-            background: linear-gradient(135deg, rgba(147, 112, 219, 0.1), rgba(255, 248, 220, 0.9));
+            border-bottom-color: var(--green-medium);
+            background: linear-gradient(135deg, rgba(163, 217, 165, 0.1), rgba(245, 245, 220, 0.9));
         }
         .overwhelmed-color {
-            border-bottom-color: var(--sunshine-orange);
-            background: linear-gradient(135deg, rgba(255, 140, 0, 0.1), rgba(255, 248, 220, 0.9));
+            border-bottom-color: var(--accent-blue);
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(245, 245, 220, 0.9));
         }
         .lonely-color {
-            border-bottom-color: var(--turquoise);
-            background: linear-gradient(135deg, rgba(64, 224, 208, 0.1), rgba(255, 248, 220, 0.9));
+            border-bottom-color: var(--beige-dark);
+            background: linear-gradient(135deg, rgba(210, 210, 163, 0.1), rgba(245, 245, 220, 0.9));
         }
         .tired-color {
-            border-bottom-color: var(--grass-green);
-            background: linear-gradient(135deg, rgba(124, 252, 0, 0.1), rgba(255, 248, 220, 0.9));
+            border-bottom-color: var(--green-dark);
+            background: linear-gradient(135deg, rgba(123, 196, 127, 0.1), rgba(245, 245, 220, 0.9));
         }
         .calm-color {
-            border-bottom-color: var(--sky-blue);
-            background: linear-gradient(135deg, rgba(135, 206, 235, 0.1), rgba(255, 248, 220, 0.9));
+            border-bottom-color: var(--light-blue-1);
+            background: linear-gradient(135deg, rgba(230, 243, 255, 0.1), rgba(245, 245, 220, 0.9));
         }
         .unknown-color {
-            border-bottom-color: var(--flower-pink);
-            background: linear-gradient(135deg, rgba(255, 105, 180, 0.1), rgba(255, 248, 220, 0.9));
+            border-bottom-color: var(--accent-beige);
+            background: linear-gradient(135deg, rgba(196, 183, 166, 0.1), rgba(245, 245, 220, 0.9));
         }
 
-        /* Game-specific colors for color game */
-        .game-color-1 { background-color: var(--sunshine-yellow); }
-        .game-color-2 { background-color: var(--flower-pink); }
-        .game-color-3 { background-color: var(--turquoise); }
-        .game-color-4 { background-color: var(--grass-green); }
-        .game-color-5 { background-color: var(--lavender-purple); }
-        .game-color-6 { background-color: var(--sky-blue); }
-        .game-color-7 { background-color: var(--coral); }
-        .game-color-8 { background-color: var(--sunshine-orange); }
+        /* Game-specific colors updated */
+        .game-color-1 { background-color: var(--light-blue-3); }
+        .game-color-2 { background-color: var(--accent-beige); }
+        .game-color-3 { background-color: var(--green-medium); }
+        .game-color-4 { background-color: var(--green-dark); }
+        .game-color-5 { background-color: var(--accent-blue); }
+        .game-color-6 { background-color: var(--light-blue-2); }
+        .game-color-7 { background-color: var(--beige-dark); }
+        .game-color-8 { background-color: var(--light-blue-1); }
 
         /* iOS specific fixes */
         @supports (-webkit-touch-callout: none) {
@@ -1628,7 +1623,6 @@
             }
         }
 
-        /* Prevent zoom on input focus for mobile */
         @media screen and (max-width: 768px) {
             input, select, textarea {
                 font-size: 16px !important;
@@ -1639,9 +1633,9 @@
 </head>
 <body>
 
-<!-- EXISTING APP CONTENT - UNCHANGED -->
 <div class="container" id="appContainer">
     <!-- Page 1: Quick Emotion Selection -->
+    <!-- UPDATED: Reordered mood buttons to have 5 in first row, 4 in second row -->
     <section class="page active" id="page1">
         <header>
             <h1><i class="fas fa-heart"></i> MoodSpace</h1>
@@ -1650,6 +1644,7 @@
         </header>
 
         <div class="mood-buttons">
+            <!-- First Row: 5 buttons -->
             <button class="big-mood-btn happy-color" data-emotion="happy">
                 <i class="fas fa-smile-beam"></i>
                 <span>Happy 😊</span>
@@ -1675,6 +1670,7 @@
                 <span>Overwhelmed 🌪️</span>
             </button>
 
+            <!-- Second Row: 4 buttons -->
             <button class="big-mood-btn lonely-color" data-emotion="lonely">
                 <i class="fas fa-user-alone"></i>
                 <span>Lonely 🌙</span>
@@ -1690,7 +1686,6 @@
                 <span>Calm/Peaceful 🌿</span>
             </button>
 
-            <!-- NEW: "I don't know" emotion button -->
             <button class="big-mood-btn unknown-color" data-emotion="unknown">
                 <i class="fas fa-question-circle"></i>
                 <span>I'm Not Sure 🤔</span>
@@ -1699,7 +1694,8 @@
 
         <footer>
             <p>Welcome to your mood space! Even cloudy feelings look brighter here! ☁️➡️☀️</p>
-            <div class="emergency-contact (counselors number)">
+            <div class="emergency-contact">
+                If you need immediate help, contact a mental health professional. You're not alone. 💙
             </div>
         </footer>
     </section>
@@ -1798,7 +1794,7 @@
             <div class="number-game-footer">
                 <div class="number-game-finish" id="finishMsg"></div>
                 <button class="save-btn" id="restartNumberGame">Play Again! 🔄</button>
-                <button class="save-btn" style="margin-top: 15px; background: linear-gradient(135deg, var(--lavender-purple), var(--sky-blue));" id="closeNumberFind">
+                <button class="save-btn" style="margin-top: 15px; background: linear-gradient(135deg, var(--accent-blue), var(--light-blue-2));" id="closeNumberFind">
                     Back to MoodSpace! ☀️
                 </button>
             </div>
@@ -1835,7 +1831,7 @@
             </div>
         </div>
 
-        <button class="save-btn" style="margin-top: 25px; background: linear-gradient(135deg, var(--flower-pink), var(--lavender-purple));" id="closeColorGame">
+        <button class="save-btn" style="margin-top: 25px; background: linear-gradient(135deg, var(--accent-beige), var(--accent-blue));" id="closeColorGame">
             Back to Rainbow! 🌈
         </button>
     </div>
@@ -1861,7 +1857,7 @@
             lastTouchEnd = now;
         }, false);
 
-        // Initialize main app (your existing app)
+        // Initialize main app
         function initMainApp() {
             // Updated emotion data with "I don't know" option
             const emotions = {
@@ -1921,7 +1917,6 @@
                     { name: "Relaxed Ocean 🌊", emoji: "🪷", specifics: "At Rest, Unwound" },
                     { name: "Balanced Scale ⚖️", emoji: "⚖️", specifics: "Harmonious, Steady" }
                 ],
-                // NEW: "I don't know" emotion options
                 unknown: [
                     { name: "Confused Puzzle 🧩", emoji: "🤔", specifics: "Uncertain, Puzzled" },
                     { name: "Blank Canvas 🎨", emoji: "😐", specifics: "Empty, No Clear Feeling" },
@@ -1931,7 +1926,7 @@
                 ]
             };
 
-            // Updated coping strategies with "I don't know" options - with sunshine theme
+            // Updated coping strategies with "I don't know" options
             const copingStrategies = {
                 happy: [
                     { title: "🌻 Share the Happiness!", description: "Text a friend about something good that happened. Happiness grows when shared like sunshine!" },
@@ -1949,9 +1944,9 @@
                     { title: "🎨 Anger Art", description: "Draw your anger with bright colors on paper. No one sees it but you!" }
                 ],
                 anxious: [
-                    { title: "🌿 Grounding Exercise", description: "Name: 5 yellow things you see, 4 soft things you feel, 3 happy sounds, 2 nice smells, 1 taste you like." },
+                    { title: "🌿 Grounding Exercise", description: "Name: 5 blue things you see, 4 soft things you feel, 3 happy sounds, 2 nice smells, 1 taste you like." },
                     { title: "🛡️ Safety Check", description: "Ask: 'Am I actually in danger right now, or just uncomfortable?' Look for evidence of safety." },
-                    { title: "🌬️ Calm Breathing", description: "Breathe in camly for 4 counts, hold the light for 4, exhale clouds for 6. Repeat 5 times." }
+                    { title: "🌬️ Calm Breathing", description: "Breathe in calmly for 4 counts, hold the light for 4, exhale clouds for 6. Repeat 5 times." }
                 ],
                 overwhelmed: [
                     { title: "🎯 One Sunbeam Only", description: "Close all tabs, put away everything except ONE small task. Focus on just that sunbeam!" },
@@ -1973,7 +1968,6 @@
                     { title: "🌸 Gentle Movement", description: "Do some slow stretching or take a gentle walk to maintain this sunny state." },
                     { title: "📝 Happiness Journal", description: "Write a few notes about what helped you reach this calm state for future reference." }
                 ],
-                // NEW: Coping strategies for "I don't know"
                 unknown: [
                     { title: "🔍 Gentle Curiosity", description: "Instead of trying to name the feeling, just notice where in your body you feel something. No judgment!" },
                     { title: "🔄 Permission to Not Know", description: "Say to yourself: 'It's okay that I don't know how I feel right now. I don't need to figure it out.'" },
@@ -1981,9 +1975,7 @@
                 ]
             };
 
-            // Updated songs with working Spotify track IDs - Happy, uplifting songs!
-            // Updated songs with working Spotify track IDs - using specified songs only
-            // Final updated songs with working Spotify track IDs
+            // Updated songs with working Spotify track IDs
             const songs = {
                 happy: [
                     {
@@ -2097,8 +2089,7 @@
                         artist: "Coldplay",
                         spotifyId: "7LVHVU3tWfcxj5aiPFEW4Q",
                         help: "Feels like quiet emotional support, reminding you that help exists even when you feel isolated 🌙🤍"
-                    }
-                    ,
+                    },
                     {
                         title: "Someone To Stay",
                         artist: "Vancouver Sleep Clinic",
@@ -2138,8 +2129,7 @@
                         artist: "John Legend",
                         spotifyId: "3U4isOIWM3VvDubwSI3y7a",
                         help: "Warm, soulful calm that feels steady, grounding, and emotionally safe 🌿🤍"
-                    }
-                    ,
+                    },
                     {
                         title: "Pink + White",
                         artist: "Frank Ocean",
@@ -2174,7 +2164,7 @@
             let selectedSpecificEmotion = null;
             let currentlyActiveSong = null;
 
-            // Game state variables for number game
+            // Game state variables
             let numberGame = {
                 current: 1,
                 startTime: null,
@@ -2202,10 +2192,9 @@
 
             // Initialize
             function initApp() {
-                // Set up mood buttons - auto-navigate to page 2 when clicked
+                // Set up mood buttons
                 moodButtons.forEach(btn => {
                     btn.addEventListener('click', function(e) {
-                        // Prevent multiple rapid clicks on mobile
                         if (e.type === 'touchstart') {
                             e.preventDefault();
                         }
@@ -2228,7 +2217,6 @@
                             loadPage2();
                             page1.classList.remove('active');
                             page2.classList.add('active');
-                            // Scroll to top on page change
                             window.scrollTo(0, 0);
                         }, 300);
                     });
@@ -2243,7 +2231,7 @@
                     });
                 });
 
-                // Back button at top - FIXED
+                // Back button at top
                 backToPage1Btn.addEventListener('click', function(e) {
                     if (e.type === 'touchstart') {
                         e.preventDefault();
@@ -2251,7 +2239,6 @@
                     page2.classList.remove('active');
                     page1.classList.add('active');
                     resetPage2();
-                    // Scroll to top on page change
                     window.scrollTo(0, 0);
                 });
 
@@ -2366,7 +2353,7 @@
                             <div class="song-title">${song.title}</div>
                             <div class="song-artist">${song.artist}</div>
                             <div class="song-help">${song.help}</div>
-                            <div style="margin-top: 10px; font-size: 0.9rem; color: var(--sunshine-orange); font-weight: 600;">
+                            <div style="margin-top: 10px; font-size: 0.9rem; color: var(--accent-blue); font-weight: 600;">
                                 <i class="fab fa-spotify"></i> Click to play any music! 🎶
                             </div>
                         </div>
@@ -2394,7 +2381,6 @@
                             currentlyActiveSong.classList.remove('active');
                             const activeIframe = currentlyActiveSong.querySelector('.spotify-player');
                             if (activeIframe) {
-                                // Reset the iframe to stop playback
                                 const src = activeIframe.src;
                                 activeIframe.src = '';
                                 setTimeout(() => {
@@ -2569,8 +2555,8 @@
                 gridEl.innerHTML = '';
 
                 const colors = [
-                    '#FFD700', '#FF69B4', '#40E0D0', '#7CFC00',
-                    '#9370DB', '#87CEEB', '#FF7F50', '#FF8C00'
+                    '#6495ED', '#C4B7A6', '#7BC47F', '#4CAF50',
+                    '#4A90E2', '#B3D9FF', '#D2D2A3', '#E6F3FF'
                 ];
 
                 // Shuffle colors
@@ -2633,8 +2619,8 @@
 
             function setNewTargetColor() {
                 const colors = [
-                    '#FFD700', '#FF69B4', '#40E0D0', '#7CFC00',
-                    '#9370DB', '#87CEEB', '#FF7F50', '#FF8C00'
+                    '#6495ED', '#C4B7A6', '#7BC47F', '#4CAF50',
+                    '#4A90E2', '#B3D9FF', '#D2D2A3', '#E6F3FF'
                 ];
 
                 // Pick a random color from the grid
