@@ -3374,8 +3374,9 @@
                 gridEl.innerHTML = '';
 
                 const colors = [
-                    '#6495ED', '#C4B7A6', '#7BC47F', '#4CAF50',
-                    '#4A90E2', '#B3D9FF', '#D2D2A3', '#E6F3FF'
+                    '#F57711', '#1421F5', '#F52188', '#4DF5E2',
+                    '#41F527', '#FFFD55', '#BC2CC9', '#F20000',
+                    '#EDF2F0', '#020303', '#F08784', '#00735B'
                 ];
 
                 // Shuffle colors
@@ -3438,8 +3439,9 @@
 
             function setNewTargetColor() {
                 const colors = [
-                    '#6495ED', '#C4B7A6', '#7BC47F', '#4CAF50',
-                    '#4A90E2', '#B3D9FF', '#D2D2A3', '#E6F3FF'
+                    '#F57711', '#1421F5', '#F52188', '#4DF5E2',
+                    '#41F527', '#FFFD55', '#BC2CC9', '#F20000',
+                    '#EDF2F0', '#020303', '#F08784', '#00735B'
                 ];
 
                 // Pick a random color from the grid
