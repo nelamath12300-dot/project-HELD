@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mind Library</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    :root{
+      --bg:#f0f7f0; /* Light green background */
+      --text:#1a2e1a; /* Dark green text */
+      --muted:#5a7a5a; /* Medium green muted */
+      --radius:20px;
+      --gap:24px;
+
+      --card:#ffffffc9;
+      --stroke:rgba(0,0,0,.06);
+      --shadow:0 12px 30px rgba(0,0,0,.10);
+
+      --cPW:#2e7d32; /* Dark green - Productive Worry */
+      --cCC:#388e3c; /* Medium green - Circle of Control */
+      --cBC:#43a047; /* Light green - Behavior Chain */
+      --cPP:#4caf50; /* Bright green - People Pleasing */
+    }
+
+    body{
+      background: linear-gradient(to bottom, #e8f5e9, #c8e6c9); /* Green gradient */
+      color:var(--text);
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      padding:28px 32px;
+      min-height:100vh;
+    }
+
+    .wrap{max-width:1200px;margin:0 auto}
+
+    .site-header{max-width:1200px;margin:0 auto 18px; position:relative;}
+    .site-header h1{
+      font-family:"Playfair Display", serif;
+      font-size:52px;
+      margin-bottom:6px;
+      letter-spacing:.2px;
+      color:#1b5e20; /* Dark green */
+    }
+    .subtitle{color:rgba(27, 94, 32, 0.7);font-size:15px;max-width:850px;line-height:1.45}
+
+    .back-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid #81c784; /* Light green border */
+      background:#e8f5e9; /* Very light green */
+      box-shadow:0 8px 18px rgba(76, 175, 80, 0.1);
+      cursor:pointer;
+      font-weight:600;
+      color:#1b5e20; /* Dark green text */
+      text-decoration:none;
+      width:max-content;
+      transition:.2s ease;
+      margin-bottom: 20px;
+    }
+    .back-btn:hover{
+      transform:translateY(-2px); 
+      background:#c8e6c9;
+      box-shadow:0 12px 24px rgba(76, 175, 80, 0.15);
+    }
+
+    /* GRID (now 4 cards total) */
+    .topic-grid{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns:repeat(4, minmax(220px, 1fr));
+      gap:22px;
+    }
+
+    /* Cards bigger like you asked */
+    .topic-card{
+      border-radius:22px;
+      padding:22px 22px;
+      background:rgba(255,255,255,.85);
+      border:1px solid #c8e6c9; /* Light green border */
+      box-shadow:0 10px 24px rgba(76, 175, 80, 0.08);
+      cursor:pointer;
+      transition:.25s ease;
+      min-height:170px;
+      position:relative;
+      overflow:hidden;
+      backdrop-filter: blur(10px);
+    }
+    .topic-card:hover{
+      transform:translateY(-6px);
+      box-shadow:0 18px 40px rgba(76, 175, 80, 0.15);
+      background:rgba(255,255,255,.95);
+    }
+
+    .topic-title{
+      font-weight:800;
+      font-size:20px;
+      margin-bottom:6px;
+      letter-spacing:.2px;
+      color:#1b5e20; /* Dark green */
+    }
+    .topic-sub{
+      color:rgba(27, 94, 32, 0.7);
+      font-size:14px;
+      line-height:1.35;
+      max-width:95%;
+    }
+
+    .mini-open{
+      margin-top:14px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      color:rgba(27, 94, 32, 0.7);
+      font-size:13px;
+      font-weight:600;
+    }
+    .mini-dot{
+      width:18px;height:18px;border-radius:999px;
+      background:rgba(76, 175, 80, 0.2);
+      display:grid;place-items:center;
+      font-size:12px;
+      color:#2e7d32;
+    }
+
+    .badge{
+      position:absolute;
+      right:16px;
+      top:16px;
+      width:40px;height:40px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      color:#fff;
+      font-weight:800;
+      font-size:13px;
+      box-shadow:0 10px 22px rgba(0,0,0,.12);
+    }
+
+    /* tiny floating glow */
+    .glow{
+      position:absolute;
+      inset:auto auto -60px -60px;
+      width:170px;height:170px;
+      border-radius:999px;
+      filter: blur(24px);
+      opacity:.35;
+      animation: floatGlow 6s ease-in-out infinite;
+    }
+    @keyframes floatGlow{
+      0%{transform:translate(0,0) scale(1)}
+      50%{transform:translate(18px,-12px) scale(1.06)}
+      100%{transform:translate(0,0) scale(1)}
+    }
+
+    /* Topic colors - all green variations */
+    .pw .badge{background:linear-gradient(135deg, var(--cPW), #1b5e20)} /* Dark green */
+    .cc .badge{background:linear-gradient(135deg, var(--cCC), #2e7d32)} /* Medium dark green */
+    .bc .badge{background:linear-gradient(135deg, var(--cBC), #388e3c)} /* Medium green */
+    .pp .badge{background:linear-gradient(135deg, var(--cPP), #43a047)} /* Light green */
+
+    .pw .glow{background:radial-gradient(circle, rgba(46, 125, 50, 0.9), transparent 60%)}
+    .cc .glow{background:radial-gradient(circle, rgba(56, 142, 60, 0.9), transparent 60%)}
+    .bc .glow{background:radial-gradient(circle, rgba(67, 160, 71, 0.9), transparent 60%)}
+    .pp .glow{background:radial-gradient(circle, rgba(76, 175, 80, 0.9), transparent 60%)}
+
+    /* Detail panel */
+    .detail-panel{
+      margin-top:22px;
+      background:rgba(255,255,255,.95);
+      border:1px solid #c8e6c9;
+      border-radius:26px;
+      box-shadow:0 18px 44px rgba(76, 175, 80, 0.15);
+      padding:28px;
+      display:none;
+      position:relative;
+      overflow:hidden;
+      backdrop-filter: blur(12px);
+    }
+    .detail-panel.active{display:block; animation: popIn .25s ease;}
+    @keyframes popIn{
+      from{transform:translateY(8px); opacity:.0}
+      to{transform:translateY(0); opacity:1}
+    }
+
+    .detail-title{
+      font-family:"Playfair Display", serif;
+      font-size:44px;
+      margin-bottom:6px;
+      letter-spacing:.2px;
+      color:#1b5e20;
+    }
+    .detail-lead{
+      color:rgba(27, 94, 32, 0.8);
+      font-size:14px;
+      line-height:1.5;
+      max-width:980px;
+    }
+
+    .close-btn{
+      position:absolute;
+      right:16px;
+      top:16px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid #81c784;
+      background:#e8f5e9;
+      cursor:pointer;
+      font-weight:700;
+      color:#1b5e20;
+      transition:.2s ease;
+    }
+    .close-btn:hover{
+      background:#c8e6c9; 
+      transform:translateY(-1px);
+      box-shadow:0 4px 12px rgba(76, 175, 80, 0.2);
+    }
+
+    /* content grid inside panel */
+    .detail-grid{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+
+    .info-card{
+      background:#f1f8e9; /* Light green background */
+      border:1px solid #c5e1a5; /* Light green border */
+      border-radius:18px;
+      padding:16px 16px;
+      box-shadow:0 10px 22px rgba(76, 175, 80, 0.08);
+      position:relative;
+      overflow:hidden;
+    }
+    .info-head{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:10px;
+    }
+    .info-dot{
+      width:10px;height:10px;border-radius:999px;
+      background:var(--cPW);
+      box-shadow:0 0 0 6px rgba(46, 125, 50, 0.2);
+      animation: dotPulse 2.6s ease-in-out infinite;
+    }
+    @keyframes dotPulse{
+      0%{transform:scale(.9); opacity:.7}
+      50%{transform:scale(1.12); opacity:1}
+      100%{transform:scale(.9); opacity:.7}
+    }
+    .info-title{
+      font-weight:800;
+      color:#1b5e20;
+      font-size:16px;
+    }
+    .info-text{
+      color:rgba(27, 94, 32, 0.8);
+      font-size:13.5px;
+      line-height:1.6;
+    }
+
+    ul.clean{
+      margin-top:8px;
+      padding-left:18px;
+      color:rgba(27, 94, 32, 0.8);
+      font-size:13.5px;
+      line-height:1.6;
+    }
+    ul.clean li{
+      margin-bottom:6px;
+      position:relative;
+    }
+    ul.clean li:before {
+      content: "•";
+      color: #4caf50;
+      font-weight: bold;
+      display: inline-block; 
+      width: 1em;
+      margin-left: -1em;
+    }
+
+    /* Interactive tools area */
+    .tools-area{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .tool-actions{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:4px;
+    }
+
+    .btn{
+      border:none;
+      cursor:pointer;
+      padding:10px 12px;
+      border-radius:14px;
+      font-weight:700;
+      font-size:13px;
+      transition:.2s ease;
+      background:rgba(46, 125, 50, 0.15);
+      color:#1b5e20;
+    }
+    .btn:hover{
+      transform:translateY(-1px); 
+      background:rgba(46, 125, 50, 0.25);
+      box-shadow:0 4px 12px rgba(46, 125, 50, 0.2);
+    }
+    .btn.secondary{
+      background:rgba(129, 199, 132, 0.2);
+      color:#1b5e20;
+    }
+
+    .progress-wrap{
+      width:260px;
+      max-width:100%;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+    .progress-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      font-size:12px;
+      color:rgba(27, 94, 32, 0.7);
+      font-weight:700;
+    }
+    .progress-bar{
+      width:100%;
+      height:10px;
+      border-radius:999px;
+      background:rgba(129, 199, 132, 0.3);
+      overflow:hidden;
+      position:relative;
+    }
+    .progress-fill{
+      height:100%;
+      width:0%;
+      border-radius:999px;
+      background:linear-gradient(90deg, var(--cPW), #66bb6a);
+      transition:width .35s ease;
+      position:relative;
+    }
+    .progress-fill::after{
+      content:"";
+      position:absolute;
+      top:-18px;
+      right:-14px;
+      width:38px;height:38px;
+      border-radius:999px;
+      background:radial-gradient(circle, rgba(102, 187, 106, 0.4), transparent 60%);
+      filter:blur(8px);
+      animation: sparkle 2.8s ease-in-out infinite;
+    }
+    @keyframes sparkle{
+      0%{transform:translateX(0); opacity:.35}
+      50%{transform:translateX(-6px); opacity:.8}
+      100%{transform:translateX(0); opacity:.35}
+    }
+
+    .checklist{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:6px;
+    }
+    .check{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding:10px 10px;
+      border-radius:14px;
+      border:1px solid #c5e1a5;
+      background:rgba(241, 248, 233, 0.8);
+      transition:.2s ease;
+    }
+    .check:hover{
+      transform:translateY(-1px); 
+      background:rgba(241, 248, 233, 1);
+      box-shadow:0 4px 12px rgba(76, 175, 80, 0.1);
+    }
+    .check input{
+      margin-top:2px;
+      width:18px;height:18px;
+      accent-color: var(--cPW);
+      cursor:pointer;
+    }
+    .check label{
+      cursor:pointer;
+      color:rgba(27, 94, 32, 0.8);
+      font-size:13.5px;
+      line-height:1.45;
+    }
+
+    .refs{
+      margin-top:16px;
+      color:rgba(27, 94, 32, 0.7);
+      font-size:12.5px;
+      line-height:1.5;
+      background:#e8f5e9;
+      padding:12px 16px;
+      border-radius:12px;
+      border:1px solid #c8e6c9;
+    }
+    .refs b{color:#1b5e20}
+
+    /* responsive */
+    @media(max-width:1050px){
+      .topic-grid{grid-template-columns:repeat(2, minmax(240px, 1fr));}
+      .detail-grid{grid-template-columns:1fr;}
+      .site-header h1{font-size:46px;}
+    }
+    @media(max-width:520px){
+      body{padding:18px 16px}
+      .site-header h1{font-size:40px}
+      .back-btn{transform:none; position:relative; margin-bottom:10px;}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <!-- Main view (4 tools grid) -->
+    <div id="mainView">
+      <div class="site-header">
+        <a class="back-btn" href="javascript:history.back()">← Back</a>
+        <h1>Mind Library</h1>
+        <p class="subtitle">
+          Tap any topic to open a detailed guide with practical steps and helpful references.
+        </p>
+      </div>
+
+      <div class="topic-grid">
+        <div class="topic-card pw" onclick="openTopic('pw')">
+          <div class="glow"></div>
+          <div class="badge">PW</div>
+          <div class="topic-title">Productive Worry</div>
+          <div class="topic-sub">Turn worry into a next-step plan instead of a spiral.</div>
+          <div class="mini-open"><span class="mini-dot">›</span> Tap to open</div>
+        </div>
+
+        <div class="topic-card cc" onclick="openTopic('cc')">
+          <div class="glow"></div>
+          <div class="badge">CC</div>
+          <div class="topic-title">Circle of Control</div>
+          <div class="topic-sub">Focus your energy on what you can actually change.</div>
+          <div class="mini-open"><span class="mini-dot">›</span> Tap to open</div>
+        </div>
+
+        <div class="topic-card bc" onclick="openTopic('bc')">
+          <div class="glow"></div>
+          <div class="badge">BC</div>
+          <div class="topic-title">Behavior Chain</div>
+          <div class="topic-sub">Understand what triggers your reactions and patterns.</div>
+          <div class="mini-open"><span class="mini-dot">›</span> Tap to open</div>
+        </div>
+
+        <div class="topic-card pp" onclick="openTopic('pp')">
+          <div class="glow"></div>
+          <div class="badge">PP</div>
+          <div class="topic-title">People Pleasing</div>
+          <div class="topic-sub">Learn to say yes without losing yourself.</div>
+          <div class="mini-open"><span class="mini-dot">›</span> Tap to open</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail view (single tool detail) -->
+    <div id="detailView" style="display: none;">
+      <button class="back-btn" onclick="closeTopic()" style="margin-bottom: 22px;">← Back to Tools</button>
+      
+      <div class="detail-panel active">
+        <button class="close-btn" onclick="closeTopic()">Close ×</button>
+
+        <div class="detail-title" id="detailTitle">Productive Worry</div>
+        <div class="detail-lead" id="detailLead">
+          Worry can feel like your brain is trying to protect you — but it often repeats the same fear without giving you a plan.
+          Productive worry helps you convert anxious thoughts into clear next steps, so your mind can finally rest.
+        </div>
+
+        <div class="detail-grid">
+          <div class="info-card" id="whatIsCard">
+            <div class="info-head">
+              <div class="info-dot"></div>
+              <div class="info-title">What is it?</div>
+            </div>
+            <div class="info-text" id="whatIsText">
+              Productive worry is a structured way of working with anxiety instead of fighting it. Many people try to "stop worrying"
+              by pushing thoughts away, distracting themselves, or endlessly analyzing every possible outcome. The problem is that worry
+              often returns stronger, because your brain thinks the topic is important and unresolved.
+              <br><br>
+              Productive worry separates worry into two parts: <b>(1) the worry itself</b> and <b>(2) the next step</b>.
+              Instead of repeating the fear in your head, you write it down clearly and ask: "Is there a useful action I can take right now?"
+              If yes, you choose the smallest possible step and do it. If no, you practice letting the uncertainty exist without solving it.
+              <br><br>
+              This method is helpful because worry is usually your mind's attempt to prepare, predict, and protect you. But when worry turns
+              into rumination, it stops being preparation and becomes mental looping. You might notice your thoughts going in circles like:
+              "What if I fail?" "What if something bad happens?" "What if I can't handle it?" The goal is not to pretend everything is fine.
+              The goal is to turn the mental noise into a clear plan.
+              <br><br>
+              Productive worry also reduces the "all-day anxiety effect." When worry runs in the background for hours, your body stays tense,
+              your focus drops, and you feel mentally exhausted. By giving worry a container (a short time + a written plan), you teach your
+              brain that it does not need to keep repeating the same message to get your attention.
+              <br><br>
+              Over time, productive worry builds confidence. You start trusting yourself: "Even if I feel anxious, I can handle it step by step."
+              That sense of control is what calms the nervous system — not perfect certainty.
+            </div>
+          </div>
+
+          <div class="info-card" id="whyCard">
+            <div class="info-head">
+              <div class="info-dot"></div>
+              <div class="info-title">Why it happens</div>
+            </div>
+            <div class="info-text" id="whyText">
+              Worry happens because your brain prefers certainty and safety. When something feels uncertain (future, health, exams, relationships,
+              money, family), your mind tries to reduce the discomfort by thinking more. It assumes: "If I keep analyzing, I will find the answer."
+              <br><br>
+              The nervous system also plays a role. When you feel threatened (even emotionally), your body can shift into a stress response.
+              Your heart rate increases, muscles tighten, and attention becomes narrow. In that state, the brain becomes more sensitive to danger
+              and more likely to imagine worst-case outcomes.
+              <br><br>
+              Worry is also reinforced by a short-term reward: it feels like you are doing something. Even if you don't solve the problem,
+              you may feel temporarily prepared. But because the worry doesn't create real action, the brain doesn't get closure — so it repeats.
+              <br><br>
+              Another reason is learned habit. If you grew up in an environment where mistakes were punished, or you were expected to "stay alert,"
+              your mind may have learned that worrying is responsible. In reality, responsibility is planning + action, not endless thinking.
+              <br><br>
+              Productive worry works because it gives your brain what it actually wants: a plan, a decision, or acceptance when a decision isn't possible.
+            </div>
+          </div>
+
+          <div class="info-card" id="signsCard">
+            <div class="info-head">
+              <div class="info-dot"></div>
+              <div class="info-title">Signs you may be stuck</div>
+            </div>
+            <div class="info-text">
+              <ul class="clean" id="signsList">
+                <li>The same thoughts repeat all day (even when nothing changes).</li>
+                <li>You feel tired but your mind keeps running in the background.</li>
+                <li>You jump to worst-case scenarios quickly.</li>
+                <li>You over-research or seek reassurance again and again.</li>
+                <li>You feel "busy in your head" but nothing gets solved.</li>
+                <li>You avoid starting a task because you want certainty first.</li>
+                <li>Your body feels tense (tight chest, stomach knots, headache).</li>
+                <li>You replay conversations and imagine what you "should have said."</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="info-card" id="toolsCard">
+            <div class="info-head">
+              <div class="info-dot"></div>
+              <div class="info-title">How to reduce it (Tools)</div>
+            </div>
+
+            <div class="tools-area">
+              <div class="info-text" id="toolsText">
+                Use these steps like a mini routine. You don't need to do them perfectly — just consistently.
+              </div>
+
+              <div class="checklist" id="pwChecklist">
+                <div class="check">
+                  <input type="checkbox" id="pw1" onchange="updateProgress('pw')">
+                  <label for="pw1"><b>Write the worry in ONE line</b> (simple + specific). Example: "I'm worried I'll mess up my presentation."</label>
+                </div>
+                <div class="check">
+                  <input type="checkbox" id="pw2" onchange="updateProgress('pw')">
+                  <label for="pw2"><b>Ask:</b> "Is this solvable right now?" (today / within 24 hours)</label>
+                </div>
+                <div class="check">
+                  <input type="checkbox" id="pw3" onchange="updateProgress('pw')">
+                  <label for="pw3"><b>If YES:</b> choose ONE next step (the smallest action). Example: "Make 3 bullet points."</label>
+                </div>
+                <div class="check">
+                  <input type="checkbox" id="pw4" onchange="updateProgress('pw')">
+                  <label for="pw4"><b>If NO:</b> write: "I can't solve this now. I will accept uncertainty for today."</label>
+                </div>
+                <div class="check">
+                  <input type="checkbox" id="pw5" onchange="updateProgress('pw')">
+                  <label for="pw5"><b>Schedule worry time</b> (10 minutes daily) instead of worrying all day.</label>
+                </div>
+                <div class="check">
+                  <input type="checkbox" id="pw6" onchange="updateProgress('pw')">
+                  <label for="pw6"><b>Return to the present:</b> take 3 slow breaths and do the next tiny task.</label>
+                </div>
+              </div>
+
+              <!-- Circle of Control Checklist -->
+              <div class="checklist" id="ccChecklist" style="display:none">
+                <div class="check">
+                  <input type="checkbox" id="cc1" onchange="updateProgress('cc')">
+                  <label for="cc1"><b>Draw three concentric circles</b> labeled: Control / Influence / Concern</label>
+                </div>
+                <div class="check">
+                  <input type="checkbox" id="cc2" onchange="updateProgress('cc')">
+                  <label for="cc2"><b>List current stressors</b> and place each in its proper circle</label>
+                </div>
+                <div class="check">
+                  <input type="checkbox" id="cc3" onchange="updateProgress('cc')">
+                  <label for="cc3"><b>Choose ONE item from Control circle</b> and define a small action step</label>
+                </div>
+                <div class="check">
+                  <input type="checkbox" id="cc4" onchange="updateProgress('cc')">
+                  <label for="cc4"><b>For Influence circle</b> identify who/what you can respectfully engage</label>
+                </div>
+                <div class="check">
+                  <input type="checkbox" id="cc5" onchange="updateProgress('cc')">
+                  <label for="cc5"><b>For Concern circle</b> practice letting go with a release phrase</label>
+                </div>
+                <div class="check">
+                  <input type="checkbox" id="cc6" onchange="updateProgress('cc')">
+                  <label for="cc6"><b>Redirect energy</b> from worrying to doing what you actually control</label>
+                </div>
+              </div>
+
+              <!-- Behavior Chain Checklist -->
+              <div class="checklist" id="bcChecklist" style="display:none">
+                <div class="check">
+                  <input type="checkbox" id="bc1" onchange="updateProgress('bc')">
+                  <label for="bc1"><b>Identify the target behavior</b> you want to understand or change</label>
+                </div>
+                <div class="check">
+                  <input type="checkbox" id="bc2" onchange="updateProgress('bc')">
+                  <label for="bc2"><b>Note the triggering situation</b> (time, place, people, internal state)</label>
+                </div>
+                <div class="check">
+                  <input type="checkbox" id="bc3" onchange="updateProgress('bc')">
+                  <label for="bc3"><b>Record thoughts & feelings</b> that occurred just before the behavior</label>
+                </div>
+                <div class="check">
+                  <input type="checkbox" id="bc4" onchange="updateProgress('bc')">
+                  <label for="bc4"><b>Identify the behavior itself</b> (what you actually did or didn't do)</label>
+                </div>
+                <div class="check">
+                  <input type="checkbox" id="bc5" onchange="updateProgress('bc')">
+                  <label for="bc5"><b>Note immediate consequences</b> (emotional relief, avoidance, reward)</label>
+                </div>
+                <div class="check">
+                  <input type="checkbox" id="bc6" onchange="updateProgress('bc')">
+                  <label for="bc6"><b>Plan an alternative behavior</b> for next time with same trigger</label>
+                </div>
+              </div>
+
+              <!-- People Pleasing Checklist -->
+              <div class="checklist" id="ppChecklist" style="display:none">
+                <div class="check">
+                  <input type="checkbox" id="pp1" onchange="updateProgress('pp')">
+                  <label for="pp1"><b>Pause before responding</b> to any request (take 3 deep breaths)</label>
+                </div>
+                <div class="check">
+                  <input type="checkbox" id="pp2" onchange="updateProgress('pp')">
+                  <label for="pp2"><b>Ask yourself:</b> "Do I actually want to do this, or am I saying yes out of obligation?"</label>
+                </div>
+                <div class="check">
+                  <input type="checkbox" id="pp3" onchange="updateProgress('pp')">
+                  <label for="pp3"><b>Practice a polite decline</b> using simple phrases like "I can't this time"</label>
+                </div>
+                <div class="check">
+                  <input type="checkbox" id="pp4" onchange="updateProgress('pp')">
+                  <label for="pp4"><b>Set one small boundary</b> today (with yourself or someone else)</label>
+                </div>
+                <div class="check">
+                  <input type="checkbox" id="pp5" onchange="updateProgress('pp')">
+                  <label for="pp5"><b>Tolerate the discomfort</b> of someone's potential disappointment</label>
+                </div>
+                <div class="check">
+                  <input type="checkbox" id="pp6" onchange="updateProgress('pp')">
+                  <label for="pp6"><b>Check in with your values</b> before making decisions to please others</label>
+                </div>
+              </div>
+
+              <div class="tool-actions">
+                <div class="progress-wrap">
+                  <div class="progress-top">
+                    <span>Progress</span>
+                    <span id="progressText">0%</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                  </div>
+                </div>
+
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                  <button class="btn" id="markAllBtn" onclick="markAll()">Mark all done</button>
+                  <button class="btn secondary" id="resetBtn" onclick="reset()">Reset</button>
+                </div>
+              </div>
+
+              <div class="refs" id="refsText">
+                <b>References (Optional)</b><br>
+                • Carney, C. E., & Manber, R. (2009). <i>Quiet Your Mind and Get to Sleep</i>.<br>
+                • Borkovec, T. D. (worry & problem-solving research; CBT approaches).<br><br>
+                These references are for learning and self-help. If worry feels intense or long-lasting, consider talking to a counselor or mental health professional.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // The JavaScript code remains exactly the same - no changes needed
+    const mainView = document.getElementById("mainView");
+    const detailView = document.getElementById("detailView");
+    const detailTitle = document.getElementById("detailTitle");
+    const detailLead = document.getElementById("detailLead");
+    let currentTopic = 'pw';
+
+    const topicData = {
+      pw: {
+        title: "Productive Worry",
+        lead: "Worry can feel like your brain is trying to protect you — but it often repeats the same fear without giving you a plan. Productive worry helps you convert anxious thoughts into clear next steps, so your mind can finally rest.",
+        whatIs: `Productive worry is a structured way of working with anxiety instead of fighting it. Many people try to "stop worrying" by pushing thoughts away, distracting themselves, or endlessly analyzing every possible outcome. The problem is that worry often returns stronger, because your brain thinks the topic is important and unresolved.<br><br>
+        Productive worry separates worry into two parts: <b>(1) the worry itself</b> and <b>(2) the next step</b>. Instead of repeating the fear in your head, you write it down clearly and ask: "Is there a useful action I can take right now?" If yes, you choose the smallest possible step and do it. If no, you practice letting the uncertainty exist without solving it.<br><br>
+        This method is helpful because worry is usually your mind's attempt to prepare, predict, and protect you. But when worry turns into rumination, it stops being preparation and becomes mental looping. You might notice your thoughts going in circles like: "What if I fail?" "What if something bad happens?" "What if I can't handle it?" The goal is not to pretend everything is fine. The goal is to turn the mental noise into a clear plan.<br><br>
+        Productive worry also reduces the "all-day anxiety effect." When worry runs in the background for hours, your body stays tense, your focus drops, and you feel mentally exhausted. By giving worry a container (a short time + a written plan), you teach your brain that it does not need to keep repeating the same message to get your attention.<br><br>
+        Over time, productive worry builds confidence. You start trusting yourself: "Even if I feel anxious, I can handle it step by step." That sense of control is what calms the nervous system — not perfect certainty.`,
+        why: `Worry happens because your brain prefers certainty and safety. When something feels uncertain (future, health, exams, relationships, money, family), your mind tries to reduce the discomfort by thinking more. It assumes: "If I keep analyzing, I will find the answer."<br><br>
+        The nervous system also plays a role. When you feel threatened (even emotionally), your body can shift into a stress response. Your heart rate increases, muscles tighten, and attention becomes narrow. In that state, the brain becomes more sensitive to danger and more likely to imagine worst-case outcomes.<br><br>
+        Worry is also reinforced by a short-term reward: it feels like you are doing something. Even if you don't solve the problem, you may feel temporarily prepared. But because the worry doesn't create real action, the brain doesn't get closure — so it repeats.<br><br>
+        Another reason is learned habit. If you grew up in an environment where mistakes were punished, or you were expected to "stay alert," your mind may have learned that worrying is responsible. In reality, responsibility is planning + action, not endless thinking.<br><br>
+        Productive worry works because it gives your brain what it actually wants: a plan, a decision, or acceptance when a decision isn't possible.`,
+        signs: [
+          "The same thoughts repeat all day (even when nothing changes).",
+          "You feel tired but your mind keeps running in the background.",
+          "You jump to worst-case scenarios quickly.",
+          "You over-research or seek reassurance again and again.",
+          "You feel 'busy in your head' but nothing gets solved.",
+          "You avoid starting a task because you want certainty first.",
+          "Your body feels tense (tight chest, stomach knots, headache).",
+          "You replay conversations and imagine what you 'should have said.'"
+        ],
+        toolsText: "Use these steps like a mini routine. You don't need to do them perfectly — just consistently.",
+        refs: `<b>References (Optional)</b><br>
+        • Carney, C. E., & Manber, R. (2009). <i>Quiet Your Mind and Get to Sleep</i>.<br>
+        • Borkovec, T. D. (worry & problem-solving research; CBT approaches).<br><br>
+        These references are for learning and self-help. If worry feels intense or long-lasting, consider talking to a counselor or mental health professional.`
+      },
+      cc: {
+        title: "Circle of Control",
+        lead: "Much of our stress comes from trying to control what we can't. The Circle of Control helps you focus your energy on what you can actually change, letting go of what you can't.",
+        whatIs: `The Circle of Control is a visual tool that separates your concerns into three zones: <b>Control</b> (things you directly control), <b>Influence</b> (things you can affect but not control), and <b>Concern</b> (things you care about but cannot control or influence). This framework comes from Stephen Covey's work and has roots in Stoic philosophy.<br><br>
+        At the center is your <b>Circle of Control</b> — your own actions, attitudes, responses, choices, and behaviors. These are things you have 100% power over. The next ring is your <b>Circle of Influence</b> — other people's opinions, team dynamics, some outcomes at work or home. You can affect these through persuasion, collaboration, or modeling, but you cannot guarantee results. The outer ring is your <b>Circle of Concern</b> — the weather, global events, the past, other people's choices, most external outcomes.<br><br>
+        When we spend energy in the Circle of Concern, we feel anxious, helpless, and drained. When we focus on our Circle of Control, we feel empowered, effective, and calm. The practice isn't about ignoring problems — it's about directing your effort where it actually makes a difference.<br><br>
+        Many people reverse this: they worry endlessly about things they can't change (politics, others' opinions, past mistakes) while neglecting what they can change (their preparation, their kindness, their next small step). The Circle of Control helps rebalance that focus.`,
+        why: `We naturally want certainty and predictability. When something feels uncertain or threatening, our brain tries to regain control by thinking, planning, or worrying — even about things we can't actually control. This gives an illusion of preparedness but drains mental energy.<br><br>
+        Social conditioning also plays a role. Many of us were taught to be responsible for outcomes, not just our efforts. This can blur the line between what's truly ours to manage and what isn't. We may also fear judgment if we don't appear concerned about everything.<br><br>
+        Modern media amplifies this by constantly delivering news about global issues far outside our control, making our Circle of Concern feel enormous while our sense of control shrinks. Without a clear framework, it's easy to feel overwhelmed by it all.<br><br>
+        The Circle of Control works because it aligns effort with efficacy. When you act within your control, you see results. That builds confidence and reduces helplessness. It also creates mental space — you stop carrying the weight of the world and start carrying what's actually yours to carry.`,
+        signs: [
+          "You feel responsible for other people's emotions or choices.",
+          "You spend time worrying about global/political issues you can't affect.",
+          "You replay past events wishing you could change them.",
+          "You try to control others' opinions of you through people-pleasing.",
+          "You feel paralyzed because external conditions aren't 'perfect.'",
+          "You neglect self-care because you're busy fixing others' problems.",
+          "You experience frustration when things don't go exactly as planned.",
+          "You feel guilty for things that weren't your responsibility."
+        ],
+        toolsText: "Practice this daily to train your focus where it matters most.",
+        refs: `<b>References (Optional)</b><br>
+        • Covey, S. R. (1989). <i>The 7 Habits of Highly Effective People</i>.<br>
+        • Epictetus. <i>Enchiridion</i> (Stoic philosophy on control).<br>
+        • Kabat-Zinn, J. (1990). <i>Full Catastrophe Living</i> (mindfulness & acceptance).<br><br>
+        These references are for learning and self-help. If stress feels unmanageable, consider talking to a counselor or mental health professional.`
+      },
+      bc: {
+        title: "Behavior Chain",
+        lead: "Every behavior has a story. The Behavior Chain helps you understand what triggers your reactions and patterns, so you can make conscious changes instead of automatic ones.",
+        whatIs: `A Behavior Chain (or ABC Analysis) is a cognitive-behavioral tool that breaks down any behavior into its components: <b>Antecedent</b> (what happened before), <b>Behavior</b> (what you did), and <b>Consequence</b> (what happened after). This creates a clear map of why behaviors occur and how they're maintained.<br><br>
+        <b>Antecedents</b> are triggers — they can be external (time, place, people, events) or internal (thoughts, emotions, physical sensations). <b>Behavior</b> is the actual action — what you said, did, or didn't do. <b>Consequences</b> are the immediate results — both external (others' reactions, outcomes) and internal (emotional relief, guilt, satisfaction).<br><br>
+        The chain often reveals patterns: you might snack when bored (antecedent: boredom → behavior: snacking → consequence: temporary distraction). Or you might procrastinate when facing a difficult task (antecedent: anxiety about task → behavior: avoidance → consequence: short-term anxiety relief).<br><br>
+        By mapping the chain, you can intervene at different points: change the antecedent (avoid the trigger), modify the behavior (choose a different action), or alter the consequence (plan a different reward). This turns automatic reactions into conscious choices.`,
+        why: `Many behaviors are learned through reinforcement. If a behavior gives immediate relief or reward (even if harmful long-term), the brain learns to repeat it. Without analysis, we stay on autopilot.<br><br>
+        Emotions drive behavior more than we realize. When stressed, anxious, or tired, we revert to familiar patterns because they require less mental energy. The Behavior Chain makes these emotional triggers visible.<br><br>
+        We often judge behaviors as "good" or "bad" without understanding their function. A behavior that seems problematic (like avoidance) might actually be serving a protective function (reducing overwhelm). The chain helps uncover that function so we can meet the need in healthier ways.<br><br>
+        This tool works because it depersonalizes and de‑shames the behavior. Instead of "I'm lazy," you see "When I feel overwhelmed by a big task, I avoid it, which gives temporary relief but increases guilt." That shift opens the door to real change.`,
+        signs: [
+          "You find yourself repeating patterns you wish you could change.",
+          "You react automatically in certain situations without thinking.",
+          "You feel confused about why you do what you do.",
+          "You experience guilt or regret after certain behaviors.",
+          "You've tried to change but keep falling back into old habits.",
+          "Your behavior doesn't match your values or goals.",
+          "You notice the same triggers lead to the same reactions.",
+          "You feel like you're on autopilot in certain areas of life."
+        ],
+        toolsText: "Use this analysis to understand, not judge. Awareness is the first step toward change.",
+        refs: `<b>References (Optional)</b><br>
+        • Beck, J. S. (2011). <i>Cognitive Behavior Therapy: Basics and Beyond</i>.<br>
+        • Linehan, M. M. (1993). <i>Skills Training Manual for Treating Borderline Personality Disorder</i> (DBT).<br>
+        • Prochaska, J. O., & DiClemente, C. C. (1983). Stages of change model.<br><br>
+        These references are for learning and self-help. For persistent behavioral concerns, consider working with a therapist.`
+      },
+      pp: {
+        title: "People Pleasing",
+        lead: "Saying yes to others often means saying no to yourself. People pleasing helps you learn to set boundaries with kindness, so you can show up authentically without burning out.",
+        whatIs: `People pleasing is a pattern of prioritizing others' needs, wants, and approval over your own. It often looks like generosity, but it's driven by fear — fear of rejection, conflict, or being seen as selfish. Over time, it leads to resentment, exhaustion, and loss of self.<br><br>
+        Healthy giving comes from choice and abundance; people pleasing comes from obligation and scarcity. The pleaser says yes not because they want to, but because they feel they should. They often ignore their own limits until they hit burnout or bitterness.<br><br>
+        This pattern usually develops as a coping strategy. If you learned early that love/acceptance was conditional on being "good," helpful, or low‑maintenance, you may have internalized that your worth depends on making others happy. As an adult, that shows up as difficulty saying no, over‑apologizing, minimizing your needs, and fearing disapproval.<br><br>
+        Recovery isn't about becoming selfish — it's about becoming balanced. It means learning to discern when to give freely and when to protect your energy. It means understanding that healthy relationships can tolerate occasional "no's" and that your worth isn't earned through service.`,
+        why: `People pleasing is often a safety strategy. If you experienced conditional acceptance or conflict‑averse environments growing up, you learned that keeping others happy kept you safe. That wiring stays active even when the original threat is gone.<br><br>
+        Social reinforcement plays a role too. Pleasers are often praised for being "so nice," "so helpful," which rewards the behavior. Meanwhile, internal cues (fatigue, resentment) are ignored until they become too loud to ignore.<br><br>
+        Fear of negative emotions — both yours and others' — drives much of it. You might avoid saying no because you can't bear someone's disappointment, or because you can't tolerate your own guilt. So you say yes, and the immediate relief reinforces the pattern.<br><br>
+        Changing this pattern works when you start building tolerance for discomfort (yours and others'), when you practice self‑validation so you need less external approval, and when you realize that sustainable relationships require mutual respect, not one‑way accommodation.`,
+        signs: [
+          "You say yes when you want to say no.",
+          "You feel resentful after helping others.",
+          "You apologize excessively, even for things that aren't your fault.",
+          "You struggle to identify what you actually want or need.",
+          "You fear conflict and go to great lengths to avoid it.",
+          "Your mood depends heavily on others' approval.",
+          "You feel responsible for other people's emotions.",
+          "You neglect your own needs until you're exhausted or ill."
+        ],
+        toolsText: "Start small. Each 'no' or boundary is a building block for a more authentic life.",
+        refs: `<b>References (Optional)</b><br>
+        • Brown, B. (2010). <i>The Gifts of Imperfection</i> (on worthiness & boundaries).<br>
+        • Cloud, H., & Townsend, J. (1992). <i>Boundaries: When to Say Yes, How to Say No</i>.<br>
+        • Beattie, M. (1986). <i>Codependent No More</i>.<br><br>
+        These references are for learning and self-help. If people pleasing significantly impacts your wellbeing, consider therapy focused on boundaries and self-worth.`
+      }
+    };
+
+    function openTopic(topic) {
+      currentTopic = topic;
+      const data = topicData[topic];
+      
+      // Switch views
+      mainView.style.display = "none";
+      detailView.style.display = "block";
+      
+      // Update all content
+      detailTitle.textContent = data.title;
+      detailLead.textContent = data.lead;
+      document.getElementById("whatIsText").innerHTML = data.whatIs;
+      document.getElementById("whyText").innerHTML = data.why;
+      
+      // Update signs list
+      const signsList = document.getElementById("signsList");
+      signsList.innerHTML = data.signs.map(sign => `<li>${sign}</li>`).join('');
+      
+      // Update tools text
+      document.getElementById("toolsText").textContent = data.toolsText;
+      
+      // Update references
+      document.getElementById("refsText").innerHTML = data.refs;
+      
+      // Show/hide checklists
+      document.getElementById("pwChecklist").style.display = topic === 'pw' ? 'flex' : 'none';
+      document.getElementById("ccChecklist").style.display = topic === 'cc' ? 'flex' : 'none';
+      document.getElementById("bcChecklist").style.display = topic === 'bc' ? 'flex' : 'none';
+      document.getElementById("ppChecklist").style.display = topic === 'pp' ? 'flex' : 'none';
+      
+      // Update progress bar color based on topic
+      const progressFill = document.getElementById("progressFill");
+      const colors = {
+        pw: 'linear-gradient(90deg, var(--cPW), #66bb6a)',
+        cc: 'linear-gradient(90deg, var(--cCC), #81c784)',
+        bc: 'linear-gradient(90deg, var(--cBC), #a5d6a7)',
+        pp: 'linear-gradient(90deg, var(--cPP), #c8e6c9)'
+      };
+      progressFill.style.background = colors[topic];
+      
+      // Update info dot color
+      const infoDot = document.querySelector('.info-dot');
+      const dotColors = {
+        pw: 'var(--cPW)',
+        cc: 'var(--cCC)',
+        bc: 'var(--cBC)',
+        pp: 'var(--cPP)'
+      };
+      infoDot.style.background = dotColors[topic];
+      infoDot.style.boxShadow = `0 0 0 6px ${dotColors[topic]}20`;
+      
+      // Update button colors
+      const btn = document.querySelector('.btn');
+      const btnColors = {
+        pw: 'rgba(46, 125, 50, 0.15)',
+        cc: 'rgba(56, 142, 60, 0.15)',
+        bc: 'rgba(67, 160, 71, 0.15)',
+        pp: 'rgba(76, 175, 80, 0.15)'
+      };
+      btn.style.background = btnColors[topic];
+      btn.style.color = topic === 'pp' ? '#1b5e20' : 
+                        topic === 'cc' ? '#1b5e20' : 
+                        topic === 'bc' ? '#1b5e20' : '#1b5e20';
+      
+      // Ensure tool actions and refs are visible
+      document.querySelector(".tool-actions").style.display = "flex";
+      document.getElementById("refsText").style.display = "block";
+      
+      // Update progress
+      updateProgress(topic);
+      
+      // Scroll to top of detail view
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function closeTopic() {
+      // Switch back to main view
+      detailView.style.display = "none";
+      mainView.style.display = "block";
+      
+      // Scroll to top of main view
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function updateProgress(topic) {
+      const ids = {
+        pw: ["pw1", "pw2", "pw3", "pw4", "pw5", "pw6"],
+        cc: ["cc1", "cc2", "cc3", "cc4", "cc5", "cc6"],
+        bc: ["bc1", "bc2", "bc3", "bc4", "bc5", "bc6"],
+        pp: ["pp1", "pp2", "pp3", "pp4", "pp5", "pp6"]
+      };
+      
+      const checklistIds = ids[topic];
+      const total = checklistIds.length;
+      const done = checklistIds.filter(id => document.getElementById(id).checked).length;
+      const percent = Math.round((done / total) * 100);
+
+      document.getElementById("progressFill").style.width = percent + "%";
+      document.getElementById("progressText").textContent = percent + "%";
+    }
+
+    function reset() {
+      const ids = {
+        pw: ["pw1", "pw2", "pw3", "pw4", "pw5", "pw6"],
+        cc: ["cc1", "cc2", "cc3", "cc4", "cc5", "cc6"],
+        bc: ["bc1", "bc2", "bc3", "bc4", "bc5", "bc6"],
+        pp: ["pp1", "pp2", "pp3", "pp4", "pp5", "pp6"]
+      };
+      
+      ids[currentTopic].forEach(id => {
+        document.getElementById(id).checked = false;
+      });
+      updateProgress(currentTopic);
+    }
+
+    function markAll() {
+      const ids = {
+        pw: ["pw1", "pw2", "pw3", "pw4", "pw5", "pw6"],
+        cc: ["cc1", "cc2", "cc3", "cc4", "cc5", "cc6"],
+        bc: ["bc1", "bc2", "bc3", "bc4", "bc5", "bc6"],
+        pp: ["pp1", "pp2", "pp3", "pp4", "pp5", "pp6"]
+      };
+      
+      ids[currentTopic].forEach(id => {
+        document.getElementById(id).checked = true;
+      });
+      updateProgress(currentTopic);
+    }
+
+    // Initialize with main view
+    window.onload = function() {
+      mainView.style.display = "block";
+      detailView.style.display = "none";
+    };
+  </script>
+</body>
+</html>
