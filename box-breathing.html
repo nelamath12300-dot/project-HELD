@@ -7,11 +7,16 @@
 
 <style>
 :root{
-  /* 🌈 BRIGHT COLORS */
-  --inhale:#e066be;     /* pink */
-  --hold:#7df9ff;       /* aqua */
-  --exhale:#9b8cff;     /* lavender */
-  --muted:#e8dfff;
+  /* 🌈 NEW COLOR PALETTE: Blue, Beige, Green */
+  --inhale:#4a90e2;     /* Soft Blue */
+  --hold:#f5f1e6;       /* Warm Beige */
+  --exhale:#50c878;     /* Fresh Green */
+  --muted:#a0aec0;      /* Muted Blue-Gray */
+  --bg-start:#2c5282;   /* Dark Blue */
+  --bg-end:#48bb78;     /* Teal Green */
+  --card-bg:#ffffff;    /* White/Beige */
+  --text-dark:#2d3748;  /* Dark Gray */
+  --text-light:#f7fafc; /* Light Gray */
 }
 
 *{box-sizing:border-box}
@@ -19,9 +24,9 @@
 body{
   margin:0;
   height:100vh;
-  background:radial-gradient(circle at top,#c084fc,#f0abfc);
+  background:linear-gradient(135deg, var(--bg-start), var(--bg-end));
   font-family:"Playfair Display", serif;
-  color:#ffffff;
+  color:var(--text-light);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -33,29 +38,47 @@ body{
   position:absolute;
   top:20px;
   left:20px;
-  padding:8px 16px;
+  padding:10px 18px;
   border-radius:999px;
-  background:rgba(255,255,255,0.25);
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(10px);
   cursor:pointer;
-  color:#3b0764;
+  color:var(--text-light);
   font-weight:600;
+  border:1px solid rgba(255,255,255,0.2);
+  transition:all 0.3s ease;
+}
+
+.back-btn:hover{
+  background:rgba(255,255,255,0.25);
+  transform:translateY(-2px);
 }
 
 /* card */
 .container{
-  width:360px;
-  background:linear-gradient(180deg,#9062d8,#ca97b1);
+  width:380px;
+  background:var(--card-bg);
   border-radius:28px;
-  padding:28px 22px 30px;
+  padding:32px 28px 34px;
   text-align:center;
   box-shadow:0 25px 60px rgba(0,0,0,0.25);
+  color:var(--text-dark);
+}
+
+.container h1{
+  font-size:36px;
+  margin:0 0 8px 0;
+  background:linear-gradient(90deg, var(--bg-start), var(--bg-end));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
 }
 
 /* grid */
 .grid-wrap{
-  margin:28px auto 16px;
-  width:220px;
-  height:220px;
+  margin:32px auto 20px;
+  width:240px;
+  height:240px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -65,13 +88,15 @@ body{
   position:relative;
   display:grid;
   grid-template-columns:repeat(11,1fr);
-  gap:10px;
+  gap:12px;
+  width:220px;
+  height:220px;
 }
 
 .grid span{
-  width:8px;
-  height:8px;
-  background:rgba(255,255,255,0.5);
+  width:10px;
+  height:10px;
+  background:rgba(74, 144, 226, 0.15); /* Blue tint */
   border-radius:50%;
   opacity:0;
   animation:fadeIn .8s forwards;
@@ -83,72 +108,95 @@ body{
 
 /* moving ball */
 .mover{
-  width:14px;
-  height:14px;
+  width:20px;
+  height:20px;
   border-radius:50%;
   position:absolute;
-  top:-3px;
-  left:-3px;
+  top:0;
+  left:0;
   background:var(--inhale);
-  box-shadow:0 0 12px currentColor;
-  transition:transform 4s linear, background 1s ease;
+  box-shadow:0 0 20px rgba(74, 144, 226, 0.5);
+  transition:transform 4s linear, background 1s ease, box-shadow 1s ease;
 }
 
 /* text */
 .phase{
-  font-size:24px;
-  margin-top:12px;
+  font-size:28px;
+  margin-top:16px;
   font-weight:700;
+  color:var(--text-dark);
 }
 
 .subtext{
   font-family:Inter,sans-serif;
-  font-size:14px;
+  font-size:15px;
   color:var(--muted);
-  margin-top:6px;
+  margin-top:8px;
+  line-height:1.5;
 }
 
 /* buttons */
 button{
-  margin-top:20px;
-  padding:10px 26px;
+  margin-top:24px;
+  padding:14px 32px;
   border-radius:999px;
   border:none;
   cursor:pointer;
-  background:#ffffff;
-  color:#6b21a8;
+  background:linear-gradient(90deg, var(--inhale), var(--exhale));
+  color:white;
   font-weight:600;
+  font-size:16px;
+  transition:all 0.3s ease;
+  box-shadow:0 4px 20px rgba(74, 144, 226, 0.3);
+}
+
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 25px rgba(74, 144, 226, 0.4);
 }
 
 /* feedback */
 .feedback{
   display:none;
-  margin-top:22px;
+  margin-top:28px;
+  padding-top:24px;
+  border-top:2px solid rgba(245, 241, 230, 0.5);
 }
 
 .feedback h3{
-  font-size:20px;
-  margin-bottom:14px;
+  font-size:22px;
+  margin-bottom:18px;
+  color:var(--text-dark);
 }
 
 .choices{
   display:flex;
-  gap:10px;
+  gap:12px;
   justify-content:center;
+  margin-bottom:20px;
 }
 
 .choice{
-  border:1px solid rgba(255,255,255,0.6);
+  border:2px solid var(--hold);
   border-radius:999px;
-  padding:8px 14px;
-  font-size:13px;
+  padding:10px 18px;
+  font-size:14px;
   cursor:pointer;
-  color:#fff;
+  color:var(--text-dark);
+  background:var(--hold);
+  transition:all 0.3s ease;
+}
+
+.choice:hover{
+  border-color:var(--inhale);
+  transform:translateY(-2px);
 }
 
 .choice.active{
-  background:#ffffff;
-  color:#6b21a8;
+  background:linear-gradient(90deg, var(--inhale), var(--exhale));
+  border-color:transparent;
+  color:white;
+  box-shadow:0 4px 15px rgba(74, 144, 226, 0.3);
 }
 </style>
 </head>
@@ -198,8 +246,14 @@ for(let i=0;i<121;i++){
   grid.appendChild(d);
 }
 
-const STEP = 18;
-const EDGE = STEP * 10;
+// FIXED: Calculate the distance to reach the last dot
+// Grid has 11 columns with 10 gaps between them
+// Each gap is 12px (from CSS: gap:12px)
+// Each dot is 10px wide
+// The total distance from first dot center to last dot center is:
+// (10 gaps * 12px) + (10 dots * 10px) - 10px (adjustment for dot size)
+const STEP = 20; // Distance per step
+const EDGE = 220; // Total width/height of the grid (220px)
 
 const steps = [
   { name:"Inhale", color:"var(--inhale)", x:EDGE, y:0 },
@@ -217,6 +271,7 @@ function getSettled(){
   helperText.textContent="Allow your shoulders to relax and gently focus on your breath.";
   mover.style.transform="translate(0,0)";
   mover.style.background="var(--hold)";
+  mover.style.boxShadow="0 0 20px rgba(245, 241, 230, 0.5)";
 
   setTimeout(()=>{
     helperText.textContent="";
@@ -228,6 +283,7 @@ function runStep(){
   const s=steps[index];
   phase.textContent=s.name;
   mover.style.background=s.color;
+  mover.style.boxShadow=`0 0 20px ${s.color}80`;
   mover.style.transform=`translate(${s.x}px,${s.y}px)`;
 
   index=(index+1)%steps.length;
