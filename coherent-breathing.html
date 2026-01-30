@@ -6,10 +6,28 @@
 <title>Coherent Breathing</title>
 
 <style>
+:root {
+  /* NEW COLOR PALETTE: Green, Blue, Beige */
+  --bg-dark: #1a3c34;        /* Dark green */
+  --bg-light: #2c5282;       /* Medium blue */
+  --text-light: #f7fafc;     /* Light text */
+  --text-muted: #a0aec0;     /* Muted text */
+  
+  --primary-blue: #4a90e2;   /* Soft blue */
+  --secondary-blue: #2c7da0; /* Teal blue */
+  --beige: #f5f1e6;          /* Warm beige */
+  --green: #50c878;          /* Fresh green */
+  --light-green: #a8e6cf;    /* Light green */
+  
+  --card-bg: #ffffff;        /* White card */
+  --button-bg: #4a90e2;      /* Blue button */
+  --button-hover: #357abd;   /* Darker blue */
+}
+
 body{
   margin:0;
-  background:#097275;
-  color:#e5e7ff;
+  background: linear-gradient(135deg, var(--bg-dark), var(--bg-light));
+  color:var(--text-light);
   font-family:"Playfair Display", serif;
   display:flex;
   justify-content:center;
@@ -20,116 +38,175 @@ body{
 /* BACK BUTTON */
 .back-wrap{
   position:fixed;
-  top:18px;
-  left:18px;
+  top:24px;
+  left:24px;
   font-family: Inter, system-ui;
   font-weight:600;
   cursor:pointer;
   opacity:.9;
+  z-index:10;
 }
 .back-wrap span{
-  padding:8px 10px;
-  border-radius:8px;
+  padding:10px 16px;
+  border-radius:12px;
+  background:rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border:1px solid rgba(255, 255, 255, 0.2);
+  transition:all 0.3s ease;
 }
-.back-wrap:hover{opacity:1}
+.back-wrap:hover span{
+  background:rgba(255, 255, 255, 0.25);
+  transform:translateY(-2px);
+}
 
 /* LAYOUT */
 .container{
   text-align:center;
-  max-width:520px;
-  padding:18px;
+  max-width:540px;
+  padding:32px;
+  background:var(--card-bg);
+  border-radius:32px;
+  box-shadow:0 25px 60px rgba(0,0,0,0.25);
+  color:#2d3748;
 }
 
 /* SPHERE */
 .sphere{
-  width:310px;
-  height:310px;
-  margin:40px auto 28px;
+  width:340px;
+  height:340px;
+  margin:40px auto 32px;
   position:relative;
   border-radius:50%;
   transform-origin:center;
-  transition: transform 3.6s ease-in-out;
+  transition: transform 3.6s cubic-bezier(0.4, 0, 0.2, 1);
+  background: radial-gradient(circle at 30% 30%, rgba(74, 144, 226, 0.1), transparent 70%);
 }
 
 .dot{
   position:absolute;
-  width:6px;
-  height:6px;
+  width:8px;
+  height:8px;
   border-radius:50%;
-  background:#17690c;
-  opacity:.95;
-  /* Smooth transition for dot movement */
+  background:var(--primary-blue);
+  opacity:.9;
   transition: all 3.6s cubic-bezier(0.4, 0, 0.2, 1);
   transform-origin:center;
+  box-shadow:0 0 10px currentColor;
 }
 
 /* TEXT */
-.title{font-size:28px;margin-top:4px}
+.title{
+  font-size:36px;
+  margin-top:8px;
+  background: linear-gradient(90deg, var(--primary-blue), var(--green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight:700;
+}
 .subtitle{
   font-family: Inter;
-  font-size:14px;
-  opacity:.7;
-  margin-bottom:22px;
+  font-size:16px;
+  color:var(--text-muted);
+  margin-bottom:28px;
+  line-height:1.5;
 }
 
 /* BUTTON */
 .begin-btn{
-  margin-top:16px;
-  padding:14px 22px;
+  margin-top:20px;
+  padding:16px 36px;
   border-radius:999px;
   border:none;
-  background:#ffffff;
-  color:#000;
+  background:linear-gradient(90deg, var(--primary-blue), var(--green));
+  color:white;
   font-weight:600;
   font-family: Inter;
   cursor:pointer;
+  font-size:16px;
+  transition:all 0.3s ease;
+  box-shadow:0 6px 20px rgba(74, 144, 226, 0.3);
+}
+.begin-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 25px rgba(74, 144, 226, 0.4);
 }
 .begin-btn:active{transform:scale(.97)}
 
 /* breathing step text */
 .step-text{
-  margin-top:10px;
-  font-size:24px;
+  margin-top:16px;
+  font-size:28px;
+  font-weight:600;
+  min-height:40px;
+  color:#2d3748;
 }
 
 /* increased settle text size */
 .small-hint{
-  margin-top:10px;
+  margin-top:12px;
   font-family: Inter;
   font-size:16px;
-  opacity:.85;
+  color:var(--text-muted);
+  min-height:24px;
+  line-height:1.5;
 }
 
 /* FEEDBACK */
 .feedback{
-  margin-top:26px;
+  margin-top:32px;
   display:flex;
-  gap:12px;
+  gap:14px;
   justify-content:center;
   flex-wrap:wrap;
 }
 .fb-btn{
-  border:1px solid #777;
-  background:transparent;
-  color:#fff;
-  padding:12px 18px;
+  border:2px solid var(--beige);
+  background:var(--beige);
+  color:#2d3748;
+  padding:12px 24px;
   border-radius:999px;
   cursor:pointer;
   font-family: Inter;
+  font-weight:500;
+  transition:all 0.3s ease;
 }
-.fb-btn:hover{background:#ffffff12}
+.fb-btn:hover{
+  background:linear-gradient(90deg, var(--primary-blue), var(--green));
+  color:white;
+  border-color:transparent;
+  transform:translateY(-2px);
+}
 
 /* Done button */
 .done-btn{
-  margin-top:14px;
-  padding:12px 24px;
+  margin-top:24px;
+  padding:14px 32px;
   border-radius:999px;
   border:none;
-  background:#ffffff;
-  color:#000;
+  background:linear-gradient(90deg, var(--primary-blue), var(--green));
+  color:white;
   font-weight:600;
   font-family:Inter;
   cursor:pointer;
+  font-size:16px;
+  transition:all 0.3s ease;
+  box-shadow:0 6px 20px rgba(74, 144, 226, 0.3);
+}
+.done-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 25px rgba(74, 144, 226, 0.4);
+}
+
+/* Animation for breathing */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.breathing-active {
+  animation: pulse 4s infinite ease-in-out;
 }
 </style>
 </head>
@@ -172,28 +249,29 @@ const TOTAL_LOOPS = 7;
 let loopCount = 0;
 let currentDots = [];
 let currentPositions = [];
+let animationActive = false;
 
 /* ---------- SPHERE GRID ---------- */
 function buildSphereGrid(el, color, scaleFactor = 1){
   el.innerHTML = "";
-  const SIZE = 280;
+  const SIZE = 340;
   const cx = SIZE / 2;
   const cy = SIZE / 2;
   
-  const totalDots = 350; 
+  const totalDots = 400; // Increased for more visual impact
   const goldenRatio = (1 + Math.sqrt(5)) / 2;
 
   currentDots = [];
   currentPositions = [];
 
   for(let i = 0; i < totalDots; i++){
-    // Fibonacci Sphere Algorithm
+    // Fibonacci Sphere Algorithm for uniform distribution
     const y = 1 - (i / (totalDots - 1)) * 2; 
     const radiusAtY = Math.sqrt(1 - y * y); 
     const theta = 2 * Math.PI * goldenRatio * i;
 
     // Apply scale factor for expansion/contraction
-    const radius = 140 * scaleFactor;
+    const radius = 160 * scaleFactor;
     
     const xPos = cx + Math.cos(theta) * radiusAtY * radius;
     const yPos = cy + y * radius;
@@ -202,7 +280,7 @@ function buildSphereGrid(el, color, scaleFactor = 1){
     dot.className = "dot";
     dot.style.background = color;
 
-    // Store original position for exhale calculations
+    // Store original position
     const originalPosition = {
       x: xPos,
       y: yPos,
@@ -211,11 +289,14 @@ function buildSphereGrid(el, color, scaleFactor = 1){
       yPos: y
     };
 
-    // Scale dots based on position and current scale
+    // Dynamic dot sizing based on depth
     const depth = 0.5 + ((y + 1) / 2) * 0.5;
-    const dotSize = 4 * depth * (scaleFactor < 1 ? scaleFactor * 0.8 : scaleFactor);
+    const dotSize = 6 * depth * (scaleFactor < 1 ? scaleFactor * 0.8 : scaleFactor);
     dot.style.width = dotSize + "px";
     dot.style.height = dotSize + "px";
+
+    // Add glow effect
+    dot.style.boxShadow = `0 0 ${dotSize*2}px ${color}`;
 
     dot.style.left = xPos + "px";
     dot.style.top = yPos + "px";
@@ -227,75 +308,92 @@ function buildSphereGrid(el, color, scaleFactor = 1){
   }
 }
 
-/* ---------- ANIMATE DOTS TOGETHER (Inhale) ---------- */
-function animateDotsTogether(color) {
+/* ---------- IMPROVED INHALE ANIMATION ---------- */
+function animateInhale() {
   const sphere = document.getElementById("sphere");
   const dots = currentDots;
-  const centerX = 140;
-  const centerY = 140;
-  const gatherRadius = 60; // Smaller radius for tighter gathering
+  const centerX = 170;
+  const centerY = 170;
+  const inhaleRadius = 80; // Gather radius
+  
+  // Add breathing pulse animation
+  sphere.classList.add('breathing-active');
   
   dots.forEach((dot, i) => {
-    // Change color
-    dot.style.background = color;
+    // Blue color for inhale
+    dot.style.background = '#4a90e2';
     
-    // Calculate position in a tight circle
+    // Calculate spiral position for more interesting movement
     const angle = (i / dots.length) * Math.PI * 2;
-    const targetX = centerX + Math.cos(angle) * gatherRadius;
-    const targetY = centerY + Math.sin(angle) * gatherRadius;
+    const spiralFactor = Math.sin(i * 0.05) * 0.3 + 0.7;
+    const targetX = centerX + Math.cos(angle) * inhaleRadius * spiralFactor;
+    const targetY = centerY + Math.sin(angle) * inhaleRadius * spiralFactor;
     
-    // Animate to gathered position
-    dot.style.transition = 'all 3.6s cubic-bezier(0.4, 0, 0.2, 1)';
+    // Smooth animation
+    dot.style.transition = 'all 3.6s cubic-bezier(0.2, 0.8, 0.4, 1)';
     dot.style.left = targetX + 'px';
     dot.style.top = targetY + 'px';
-    dot.style.transform = `scale(1.4)`; // Slightly bigger when gathered
+    dot.style.transform = `scale(1.5)`; // Grow during inhale
+    
+    // Enhanced glow
+    dot.style.boxShadow = '0 0 20px rgba(74, 144, 226, 0.8)';
   });
   
-  sphere.style.transform = "scale(1.12)";
+  sphere.style.transform = "scale(1.15)";
 }
 
-/* ---------- ANIMATE DOTS SPREAD (Exhale) ---------- */
-function animateDotsSpread(color) {
+/* ---------- IMPROVED EXHALE ANIMATION ---------- */
+function animateExhale() {
   const sphere = document.getElementById("sphere");
   const dots = currentDots;
   const positions = currentPositions;
-  const spreadRadius = 120; // Radius for spread out position
+  const exhaleRadius = 140;
   
   dots.forEach((dot, i) => {
-    // Change color
-    dot.style.background = color;
+    // Green color for exhale
+    dot.style.background = '#50c878';
     
-    // Use original Fibonacci positions but scaled down
+    // Return to Fibonacci sphere pattern with slight variation
     const pos = positions[i];
-    const centerX = 140;
-    const centerY = 140;
+    const centerX = 170;
+    const centerY = 170;
     
-    const targetX = centerX + Math.cos(pos.theta) * pos.radiusAtY * spreadRadius;
-    const targetY = centerY + pos.yPos * spreadRadius;
+    // Add slight pulsing effect
+    const pulseFactor = 1 + Math.sin(Date.now() * 0.001 + i * 0.1) * 0.1;
     
-    // Animate back to spread position
-    dot.style.transition = 'all 3.6s cubic-bezier(0.4, 0, 0.2, 1)';
+    const targetX = centerX + Math.cos(pos.theta) * pos.radiusAtY * exhaleRadius * pulseFactor;
+    const targetY = centerY + pos.yPos * exhaleRadius * pulseFactor;
+    
+    // Smooth animation back to spread
+    dot.style.transition = 'all 3.6s cubic-bezier(0.2, 0.8, 0.4, 1)';
     dot.style.left = targetX + 'px';
     dot.style.top = targetY + 'px';
-    dot.style.transform = `scale(0.9)`; // Slightly smaller when spread
+    dot.style.transform = `scale(1)`; // Return to normal size
+    
+    // Adjust glow
+    dot.style.boxShadow = '0 0 15px rgba(80, 200, 120, 0.6)';
   });
   
-  sphere.style.transform = "scale(0.82)";
+  sphere.style.transform = "scale(1)";
 }
 
 /* ---------- RESET TO NEUTRAL ---------- */
-function resetToNeutral(color) {
+function resetToNeutral() {
   const sphere = document.getElementById("sphere");
   const dots = currentDots;
   const positions = currentPositions;
   const neutralRadius = 120;
   
+  // Remove breathing animation
+  sphere.classList.remove('breathing-active');
+  
   dots.forEach((dot, i) => {
-    dot.style.background = color;
+    // Neutral blue color
+    dot.style.background = '#4a90e2';
     
     const pos = positions[i];
-    const centerX = 140;
-    const centerY = 140;
+    const centerX = 170;
+    const centerY = 170;
     
     const targetX = centerX + Math.cos(pos.theta) * pos.radiusAtY * neutralRadius;
     const targetY = centerY + pos.yPos * neutralRadius;
@@ -304,13 +402,14 @@ function resetToNeutral(color) {
     dot.style.left = targetX + 'px';
     dot.style.top = targetY + 'px';
     dot.style.transform = `scale(1)`;
+    dot.style.boxShadow = '0 0 10px rgba(74, 144, 226, 0.4)';
   });
   
-  sphere.style.transform = "scale(0.9)";
+  sphere.style.transform = "scale(1)";
 }
 
 /* ---------- INTRO ---------- */
-buildSphereGrid(document.getElementById("introSphere"),"#b9c6ff", 0.9);
+buildSphereGrid(document.getElementById("introSphere"),"#4a90e2", 0.9);
 
 /* ---------- SETTLE ---------- */
 function startSettle(){
@@ -318,19 +417,30 @@ function startSettle(){
   document.getElementById("stage").style.display="block";
 
   const sphere=document.getElementById("sphere");
-  buildSphereGrid(sphere,"#aebdff", 0.9);
+  buildSphereGrid(sphere,"#4a90e2", 0.9);
 
   document.getElementById("stepLabel").innerText="Get settled";
   document.getElementById("hintText").innerText =
     "You're doing something good for yourself — stay with this moment.";
 
-  // Gentle pulse at start
+  // Gentle introductory animation
+  setTimeout(() => {
+    sphere.style.transform = "scale(1.05)";
+    currentDots.forEach((dot, i) => {
+      setTimeout(() => {
+        dot.style.transform = "scale(1.2)";
+        dot.style.boxShadow = '0 0 15px rgba(74, 144, 226, 0.6)';
+      }, i * 10);
+    });
+  }, 100);
+
   setTimeout(() => {
     sphere.style.transform = "scale(1)";
     currentDots.forEach(dot => {
-      dot.style.transform = "scale(1.1)";
+      dot.style.transform = "scale(1)";
+      dot.style.boxShadow = '0 0 10px rgba(74, 144, 226, 0.4)';
     });
-  }, 100);
+  }, 500);
 
   setTimeout(startBreathing, SETTLE_DURATION);
 }
@@ -338,25 +448,30 @@ function startSettle(){
 /* ---------- INHALE / EXHALE LOOP ---------- */
 function startBreathing(){
   loopCount=0;
+  animationActive = true;
   inhale();
 }
 
 function inhale(){
+  if (!animationActive) return;
+  
   document.getElementById("stepLabel").innerText="Inhale";
   document.getElementById("hintText").innerText="Slow, gentle breath in";
 
-  // Animate dots to gather together
-  animateDotsTogether("#9fb5ff");
+  // Animate inhale with improved effect
+  animateInhale();
 
   setTimeout(exhale, INHALE_MS);
 }
 
 function exhale(){
+  if (!animationActive) return;
+  
   document.getElementById("stepLabel").innerText="Exhale";
   document.getElementById("hintText").innerText="Soft, easy breath out";
 
-  // Animate dots to spread out from their current gathered position
-  animateDotsSpread("#ffd98a");
+  // Animate exhale with improved effect
+  animateExhale();
   
   loopCount++;
 
@@ -369,11 +484,12 @@ function exhale(){
 
 /* ---------- COMPLETION + FEEDBACK ---------- */
 function showComplete(){
+  animationActive = false;
   document.getElementById("stepLabel").innerText="Well done";
-  document.getElementById("hintText").innerText="";
+  document.getElementById("hintText").innerText="Notice how your body feels after rhythmic breathing.";
 
-  // Reset dots to neutral position
-  resetToNeutral("#aebdff");
+  // Smooth reset to neutral
+  resetToNeutral();
 
   const fb=document.createElement("div");
   fb.className="feedback";
