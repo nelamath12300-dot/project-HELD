@@ -7,26 +7,32 @@
 
 <style>
 :root{
-  --bg:#051411;
-  --text:#00050e;
-  --muted:#010811;
-
-  --pink:#25040b;
-  --yellow:#866206;
-  --teal:#07255c;
-  --green:#23442b;
+  /* NEW COLOR PALETTE: Green, Blue, Beige */
+  --bg-light: #f0f7f4;      /* Light green background */
+  --bg-dark: #1a3c34;       /* Dark green for depth */
+  --text-dark: #2d3748;     /* Dark gray text */
+  --text-light: #4a5568;    /* Light gray text */
+  
+  --pink: #2c7da0;          /* Changed to Soft Blue */
+  --yellow: #d4b483;        /* Changed to Warm Beige */
+  --teal: #4a9fa3;          /* Changed to Teal Green */
+  --green: #6a994e;         /* Changed to Fresh Green */
+  
+  --card-bg: #ffffff;       /* White card background */
+  --button-bg: #4a90e2;     /* Blue button */
+  --button-hover: #357abd;  /* Darker blue on hover */
 }
 
 *{box-sizing:border-box;margin:0;padding:0;}
 
 body{
   min-height:100vh;
-  background:radial-gradient(circle at top,#75c493,#e0e777);
-  color:var(--text);
+  background: linear-gradient(135deg, #a8e6cf, #dcedc1, #ffd3b6); /* Green to beige gradient */
+  color:var(--text-dark);
   display:flex;
   justify-content:center;
   align-items:center;
-  font-family:Georgia,serif;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   position:relative;
 }
 
@@ -35,77 +41,141 @@ body{
   position:absolute;
   top:30px;
   left:34px;
-  padding:10px 18px;
+  padding:12px 20px;
   border-radius:999px;
-  background:rgba(160, 170, 19, 0.15);
-  color:#000000;
+  background:rgba(255, 255, 255, 0.9);
+  color:var(--text-dark);
   font-size:14px;
+  font-weight:600;
   cursor:pointer;
+  border:2px solid rgba(74, 144, 226, 0.2);
+  box-shadow:0 4px 15px rgba(0,0,0,0.1);
+  transition:all 0.3s ease;
 }
 .back-btn:hover{
-  background:rgba(14, 2, 12, 0);
+  background:rgba(255, 255, 255, 1);
+  transform:translateY(-2px);
+  box-shadow:0 6px 20px rgba(0,0,0,0.15);
 }
 
 .screen{
   width:100%;
-  max-width:420px;
+  max-width:440px;
   height:90vh;
   display:none;
   flex-direction:column;
   align-items:center;
   justify-content:center;
   text-align:center;
-  padding:24px;
+  padding:32px;
+  background:var(--card-bg);
+  border-radius:32px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.15);
 }
 
 .screen.active{display:flex;}
 
-h1{font-size:2rem;margin-bottom:12px;}
-p{color:var(--muted);margin-bottom:24px;}
+h1{
+  font-size:2.4rem;
+  margin-bottom:16px;
+  background: linear-gradient(90deg, #2c7da0, #4a9fa3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight:700;
+}
+
+p{
+  color:var(--text-light);
+  margin-bottom:28px;
+  font-size:1.1rem;
+  line-height:1.6;
+}
 
 button{
   border:none;
   border-radius:999px;
-  padding:14px 40px;
-  font-size:1rem;
-  background:white;
+  padding:16px 48px;
+  font-size:1.1rem;
+  background:linear-gradient(90deg, var(--button-bg), #50c878);
+  color:white;
   cursor:pointer;
+  font-weight:600;
+  transition:all 0.3s ease;
+  box-shadow:0 6px 20px rgba(74, 144, 226, 0.3);
+}
+button:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 25px rgba(74, 144, 226, 0.4);
 }
 
 /* Animation */
 .animation{
-  width:260px;
-  height:260px;
+  width:300px;
+  height:300px;
   position:relative;
-  margin-bottom:30px;
+  margin-bottom:40px;
 }
 
 .dot{
   position:absolute;
-  width:6px;
-  height:6px;
+  width:10px;
+  height:10px;
   border-radius:50%;
-  opacity:0.9;
-  transition:transform 6s ease, background 2s ease;
+  opacity:0.8;
+  transition:transform 6s ease, background 2s ease, box-shadow 2s ease;
+  box-shadow:0 0 8px currentColor;
 }
 
 .instruction{
-  font-size:1.6rem;
-  margin-top:10px;
-  transition:color 1.5s ease;
+  font-size:1.8rem;
+  margin-top:20px;
+  font-weight:600;
+  transition:color 1.5s ease, transform 0.5s ease;
+  min-height:60px;
 }
 
 /* Feedback */
 .feedback{
   display:flex;
-  gap:14px;
+  gap:16px;
+  flex-wrap:wrap;
+  justify-content:center;
 }
 
 .feedback button{
-  background:transparent;
+  background:var(--card-bg);
+  color:var(--text-dark);
+  border:2px solid #d4b483;
+  width:140px;
+  font-size:1rem;
+  padding:12px 24px;
+}
+.feedback button:hover{
+  background:linear-gradient(90deg, #2c7da0, #4a9fa3);
   color:white;
-  border:1px solid #444;
-  width:120px;
+  border-color:transparent;
+}
+
+/* Done button animation */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+#doneBtn {
+  animation: pulse 2s infinite;
+}
+
+/* Screen transitions */
+.screen {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
 </head>
@@ -122,7 +192,7 @@ button{
     A gentle breathing pattern that helps your body<br/>
     release built-up stress naturally.
   </p>
-  <p>⏱ 1 minute · Calm pace</p>
+  <p style="color:#4a90e2; font-weight:600;">⏱ 1 minute · Calm pace</p>
   <button onclick="start()">Begin</button>
 </div>
 
@@ -180,21 +250,33 @@ function settled(){
 function inhale(){
   instruction.textContent="Inhale";
   instruction.style.color="var(--pink)";
+  instruction.style.transform="scale(1.1)";
   resizeCircle(60,"var(--pink)");
+  setTimeout(() => {
+    instruction.style.transform="scale(1)";
+  }, 300);
   setTimeout(inhaleMore,3000);
 }
 
 function inhaleMore(){
   instruction.textContent="Inhale a bit more";
   instruction.style.color="var(--yellow)";
+  instruction.style.transform="scale(1.1)";
   resizeCircle(85,"var(--yellow)");
+  setTimeout(() => {
+    instruction.style.transform="scale(1)";
+  }, 300);
   setTimeout(exhale,3000);
 }
 
 function exhale(){
   instruction.textContent="Exhale slowly";
   instruction.style.color="var(--teal)";
+  instruction.style.transform="scale(1.1)";
   resizeCircle(20,"var(--teal)");
+  setTimeout(() => {
+    instruction.style.transform="scale(1)";
+  }, 300);
   cycles++;
   if(cycles<MAX_CYCLES){
     setTimeout(inhale,7000);
@@ -218,12 +300,15 @@ function createCircle(radius,color){
 }
 
 function resizeCircle(radius,color){
-  dots.forEach(d=>d.style.background=color);
+  dots.forEach(d=>{
+    d.style.background=color;
+    d.style.boxShadow=`0 0 12px ${color}80`;
+  });
   positionDots(radius);
 }
 
 function positionDots(radius){
-  const center=130;
+  const center=150;
   dots.forEach((dot,i)=>{
     const angle=(i/dots.length)*Math.PI*2;
     const x=center+radius*Math.cos(angle);
@@ -234,8 +319,8 @@ function positionDots(radius){
 
 function completePractice(){
   const btn = document.getElementById("doneBtn");
-  btn.style.background = "#7ee3d4";
-  btn.style.color = "#050814";
+  btn.style.background = "#4a9fa3";
+  btn.style.color = "#ffffff";
   btn.style.transform = "scale(0.96)";
   setTimeout(() => {
     location.href="breathing.html";
