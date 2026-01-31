@@ -13,24 +13,24 @@
     *{box-sizing:border-box;margin:0;padding:0}
 
     :root{
-      --bg:#f0f7f0; /* Light green background */
-      --text:#1a2e1a; /* Dark green text */
-      --muted:#5a7a5a; /* Medium green muted */
+      --bg:#a7622e; /* Soft cream background */
+      --text:#05050500; /* Deep blue-gray text */
+      --muted:#5A7A9C; /* Medium blue-gray muted */
       --radius:20px;
       --gap:24px;
 
-      --card:#ffffffc9;
-      --stroke:rgba(0,0,0,.06);
-      --shadow:0 12px 30px rgba(0,0,0,.10);
+      --card:#b96a0e;
+      --stroke:rgba(65, 98, 133, 0.1);
+      --shadow:0 12px 30px rgba(65, 98, 133, 0.1);
 
-      --cPW:#2e7d32; /* Dark green - Productive Worry */
-      --cCC:#388e3c; /* Medium green - Circle of Control */
-      --cBC:#43a047; /* Light green - Behavior Chain */
-      --cPP:#4caf50; /* Bright green - People Pleasing */
+      --cPW:#416285; /* Deep blue-gray - Productive Worry */
+      --cCC:#8BC6CA; /* Soft teal - Circle of Control */
+      --cBC:#DBB8AA; /* Soft peach - Behavior Chain */
+      --cPP:#EFCD52; /* Golden yellow - People Pleasing */
     }
 
     body{
-      background: linear-gradient(to bottom, #e8f5e9, #c8e6c9); /* Green gradient */
+      background: linear-gradient(to bottom, #df945b, #e2996c); /* Cream to light warm gray gradient */
       color:var(--text);
       font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
       padding:28px 32px;
@@ -45,9 +45,9 @@
       font-size:52px;
       margin-bottom:6px;
       letter-spacing:.2px;
-      color:#1b5e20; /* Dark green */
+      color:#416285; /* Deep blue-gray */
     }
-    .subtitle{color:rgba(27, 94, 32, 0.7);font-size:15px;max-width:850px;line-height:1.45}
+    .subtitle{color:#5A7A9C;font-size:15px;max-width:850px;line-height:1.45}
 
     .back-btn{
       display:inline-flex;
@@ -55,12 +55,12 @@
       gap:10px;
       padding:10px 14px;
       border-radius:999px;
-      border:1px solid #81c784; /* Light green border */
-      background:#e8f5e9; /* Very light green */
-      box-shadow:0 8px 18px rgba(76, 175, 80, 0.1);
+      border:1px solid #DBB8AA; /* Soft peach border */
+      background:#FDF9F6; /* Soft cream */
+      box-shadow:0 8px 18px rgba(219, 184, 170, 0.1);
       cursor:pointer;
       font-weight:600;
-      color:#1b5e20; /* Dark green text */
+      color:#416285; /* Deep blue-gray text */
       text-decoration:none;
       width:max-content;
       transition:.2s ease;
@@ -68,8 +68,8 @@
     }
     .back-btn:hover{
       transform:translateY(-2px); 
-      background:#c8e6c9;
-      box-shadow:0 12px 24px rgba(76, 175, 80, 0.15);
+      background:#F5F0ED;
+      box-shadow:0 12px 24px rgba(219, 184, 170, 0.15);
     }
 
     /* GRID (now 4 cards total) */
@@ -84,20 +84,25 @@
     .topic-card{
       border-radius:22px;
       padding:22px 22px;
-      background:rgba(255,255,255,.85);
-      border:1px solid #c8e6c9; /* Light green border */
-      box-shadow:0 10px 24px rgba(76, 175, 80, 0.08);
+      background:#ce9b74;
+      border:1px solid #E0D5CF; /* Light warm gray border */
+      box-shadow:0 10px 24px rgba(65, 98, 133, 0.08);
       cursor:pointer;
       transition:.25s ease;
-      min-height:170px;
+      min-height:270px;
       position:relative;
       overflow:hidden;
       backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center; /* CENTER VERTICALLY */
+      align-items: center; /* CENTER HORIZONTALLY */
+      text-align: center; /* CENTER TEXT */
     }
     .topic-card:hover{
       transform:translateY(-6px);
-      box-shadow:0 18px 40px rgba(76, 175, 80, 0.15);
-      background:rgba(255,255,255,.95);
+      box-shadow:0 18px 40px rgba(65, 98, 133, 0.15);
+      background:#FDF9F6;
     }
 
     .topic-title{
@@ -105,30 +110,13 @@
       font-size:20px;
       margin-bottom:6px;
       letter-spacing:.2px;
-      color:#1b5e20; /* Dark green */
+      color:#416285; /* Deep blue-gray */
     }
     .topic-sub{
-      color:rgba(27, 94, 32, 0.7);
+      color:#5A7A9C;
       font-size:14px;
       line-height:1.35;
       max-width:95%;
-    }
-
-    .mini-open{
-      margin-top:14px;
-      display:flex;
-      align-items:center;
-      gap:8px;
-      color:rgba(27, 94, 32, 0.7);
-      font-size:13px;
-      font-weight:600;
-    }
-    .mini-dot{
-      width:18px;height:18px;border-radius:999px;
-      background:rgba(76, 175, 80, 0.2);
-      display:grid;place-items:center;
-      font-size:12px;
-      color:#2e7d32;
     }
 
     .badge{
@@ -139,7 +127,7 @@
       border-radius:14px;
       display:grid;
       place-items:center;
-      color:#fff;
+      color:#FDF9F6;
       font-weight:800;
       font-size:13px;
       box-shadow:0 10px 22px rgba(0,0,0,.12);
@@ -161,24 +149,24 @@
       100%{transform:translate(0,0) scale(1)}
     }
 
-    /* Topic colors - all green variations */
-    .pw .badge{background:linear-gradient(135deg, var(--cPW), #1b5e20)} /* Dark green */
-    .cc .badge{background:linear-gradient(135deg, var(--cCC), #2e7d32)} /* Medium dark green */
-    .bc .badge{background:linear-gradient(135deg, var(--cBC), #388e3c)} /* Medium green */
-    .pp .badge{background:linear-gradient(135deg, var(--cPP), #43a047)} /* Light green */
+    /* Topic colors - all from therapy palette */
+    .pw .badge{background:linear-gradient(135deg, var(--cPW), #355074)} /* Deep blue-gray */
+    .cc .badge{background:linear-gradient(135deg, var(--cCC), #7AB5BA)} /* Soft teal */
+    .bc .badge{background:linear-gradient(135deg, var(--cBC), #C9A69A)} /* Soft peach */
+    .pp .badge{background:linear-gradient(135deg, var(--cPP), #E6BC3D)} /* Golden yellow */
 
-    .pw .glow{background:radial-gradient(circle, rgba(46, 125, 50, 0.9), transparent 60%)}
-    .cc .glow{background:radial-gradient(circle, rgba(56, 142, 60, 0.9), transparent 60%)}
-    .bc .glow{background:radial-gradient(circle, rgba(67, 160, 71, 0.9), transparent 60%)}
-    .pp .glow{background:radial-gradient(circle, rgba(76, 175, 80, 0.9), transparent 60%)}
+    .pw .glow{background:radial-gradient(circle, rgba(65, 98, 133, 0.9), transparent 60%)}
+    .cc .glow{background:radial-gradient(circle, rgba(139, 198, 202, 0.9), transparent 60%)}
+    .bc .glow{background:radial-gradient(circle, rgba(219, 184, 170, 0.9), transparent 60%)}
+    .pp .glow{background:radial-gradient(circle, rgba(239, 205, 82, 0.9), transparent 60%)}
 
     /* Detail panel */
     .detail-panel{
       margin-top:22px;
-      background:rgba(255,255,255,.95);
-      border:1px solid #c8e6c9;
+      background:#FFFFFF;
+      border:1px solid #DBB8AA;
       border-radius:26px;
-      box-shadow:0 18px 44px rgba(76, 175, 80, 0.15);
+      box-shadow:0 18px 44px rgba(65, 98, 133, 0.15);
       padding:28px;
       display:none;
       position:relative;
@@ -196,10 +184,10 @@
       font-size:44px;
       margin-bottom:6px;
       letter-spacing:.2px;
-      color:#1b5e20;
+      color:#416285;
     }
     .detail-lead{
-      color:rgba(27, 94, 32, 0.8);
+      color:#5A7A9C;
       font-size:14px;
       line-height:1.5;
       max-width:980px;
@@ -211,17 +199,17 @@
       top:16px;
       padding:10px 14px;
       border-radius:999px;
-      border:1px solid #81c784;
-      background:#e8f5e9;
+      border:1px solid #DBB8AA;
+      background:#FDF9F6;
       cursor:pointer;
       font-weight:700;
-      color:#1b5e20;
+      color:#416285;
       transition:.2s ease;
     }
     .close-btn:hover{
-      background:#c8e6c9; 
+      background:#F5F0ED; 
       transform:translateY(-1px);
-      box-shadow:0 4px 12px rgba(76, 175, 80, 0.2);
+      box-shadow:0 4px 12px rgba(219, 184, 170, 0.2);
     }
 
     /* content grid inside panel */
@@ -233,11 +221,11 @@
     }
 
     .info-card{
-      background:#f1f8e9; /* Light green background */
-      border:1px solid #c5e1a5; /* Light green border */
+      background:#F9F4F1; /* Light warm gray background */
+      border:1px solid #E0D5CF; /* Light warm gray border */
       border-radius:18px;
       padding:16px 16px;
-      box-shadow:0 10px 22px rgba(76, 175, 80, 0.08);
+      box-shadow:0 10px 22px rgba(65, 98, 133, 0.08);
       position:relative;
       overflow:hidden;
     }
@@ -250,7 +238,7 @@
     .info-dot{
       width:10px;height:10px;border-radius:999px;
       background:var(--cPW);
-      box-shadow:0 0 0 6px rgba(46, 125, 50, 0.2);
+      box-shadow:0 0 0 6px rgba(65, 98, 133, 0.2);
       animation: dotPulse 2.6s ease-in-out infinite;
     }
     @keyframes dotPulse{
@@ -260,11 +248,11 @@
     }
     .info-title{
       font-weight:800;
-      color:#1b5e20;
+      color:#416285;
       font-size:16px;
     }
     .info-text{
-      color:rgba(27, 94, 32, 0.8);
+      color:#5A7A9C;
       font-size:13.5px;
       line-height:1.6;
     }
@@ -272,7 +260,7 @@
     ul.clean{
       margin-top:8px;
       padding-left:18px;
-      color:rgba(27, 94, 32, 0.8);
+      color:#5A7A9C;
       font-size:13.5px;
       line-height:1.6;
     }
@@ -282,7 +270,7 @@
     }
     ul.clean li:before {
       content: "•";
-      color: #4caf50;
+      color: #8BC6CA;
       font-weight: bold;
       display: inline-block; 
       width: 1em;
@@ -313,17 +301,17 @@
       font-weight:700;
       font-size:13px;
       transition:.2s ease;
-      background:rgba(46, 125, 50, 0.15);
-      color:#1b5e20;
+      background:rgba(65, 98, 133, 0.15);
+      color:#416285;
     }
     .btn:hover{
       transform:translateY(-1px); 
-      background:rgba(46, 125, 50, 0.25);
-      box-shadow:0 4px 12px rgba(46, 125, 50, 0.2);
+      background:rgba(65, 98, 133, 0.25);
+      box-shadow:0 4px 12px rgba(65, 98, 133, 0.2);
     }
     .btn.secondary{
-      background:rgba(129, 199, 132, 0.2);
-      color:#1b5e20;
+      background:rgba(219, 184, 170, 0.2);
+      color:#416285;
     }
 
     .progress-wrap{
@@ -338,14 +326,14 @@
       align-items:center;
       justify-content:space-between;
       font-size:12px;
-      color:rgba(27, 94, 32, 0.7);
+      color:#5A7A9C;
       font-weight:700;
     }
     .progress-bar{
       width:100%;
       height:10px;
       border-radius:999px;
-      background:rgba(129, 199, 132, 0.3);
+      background:rgba(219, 184, 170, 0.3);
       overflow:hidden;
       position:relative;
     }
@@ -353,7 +341,7 @@
       height:100%;
       width:0%;
       border-radius:999px;
-      background:linear-gradient(90deg, var(--cPW), #66bb6a);
+      background:linear-gradient(90deg, var(--cPW), #8BC6CA);
       transition:width .35s ease;
       position:relative;
     }
@@ -364,7 +352,7 @@
       right:-14px;
       width:38px;height:38px;
       border-radius:999px;
-      background:radial-gradient(circle, rgba(102, 187, 106, 0.4), transparent 60%);
+      background:radial-gradient(circle, rgba(139, 198, 202, 0.4), transparent 60%);
       filter:blur(8px);
       animation: sparkle 2.8s ease-in-out infinite;
     }
@@ -386,14 +374,14 @@
       align-items:flex-start;
       padding:10px 10px;
       border-radius:14px;
-      border:1px solid #c5e1a5;
-      background:rgba(241, 248, 233, 0.8);
+      border:1px solid #E0D5CF;
+      background:rgba(249, 244, 241, 0.8);
       transition:.2s ease;
     }
     .check:hover{
       transform:translateY(-1px); 
-      background:rgba(241, 248, 233, 1);
-      box-shadow:0 4px 12px rgba(76, 175, 80, 0.1);
+      background:rgba(249, 244, 241, 1);
+      box-shadow:0 4px 12px rgba(65, 98, 133, 0.1);
     }
     .check input{
       margin-top:2px;
@@ -403,22 +391,28 @@
     }
     .check label{
       cursor:pointer;
-      color:rgba(27, 94, 32, 0.8);
+      color:#5A7A9C;
       font-size:13.5px;
       line-height:1.45;
     }
 
     .refs{
       margin-top:16px;
-      color:rgba(27, 94, 32, 0.7);
+      color:#5A7A9C;
       font-size:12.5px;
       line-height:1.5;
-      background:#e8f5e9;
+      background:#F5F0ED;
       padding:12px 16px;
       border-radius:12px;
-      border:1px solid #c8e6c9;
+      border:1px solid #E0D5CF;
     }
-    .refs b{color:#1b5e20}
+    .refs b{color:#416285}
+
+    /* TOOLS CARD COLOR UPDATES */
+    #toolsCard {
+      background: #FDF9F6; /* Soft cream background */
+      border: 1px solid #DBB8AA; /* Soft peach border */
+    }
 
     /* responsive */
     @media(max-width:1050px){
@@ -452,7 +446,6 @@
           <div class="badge">PW</div>
           <div class="topic-title">Productive Worry</div>
           <div class="topic-sub">Turn worry into a next-step plan instead of a spiral.</div>
-          <div class="mini-open"><span class="mini-dot">›</span> Tap to open</div>
         </div>
 
         <div class="topic-card cc" onclick="openTopic('cc')">
@@ -460,7 +453,6 @@
           <div class="badge">CC</div>
           <div class="topic-title">Circle of Control</div>
           <div class="topic-sub">Focus your energy on what you can actually change.</div>
-          <div class="mini-open"><span class="mini-dot">›</span> Tap to open</div>
         </div>
 
         <div class="topic-card bc" onclick="openTopic('bc')">
@@ -468,7 +460,6 @@
           <div class="badge">BC</div>
           <div class="topic-title">Behavior Chain</div>
           <div class="topic-sub">Understand what triggers your reactions and patterns.</div>
-          <div class="mini-open"><span class="mini-dot">›</span> Tap to open</div>
         </div>
 
         <div class="topic-card pp" onclick="openTopic('pp')">
@@ -476,7 +467,6 @@
           <div class="badge">PP</div>
           <div class="topic-title">People Pleasing</div>
           <div class="topic-sub">Learn to say yes without losing yourself.</div>
-          <div class="mini-open"><span class="mini-dot">›</span> Tap to open</div>
         </div>
       </div>
     </div>
@@ -718,7 +708,6 @@
   </div>
 
   <script>
-    // The JavaScript code remains exactly the same - no changes needed
     const mainView = document.getElementById("mainView");
     const detailView = document.getElementById("detailView");
     const detailTitle = document.getElementById("detailTitle");
@@ -874,10 +863,10 @@
       // Update progress bar color based on topic
       const progressFill = document.getElementById("progressFill");
       const colors = {
-        pw: 'linear-gradient(90deg, var(--cPW), #66bb6a)',
-        cc: 'linear-gradient(90deg, var(--cCC), #81c784)',
-        bc: 'linear-gradient(90deg, var(--cBC), #a5d6a7)',
-        pp: 'linear-gradient(90deg, var(--cPP), #c8e6c9)'
+        pw: 'linear-gradient(90deg, var(--cPW), #8BC6CA)',
+        cc: 'linear-gradient(90deg, var(--cCC), #DBB8AA)',
+        bc: 'linear-gradient(90deg, var(--cBC), #EFCD52)',
+        pp: 'linear-gradient(90deg, var(--cPP), #F5F0ED)'
       };
       progressFill.style.background = colors[topic];
       
@@ -895,15 +884,13 @@
       // Update button colors
       const btn = document.querySelector('.btn');
       const btnColors = {
-        pw: 'rgba(46, 125, 50, 0.15)',
-        cc: 'rgba(56, 142, 60, 0.15)',
-        bc: 'rgba(67, 160, 71, 0.15)',
-        pp: 'rgba(76, 175, 80, 0.15)'
+        pw: 'rgba(65, 98, 133, 0.15)',
+        cc: 'rgba(139, 198, 202, 0.15)',
+        bc: 'rgba(219, 184, 170, 0.15)',
+        pp: 'rgba(239, 205, 82, 0.15)'
       };
       btn.style.background = btnColors[topic];
-      btn.style.color = topic === 'pp' ? '#1b5e20' : 
-                        topic === 'cc' ? '#1b5e20' : 
-                        topic === 'bc' ? '#1b5e20' : '#1b5e20';
+      btn.style.color = '#416285';
       
       // Ensure tool actions and refs are visible
       document.querySelector(".tool-actions").style.display = "flex";
