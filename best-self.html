@@ -6,18 +6,29 @@
 <title>Best Self — Tools</title>
 
 <style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+/* ===== COLOR PALETTE ===== */
+:root{
+  --beige:#DBB8AA;
+  --blue:#416285;
+  --teal:#8BC6CA;
+  --mustard:#EFCD52;
+  --text-dark:#243447;
+}
+
 /* ===== BASE ===== */
 body{
   margin:0;
-  background:#ffffff2a;
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  background:linear-gradient(135deg,var(--beige),var(--teal));
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
 }
 
 #bestSelfApp{
   max-width:1100px;
   margin:0 auto;
   padding:32px;
-  color:#1f2937;
+  color:var(--text-dark);
 }
 
 /* ===== BACK BUTTON ===== */
@@ -25,84 +36,91 @@ body{
   position:fixed;
   top:12px;
   left:12px;
-  padding:10px 14px;
+  padding:10px 16px;
   border-radius:999px;
-  background:#ffffff;
-  font-size:16px;
+  background:var(--mustard);
+  font-size:15px;
   font-weight:700;
   cursor:pointer;
   z-index:20;
-  border:1px solid #777;
-  color:#4b3b7a;
+  border:none;
+  color:#243447;
 }
 
 /* ===== HEADER ===== */
 h1{
   font-family:"Playfair Display", serif;
-  font-size:42px;
-  margin-bottom:6px;
+  font-size:44px;
+  margin-bottom:8px;
+  color:#243447;
 }
 
 .lead{
-  color:#6b7280;
-  margin-bottom:32px;
+  color:#374151;
+  margin-bottom:36px;
+  max-width:620px;
 }
 
-/* ===== TOOL GRID (vertical style) ===== */
+/* ===== TOOL GRID ===== */
 .tool-row{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:24px;
+  gap:28px;
 }
 
 /* ===== TILE ===== */
 .mini-tile{
-  height:260px;
-  padding:28px;
-  border-radius:24px;
-  background:linear-gradient(135deg,#7f4bc2,#6d3eb8);
-  color:#fff;
-  text-decoration:none;
-  box-shadow:0 12px 32px rgba(0,0,0,.15);
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  transition:transform .25s ease, box-shadow .25s ease;
-}
-
-/* hover */
-.mini-tile:hover{
-  transform:translateY(-6px);
-  box-shadow:0 24px 50px rgba(0,0,0,.22);
-}
-
-/* text */
-.mini-tile .title{
-  font-size:22px;
-  font-weight:700;
-  margin-bottom:8px;
-}
-
-.mini-tile .sub{
-  font-size:14px;
-  opacity:.95;
-  max-width:90%;
-}
-
-/* ===== OPEN BUTTON ===== */
-.open-btn{
-  align-self:flex-start;
-  padding:8px 18px;
-  border-radius:999px;
-  background:#ffffff;
-  color:#4b3b7a;
-  font-weight:600;
-  border:none;
+  height:300px;
+  border-radius:26px;
+  position:relative;
   cursor:pointer;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  box-shadow:0 14px 36px rgba(0,0,0,.15);
+  transition:.3s ease;
 }
 
-.open-btn:hover{
-  background:#f3f4ff;
+.mini-tile:hover{
+  transform:translateY(-8px);
+  box-shadow:0 26px 60px rgba(0,0,0,.22);
+}
+
+/* ===== CENTER CONTENT ===== */
+.tile-content{
+  position:relative;
+  z-index:2;
+  padding:24px;
+}
+
+.title{
+  font-family:"Playfair Display", serif;
+  font-size:26px;
+  font-weight:700;
+  margin-bottom:10px;
+}
+
+.sub{
+  font-size:14px;
+  opacity:.9;
+}
+
+/* ===== INDIVIDUAL COLOR THEMES ===== */
+.mini-tile:nth-child(1){
+  background:linear-gradient(135deg,var(--teal),var(--mustard));
+  color:#243447;
+}
+
+.mini-tile:nth-child(2){
+  background:linear-gradient(135deg,var(--blue),var(--teal));
+  color:#ffffff;
+}
+
+.mini-tile:nth-child(3){
+  background:linear-gradient(135deg,var(--mustard),var(--beige));
+  color:#243447;
 }
 
 .hidden{display:none;}
@@ -126,30 +144,27 @@ Create a visual reminder of your inner strengths — pick a role, choose three s
 <div class="tool-row" id="toolRow">
 
   <!-- Best Selfie -->
-  <div class="mini-tile">
-    <div>
+  <div class="mini-tile" onclick="location.href='best-selfie.html'">
+    <div class="tile-content">
       <div class="title">Best Selfie</div>
       <div class="sub">Interactive portrait builder</div>
     </div>
-    <button class="open-btn" onclick="location.href='best-selfie.html'">Open</button>
   </div>
 
   <!-- Burn the Negative -->
-  <div class="mini-tile">
-    <div>
+  <div class="mini-tile" onclick="location.href='burn-the-negative.html'">
+    <div class="tile-content">
       <div class="title">Burn the Negative</div>
       <div class="sub">Identify negative stories and let them go</div>
     </div>
-    <button class="open-btn" onclick="location.href='burn-the-negative.html'">Open</button>
   </div>
 
   <!-- Grateful Moments -->
-  <div class="mini-tile">
-    <div>
+  <div class="mini-tile" onclick="location.href='grateful.html'">
+    <div class="tile-content">
       <div class="title">Grateful Moments</div>
       <div class="sub">Short prompts to focus on gratitude</div>
     </div>
-    <button class="open-btn" onclick="location.href='grateful.html'">Open</button>
   </div>
 
 </div>
