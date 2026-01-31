@@ -7,17 +7,17 @@
 
 <style>
   :root{
-    --bg:#6f49a6;
-    --white:#fff;
-    --saved-bg:#e9fff3;
-    --saved-text:#145c2e;
+    --bg:#FDF9F6; /* Soft cream background */
+    --white:#416285; /* Deep blue-gray text */
+    --saved-bg:#DBB8AA; /* Soft peach */
+    --saved-text:#FDF9F6; /* Soft cream text */
   }
 
   html,body{
     height:100%;
     margin:0;
     font-family:Inter, system-ui, sans-serif;
-    background:linear-gradient(180deg,#6f49a6,#5d3b8f);
+    background:linear-gradient(180deg,#d49e74,#d19f82); /* Cream to light warm gray gradient */
     color:var(--white);
   }
   .back-btn{
@@ -26,10 +26,11 @@
   left:30px;
   padding:8px 16px;
   border-radius:999px;
-  background:rgba(255,255,255,0.15);
-  color:#fff;
+  background:#DBB8AA; /* Soft peach */
+  color:#416285;
   font-size:26px;
   cursor:pointer;
+  border:1px solid #8BC6CA;
 }
   /* LEFT-SIDE BACK BUTTON */
   .back-btn{
@@ -38,15 +39,16 @@
     left:16px;
     padding:10px 16px;
     border-radius:999px;
-    background:rgba(0,0,0,.35);
-    color:#e8e2ff;
+    background:#DBB8AA; /* Soft peach */
+    color:#416285;
     font-weight:700;
     cursor:pointer;
     z-index:10;
+    border:1px solid #8BC6CA;
   }
 
   .back-btn:hover{
-    background:rgba(0,0,0,.55);
+    background:#c9a69a;
   }
 
   .wrap{
@@ -60,11 +62,12 @@
     font-family:"Playfair Display",serif;
     font-size:42px;
     margin:6px 0;
+    color:#416285; /* Deep blue-gray */
   }
 
   /* ⬆️ FONT SIZE for bS */
   p.lead{
-    color:rgba(255,255,255,.88);
+    color:#5A7A9C; /* Medium blue-gray */
     margin-bottom:16px;
     font-size:22px;
   }
@@ -72,20 +75,23 @@
   .canvas-area{
     margin-top:18px;
     border-radius:18px;
-    background:rgba(255,255,255,.04);
+    background:#be785d; /* White */
     padding:14px;
     display:flex;
     flex-direction:column;
     align-items:center;
+    border:1px solid #DBB8AA;
+    box-shadow:0 8px 32px rgba(65, 98, 133, 0.1);
   }
 
   canvas{
-    background:transparent;
+    background:#FDF9F6; /* Soft cream canvas background */
     width:100%;
     max-width:720px;
     height:480px;
     border-radius:12px;
     touch-action:none;
+    border:2px solid #8BC6CA; /* Soft teal border */
   }
 
   .controls{
@@ -101,28 +107,43 @@
     padding:10px 16px;
     border-radius:12px;
     border:none;
-    background:var(--white);
-    color:#111;
+    background:#416285; /* Deep blue-gray */
+    color:#FDF9F6;
     font-weight:700;
     cursor:pointer;
+    transition:all 0.2s ease;
+  }
+
+  .btn:hover{
+    background:#355074; /* Darker blue-gray */
+    transform:translateY(-2px);
+    box-shadow:0 4px 12px rgba(65, 98, 133, 0.2);
   }
 
   .color{
     width:34px;
     height:34px;
     border-radius:50%;
-    border:2px solid rgba(255,255,255,.2);
+    border:2px solid #8BC6CA;
     cursor:pointer;
+    transition:transform 0.2s ease, border-color 0.2s ease;
+  }
+
+  .color:hover{
+    transform:scale(1.1);
+    border-color:#EFCD52;
   }
 
   .saved-msg{
     display:none;
     margin-top:16px;
     padding:10px 14px;
-    background:var(--saved-bg);
-    color:var(--saved-text);
+    background:#DBB8AA; /* Soft peach */
+    color:#416285;
     border-radius:10px;
     font-weight:600;
+    border:1px solid #8BC6CA;
+    box-shadow:0 4px 12px rgba(65, 98, 133, 0.1);
   }
 </style>
 </head>
@@ -145,11 +166,11 @@
       <button class="btn" id="clearBtn">Clear</button>
       <button class="btn" id="undoBtn">Undo</button>
 
-      <div class="color" style="background:#ffffff" data-color="#ffffff"></div>
-      <div class="color" style="background:#ffd966" data-color="#ffd966"></div>
-      <div class="color" style="background:#ff7a7a" data-color="#ff7a7a"></div>
-      <div class="color" style="background:#9ad3f5" data-color="#9ad3f5"></div>
-      <div class="color" style="background:#b39ddb" data-color="#b39ddb"></div>
+      <div class="color" style="background:#416285" data-color="#416285"></div>
+      <div class="color" style="background:#EFCD52" data-color="#EFCD52"></div>
+      <div class="color" style="background:#8BC6CA" data-color="#8BC6CA"></div>
+      <div class="color" style="background:#DBB8AA" data-color="#DBB8AA"></div>
+      <div class="color" style="background:#5A7A9C" data-color="#5A7A9C"></div>
 
       <button class="btn" id="saveBtn">Save</button>
     </div>
@@ -165,7 +186,7 @@ const canvas = document.getElementById('sketch');
 const ctx = canvas.getContext('2d');
 
 let drawing = false;
-let strokeColor = '#ffffff';
+let strokeColor = '#416285';
 let lineWidth = 6;
 
 /* --------- STROKE HISTORY (UNDO FIXED) ---------- */
