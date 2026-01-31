@@ -8,14 +8,14 @@
 <style>
 body{
   margin:0;
-  background:#ffffff2a;
+  background:#FDF9F6; /* Soft cream background */
   font-family: Inter, system-ui, -apple-system;
 }
 #bestSelfApp{
   max-width:1100px;
   margin:0 auto;
   padding:32px;
-  color:#1f2937;
+  color:#416285; /* Deep blue-gray text */
 }
 
 /* BACK BUTTON */
@@ -24,41 +24,39 @@ body{
   margin:14px 0 4px 28px;
   padding:8px 10px;
   border-radius:8px;
-  background:#0001;
+  background:#DBB8AA; /* Soft peach */
   cursor:pointer;
   font-weight:700;
+  color:#416285; /* Deep blue-gray text */
+  border:1px solid #DBB8AA; /* Soft peach border */
 }
-.back-btn:hover{background:#0002}
+.back-btn:hover{background:#c9a69a}
 
-/* PANEL */
-.panel-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-  gap:20px;
-  background:#fff;
-  padding:24px;
-  border-radius:20px;
-}
+
 .card{
-  background:#bd86cabb;
+  background:#FFFFFF; /* White card background */
   border-radius:22px;
   padding:32px;
-  box-shadow:0 18px 50px #0002;
+  box-shadow:0 18px 50px rgba(65, 98, 133, 0.1);
+  border: 1px solid #F0E6E0;
 }
-.card h3{font-size:26px;margin-bottom:4px}
-.card p{color:#333;margin-bottom:12px}
+.card h3{font-size:26px;margin-bottom:4px;color:#416285} /* Deep blue-gray heading */
+.card p{color:#5A7A9C;margin-bottom:12px} /* Medium blue-gray text */
 
 /* ROLES */
 .roles{display:flex;gap:12px;flex-wrap:wrap}
 .role{
   padding:12px 18px;
   border-radius:999px;
-  background:#f3ecff;
+  background:#F0E6E0; /* Light warm gray */
   cursor:pointer;
+  border:1px solid #DBB8AA; /* Soft peach border */
+  color:#416285; /* Deep blue-gray text */
 }
 .role.selected{
-  background:#7f4bc2;
-  color:#fff;
+  background:#8BC6CA; /* Soft teal */
+  color:#FFFFFF;
+  border-color:#8BC6CA;
 }
 
 /* STRENGTHS */
@@ -70,14 +68,17 @@ body{
 .strength{
   padding:14px;
   border-radius:14px;
-  background:#f7f4ff;
+  background:#F5F0ED; /* Very light warm gray */
   text-align:center;
   cursor:pointer;
+  border:1px solid #E0D5CF;
+  color:#416285;
 }
 .strength.chosen{
-  background:#d8b4fe;
-  color:#4c1d95;
+  background:#8BC6CA; /* Soft teal */
+  color:#FFFFFF;
   font-weight:700;
+  border-color:#8BC6CA;
 }
 
 /* BUTTONS */
@@ -88,8 +89,10 @@ body{
   font-weight:600;
   cursor:pointer;
 }
-.btn.primary{background:#6d3eb8;color:#fff}
-.btn.secondary{background:#e5e7eb}
+.btn.primary{background:#416285;color:#fff} /* Deep blue-gray primary button */
+.btn.primary:hover{background:#355074}
+.btn.secondary{background:#F0E6E0;color:#416285;border:1px solid #DBB8AA} /* Light warm gray secondary */
+.btn.secondary:hover{background:#E0D5CF}
 .btn:disabled{opacity:.45}
 
 /* PHOTO AREA */
@@ -97,16 +100,21 @@ body{
   margin-top:24px;
   padding:22px;
   border-radius:18px;
-  background:#fff;
+  background:#F9F4F1; /* Very light cream */
+  border:1px solid #E0D5CF;
 }
 .photo-actions{display:flex;gap:12px;flex-wrap:wrap}
 .photo-btn{
   padding:10px 16px;
   border-radius:999px;
-  border:1px solid #aaa;
-  background:#fff;
+  border:1px solid #8BC6CA; /* Soft teal border */
+  background:#F0E6E0; /* Light warm gray */
   cursor:pointer;
   font-weight:600;
+  color:#416285;
+}
+.photo-btn:hover{
+  background:#E0D5CF;
 }
 
 /* PREVIEW CARD */
@@ -117,7 +125,8 @@ body{
   border-radius:26px;
   overflow:hidden;
   position:relative;
-  background:#111;
+  background:#416285; /* Deep blue-gray background */
+  border:4px solid #8BC6CA;
 }
 .preview-wrap img{
   width:100%;
@@ -133,6 +142,7 @@ body{
   justify-content:space-between;
   color:#fff;
   font-family:"Playfair Display",serif;
+  background:linear-gradient(to bottom, rgba(65, 98, 133, 0.7), rgba(53, 80, 116, 0.9));
 }
 .overlay-top{font-size:13px;opacity:.85}
 .overlay-role{font-size:26px;margin-top:2px}
@@ -143,23 +153,25 @@ body{
 .camera-modal{
   position:fixed;
   inset:0;
-  background:#000c;
+  background:rgba(65, 98, 133, 0.95); /* Deep blue-gray overlay */
   display:none;
   justify-content:center;
   align-items:center;
 }
 .camera-box{
-  background:#111;
+  background:#FFFFFF; /* White */
   padding:18px;
   border-radius:14px;
+  border:2px solid #8BC6CA;
+  box-shadow: 0 20px 60px rgba(65, 98, 133, 0.3);
 }
-video{width:360px;border-radius:10px}
+video{width:360px;border-radius:10px;border:2px solid #8BC6CA}
 
 /* REVIEW (Retake / Use Photo) */
 .review-modal{
   position:fixed;
   inset:0;
-  background:#000c;
+  background:rgba(65, 98, 133, 0.95); /* Deep blue-gray overlay */
   display:none;
   justify-content:center;
   align-items:center;
@@ -168,6 +180,7 @@ video{width:360px;border-radius:10px}
 .review-img{
   width:360px;
   border-radius:18px;
+  border:3px solid #8BC6CA;
 }
 .review-actions{
   margin-top:14px;
@@ -182,6 +195,17 @@ video{width:360px;border-radius:10px}
   font-weight:700;
   cursor:pointer;
 }
+.review-btn:nth-child(1){
+  background:#F0E6E0; /* Light warm gray */
+  color:#416285;
+  border:1px solid #8BC6CA;
+}
+.review-btn:nth-child(2){
+  background:#416285; /* Deep blue-gray */
+  color:#fff;
+}
+.review-btn:nth-child(1):hover{background:#E0D5CF}
+.review-btn:nth-child(2):hover{background:#355074}
 </style>
 </head>
 
@@ -191,12 +215,12 @@ video{width:360px;border-radius:10px}
 
 <div id="bestSelfApp">
 
-<h1 style="font-family:'Playfair Display',serif;margin:4px 0 4px">
+<h1 style="font-family:'Playfair Display',serif;margin:4px 0 4px;color:#416285">
   Best Selfie
 </h1>
 
-<p style="font-size:15px;color:#4b475c">
-  “You already carry these strengths within you — this card is your reminder.”
+<p style="font-size:15px;color:#416285"> <!-- Deep blue-gray text -->
+  "You already carry these strengths within you — this card is your reminder."
 </p>
 
 <div id="detail"></div>
