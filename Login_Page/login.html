@@ -1,0 +1,460 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login / Signup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+      font-family:Arial, sans-serif;
+      background:linear-gradient(135deg,#ffffff,#f3f3f3);
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+.brand-bar{
+  position:absolute;
+  top:22px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:16px;
+  font-weight:600;
+  letter-spacing:0.14em;
+  color:#6b8cff;
+  opacity:0.85;
+}
+
+
+
+    .scene{
+      width:340px;
+      height:540px;
+      perspective:1200px;
+    }
+    .card{
+      width:100%;
+      height:100%;
+      position:relative;
+      transform-style:preserve-3d;
+      transition:transform 0.8s cubic-bezier(0.25,0.8,0.25,1);
+    }
+    .card.flipped{transform:rotateX(180deg);}
+
+    .face{
+      position:absolute;
+      inset:0;
+      border-radius:24px;
+      background:#ffffff;
+      box-shadow:0 18px 40px rgba(0,0,0,.18);
+      padding:22px 22px;
+      backface-visibility:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+    .front{
+      border:2px solid #1e90ff;
+      box-shadow:
+        0 0 0 1px rgba(30,144,255,0.2),
+        0 0 18px rgba(30,144,255,0.45);
+    }
+    .face.back{
+      background:#000000;
+      color:#ffffff;
+      transform:rotateX(180deg);
+      border:2px solid #ffd700;
+      padding-bottom:46px;
+    }
+
+    .logo{
+      text-align:center;
+      font-size:30px;
+      margin-bottom:6px;
+      color:#1e90ff;
+    }
+    .face.back .logo{color:#ffd700;}
+    h2{
+      text-align:center;
+      margin-bottom:6px;
+      font-size:22px;
+    }
+    .logo img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+    }
+    .subtitle{
+      text-align:center;
+      font-size:12px;
+      color:#777;
+      margin-bottom:12px;
+    }
+    .face.back .subtitle{color:#bbbbbb;}
+
+    .form-body{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:8px;
+    }
+
+    .input-group{
+      position:relative;
+    }
+    .input-group input{
+      width:100%;
+      padding:11px 12px 11px 38px;
+      border-radius:999px;
+      border:1px solid #ddd;
+      font-size:14px;
+    }
+    .input-group input:focus{
+      outline:none;
+      border-color:#1e90ff;
+      box-shadow:0 0 10px rgba(30,144,255,.35);
+    }
+    .input-icon{
+      position:absolute;
+      left:14px;
+      top:50%;
+      transform:translateY(-50%);
+      font-size:16px;
+      color:#1e90ff;
+    }
+    .face.back .input-icon{color:#ffd700;}
+
+    .extras-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:12px;
+      margin-top:4px;
+      color:#666;
+    }
+    .extras-row label{
+      display:flex;
+      align-items:center;
+      gap:4px;
+      cursor:pointer;
+    }
+    .extras-row a{
+      color:#1e90ff;
+      text-decoration:none;
+      font-weight:500;
+    }
+    .extras-row a:hover{text-decoration:underline;}
+
+    button{
+      width:100%;
+      padding:11px;
+      border-radius:999px;
+      border:none;
+      font-weight:600;
+      font-size:15px;
+      cursor:pointer;
+      background:#1e90ff;
+      color:#ffffff;
+      transition:background 0.25s, transform 0.25s, box-shadow 0.25s;
+    }
+    button:hover{
+      background:#0f70c8;
+      transform:translateY(-2px);
+      box-shadow:0 8px 18px rgba(0,0,0,.2);
+    }
+    .primary-btn{margin-top:6px;}
+    .toggle{
+      margin-top:8px;
+      background:#ffffff;
+      color:#1e90ff;
+      border:1px solid #1e90ff;
+    }
+    .toggle:hover{
+      background:#1e90ff;
+      color:#ffffff;
+    }
+
+    .face.back button.main{
+      background:#ffd700;
+      color:#000;
+    }
+    .face.back button.toggle{
+      background:#000;
+      color:#ffd700;
+      border:1px solid #ffd700;
+    }
+    .face.back button.toggle:hover{
+      background:#ffd700;
+      color:#000;
+    }
+
+    .social-area{
+      margin-top:10px;
+    }
+    .social-label{
+      text-align:center;
+      font-size:12px;
+      color:#777;
+      margin:8px 0 6px;
+    }
+    .face.back .social-label{color:#bbbbbb;}
+    .social-buttons{
+      display:flex;
+      gap:8px;
+      justify-content:center;
+    }
+    .social-btn{
+      flex:1;
+      border-radius:999px;
+      border:1px solid #ddd;
+      padding:7px 6px;
+      font-size:11px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:5px;
+      cursor:pointer;
+      background:#ffffff;
+      color:#333;
+      transition:background 0.2s, box-shadow 0.2s, transform 0.2s, color 0.2s;
+    }
+    .face.back .social-btn{
+      background:#000;
+      color:#f5f5f5;
+      border-color:#555;
+    }
+    .social-btn span{font-size:14px;}
+    .social-btn.google{border-color:#db4437;}
+    .social-btn.apple{border-color:#000;}
+    .social-btn.twitter{border-color:#1da1f2;}
+    .social-btn.google:hover{
+      background:#db4437;
+      color:#fff;
+      box-shadow:0 0 10px rgba(219,68,55,.5);
+      transform:translateY(-1px);
+    }
+    .social-btn.apple:hover{
+      background:#000;
+      color:#fff;
+      box-shadow:0 0 10px rgba(0,0,0,.5);
+      transform:translateY(-1px);
+    }
+    .social-btn.twitter:hover{
+      background:#1da1f2;
+      color:#fff;
+      box-shadow:0 0 10px rgba(29,161,242,.5);
+      transform:translateY(-1px);
+    }
+    .face.back .social-btn.google:hover{
+      background:#db4437;
+      border-color:#db4437;
+    }
+    .face.back .social-btn.apple:hover{
+      background:#ffffff;
+      color:#000;
+    }
+    .face.back .social-btn.twitter:hover{
+      background:#1da1f2;
+      border-color:#1da1f2;
+    }
+
+    .form-footer{
+      margin-top:10px;
+      font-size:11px;
+      text-align:center;
+      color:#999;
+    }
+    .face.back .form-footer{color:#888;}
+    .phone-combined{
+  display:flex;
+  align-items:center;
+  border:1px solid #ddd;
+  border-radius:999px;
+  padding:0 10px;
+  background:#fff;
+}
+
+.phone-combined select{
+  border:none;
+  background:transparent;
+  font-size:14px;
+  cursor:pointer;
+  outline:none;
+  padding:10px 6px 10px 0;
+}
+
+.phone-combined input{
+  border:none;
+  flex:1;
+  font-size:14px;
+  padding:10px 0;
+  outline:none;
+}
+
+.phone-combined:focus-within{
+  border-color:#ffd700;
+  box-shadow:0 0 10px rgba(255,215,0,.35);
+}
+
+  </style>
+</head>
+<body>
+  <div class="brand-bar">HELD</div>
+
+  <div class="scene">
+    <div class="card" id="card">
+      <!-- LOGIN (front) -->
+      <div class="face front">
+        <div class="logo"><img src="https://www.sju.edu.in/uploads/userfiles/image/St%20Joseph's%20University%20Emblem.png"></div>
+        <h2>Welcome</h2>
+        <div class="subtitle">Sign in to continue to Held</div>
+
+        <form id="loginForm">
+          <div class="form-body">
+            <div class="input-group">
+              <span class="input-icon">🆔</span>
+              <input
+                type="text"
+                id="loginAdmissionId"
+                placeholder="Admission ID"
+                required
+                pattern="^[0-9]{3}[A-Za-z0-9]{4,5}[0-9]{2,3}$"
+                title="Admission ID must be 3 numbers, followed by 4-5 letters/numbers, then 2-3 numbers."
+              >
+            </div>
+            <div class="input-group">
+  <span class="input-icon">🔒</span>
+  <input
+    type="password"
+    id="loginPassword"
+    placeholder="Password"
+    required
+    pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$"
+    title="Password must contain at least one uppercase letter, one number and one special character"
+  >
+  <span
+    id="togglePassword"
+    style="position:absolute; right:12px; top:50%; transform:translateY(-50%); cursor:pointer; font-size:14px; color:#1e90ff;"
+  >
+    👁
+  </span>
+</div>
+
+            <div class="extras-row">
+              <label>
+                <input type="checkbox" style="accent-color:#1e90ff;">
+                <span>Remember me</span>
+              </label>
+              <a href="#">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="primary-btn">Sign In</button>
+
+            <div class="social-area">
+              <div class="social-label">or continue with</div>
+              <div class="social-buttons">
+                <button type="button" class="social-btn google">
+                  <span>G</span>Google
+                </button>
+                <button type="button" class="social-btn apple">
+                  <span>A</span>Apple
+                </button>
+                <button type="button" class="social-btn twitter">
+                  <span>t</span>Twitter
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-footer">
+            <button type="button" class="toggle" onclick="flipCard()">Create new account</button>
+            <div style="margin-top:6px;">Secure login • No spam</div>
+          </div>
+        </form>
+      </div>
+
+      <!-- SIGN UP (back) -->
+      <div class="face back">
+        <div class="logo">✨</div>
+        <h2>Create account</h2>
+        <div class="subtitle">Enter your email to get started</div>
+
+        <form id="signupForm">
+          <div class="form-body">
+            <div class="input-group">
+              <span class="input-icon">🆔</span>
+              <input
+                type="text"
+                id="signupAdminId"
+                placeholder="Admin ID"
+                required
+                pattern="^[0-9]{3}[A-Za-z0-9]{4,5}[0-9]{2,3}$"
+                title="Admin ID must be 3 numbers, followed by 4-5 letters/numbers, then 2-3 numbers."
+              >
+            </div>
+            <div class="input-group">
+              <span class="input-icon">📧</span>
+              <input
+                type="email"
+                id="signupEmail"
+                placeholder="Email ID"
+                required
+                pattern="^[^@]+@[^@]+.(com|in|net|org)$"
+                title="Enter a valid email like user@example.com or user@example.in"
+              >
+            </div>
+            <div class="input-group">
+              <span class="input-icon">🔒</span>
+              <input
+                type="password"
+                id="signupPassword"
+                placeholder="Password"
+                required
+                pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$"
+                title="Password must contain at least one uppercase letter, one number and one special character"
+              >
+            </div>
+            <button type="submit" class="main primary-btn">Continue</button>
+          </div>
+
+          <div class="form-footer">
+            <button type="button" class="toggle" onclick="flipCard()">Back to login</button>
+            <div style="margin-top:6px;">By continuing you agree to our terms</div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+<script>
+  function flipCard(){
+    document.getElementById('card').classList.toggle('flipped');
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    alert('Login clicked');
+  });
+
+  document.getElementById('signupForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    alert('Signup clicked');
+  });
+  
+    // toggle show / hide password
+  const pwdInput = document.getElementById('loginPassword');
+  const togglePwd = document.getElementById('togglePassword');
+
+  if (pwdInput && togglePwd) {
+    togglePwd.addEventListener('click', () => {
+      const isPassword = pwdInput.type === 'password';
+      pwdInput.type = isPassword ? 'text' : 'password';
+      togglePwd.textContent = isPassword ? '🙈' : '👁';
+    });
+  }
+</script>
+</body>
+</html>
+
