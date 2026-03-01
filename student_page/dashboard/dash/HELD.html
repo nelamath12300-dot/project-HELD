@@ -1,0 +1,499 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>HELD - Student Counseling Dashboard</title>
+    <!-- Fonts: Outfit for Dashboard, Google Sans for Chatbot -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Google+Sans:wght@400;500;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="stylesheet1.css" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+    /* Counselor modal */
+    .modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.45); z-index: 1200; }
+    .modal.open { display: flex; }
+    .modal-content { background: white; width: 92%; max-width: 760px; border-radius: 10px; box-shadow: 0 12px 30px rgba(0,0,0,0.2); display: flex; overflow: hidden; }
+    .modal-left { flex: 0 0 36%; background: #f5f7fb; display:flex; align-items:center; justify-content:center; }
+    .modal-left img { width: 100%; height: auto; object-fit:cover; }
+    .modal-right { padding: 20px; flex: 1 1 auto; }
+    .modal-right h3 { margin: 0 0 6px 0; }
+    .modal-right p.role { margin: 0 0 12px 0; color: var(--text-muted); font-weight:600; }
+    .modal-close { margin-top: 14px; background: var(--primary); color: #fff; border: none; padding: 10px 14px; border-radius:6px; cursor:pointer; }
+    @media (max-width:600px){ .modal-content{flex-direction:column;} .modal-left{flex:0 0 auto;height:180px;} .modal-left img{height:100%;width:auto;} }
+    /* Counselor list images */
+    .counselors-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:12px}
+    .counselor-card{display:flex;flex-direction:column;align-items:center;padding:14px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);box-shadow:0 4px 12px rgba(15,23,42,0.03)}
+    .counselor-card .c-img{width:88px;height:88px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;margin-bottom:10px;flex:0 0 auto}
+    .counselor-card .c-img img{width:100%;height:100%;object-fit:cover;display:block}
+    .counselor-card h3{margin:6px 0 4px 0}
+    .counselor-card p{margin:0 0 12px 0;text-align:center}
+    /* Counselors layout tuning */
+    #view-counselors{
+        max-width:1200px;
+        margin:0 auto;
+        padding-top:10px;
+        scroll-margin-top:140px;
+    }
+    #view-counselors h2{
+        margin-bottom:14px;
+        font-size:30px;
+        font-family:"Playfair Display", serif;
+    }
+    #view-counselors .counselors-grid{
+        grid-template-columns:repeat(6,minmax(0,1fr));
+        gap:18px;
+        align-items:stretch;
+    }
+    #view-counselors .counselors-grid .counselor-card{
+        grid-column:span 2;
+    }
+    #view-counselors .counselors-grid .counselor-card:nth-child(4){
+        grid-column:2 / span 2;
+    }
+    #view-counselors .counselors-grid .counselor-card:nth-child(5){
+        grid-column:4 / span 2;
+    }
+    #view-counselors .counselor-card{
+        min-height:280px;
+        padding:16px;
+        border:1px solid rgba(102,126,234,.18);
+    }
+    #view-counselors .counselor-card .c-img{
+        width:104px;
+        height:104px;
+        margin-bottom:10px;
+    }
+    #view-counselors .counselor-card h3{
+        font-size:17px;
+        margin-bottom:6px;
+    }
+    #view-counselors .counselor-card p{
+        font-size:14px;
+        margin-bottom:14px;
+    }
+    @media (max-width:1024px){
+        #view-counselors .counselors-grid{
+            grid-template-columns:repeat(2,minmax(0,1fr));
+        }
+        #view-counselors .counselors-grid .counselor-card,
+        #view-counselors .counselors-grid .counselor-card:nth-child(4),
+        #view-counselors .counselors-grid .counselor-card:nth-child(5){
+            grid-column:auto;
+        }
+    }
+    @media (max-width:640px){
+        #view-counselors .counselors-grid{grid-template-columns:1fr}
+        #view-counselors .counselor-card{min-height:auto}
+    }
+    /* Dashboard quote carousel */
+    .quote-carousel{margin-bottom:18px}
+    .quote-track{
+        display:flex;
+        overflow-x:auto;
+        scroll-snap-type:x proximity;
+        scroll-behavior:smooth;
+        gap:12px;
+        border-radius:16px;
+        -ms-overflow-style:none;
+        scrollbar-width:none;
+    }
+    .quote-track::-webkit-scrollbar{display:none}
+    .quote-slide{
+        position:relative;
+        flex:0 0 100%;
+        min-height:300px;
+        border-radius:16px;
+        overflow:hidden;
+        scroll-snap-align:start;
+        box-shadow:0 12px 30px rgba(15,23,42,.18);
+        background:#1f2937;
+    }
+    .quote-slide img{
+        position:absolute;
+        inset:0;
+        width:100%;
+        height:100%;
+        object-fit:cover;
+        opacity:.68;
+        transform:scale(1.01);
+    }
+    .quote-slide::after{
+        content:"";
+        position:absolute;
+        inset:0;
+        background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.62));
+    }
+    .quote-overlay{
+        position:relative;
+        z-index:1;
+        color:#fff;
+        padding:24px;
+        display:flex;
+        flex-direction:column;
+        justify-content:flex-end;
+        min-height:300px;
+    }
+    .quote-kicker{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.95}
+    .quote-text{margin:8px 0 0 0;font-size:24px;line-height:1.35;font-weight:700}
+    .quote-author{margin-top:10px;font-size:14px;font-weight:600;opacity:.95}
+    .quote-meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:12px}
+    .quote-count{font-weight:700;opacity:.95}
+    .mood-title{
+        margin:0 0 12px 0;
+        padding:12px 16px;
+        border-radius:14px;
+        background:linear-gradient(135deg,rgba(47,91,214,.16),rgba(239,205,82,.26));
+        border:1px solid rgba(47,91,214,.24);
+        box-shadow:0 8px 20px rgba(15,23,42,.08);
+    }
+    .mood-title h2{
+        margin:0;
+        display:flex;
+        align-items:center;
+        gap:10px;
+        font-family:"Playfair Display", serif;
+        font-size:32px;
+        line-height:1.1;
+        color:#1f2d3d;
+    }
+    .mood-title p{
+        margin:6px 0 0 0;
+        font-size:14px;
+        color:var(--text-muted);
+        font-weight:600;
+    }
+    .sidebar .nav a .material-symbols-rounded{font-size:18px}
+    @media (max-width:768px){
+        .quote-slide,.quote-overlay{min-height:230px}
+        .quote-text{font-size:19px}
+        .mood-title h2{font-size:24px}
+    }
+    </style>
+</head>
+<body>
+
+    <!-- MOBILE HEADER WITH LOGO -->
+    <div class="mobile-header">
+        <button class="sidebar-toggle" id="sidebarToggle">
+            <span class="material-symbols-rounded">menu</span>
+        </button>
+        <div class="logo" id="homeBtnMobile" role="button" tabindex="0" aria-label="Go to HELD home">
+            <img src="Logo.jpg">
+            <span>HELD</span>
+        </div>
+    </div>
+
+    <!-- APP LAYOUT: SIDEBAR + MAIN -->
+    <div class="app-layout">
+        <aside class="sidebar" id="sidebar" aria-label="Primary sidebar">
+            <div class="brand" id="homeBtn" role="button" tabindex="0" aria-label="Go to HELD home">
+                <img src="Logo.jpg" alt="logo">
+                <div class="brand-title">HELD</div>
+            </div>
+            <nav class="nav">
+                <a href="#view-mood" onclick="switchTab('mood')"><span class="material-symbols-rounded">mood</span> Mood</a>
+                <a href="#view-counselors" onclick="switchTab('counselors')"><span class="material-symbols-rounded">group</span> Counselors</a>
+                <a href="#view-games" onclick="switchTab('games')"><span class="material-symbols-rounded">sports_esports</span> Games</a>
+                <a href="#view-tools" onclick="switchTab('tools')"><span class="material-symbols-rounded">build</span> Tools</a>
+            </nav>
+            
+        </aside>
+    
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">  
+        <header>
+            <div class="greeting">
+                <h1 id="greeting-text">Good Morning, Alen</h1>
+                <p>Let's take care of your mind today.</p>
+            </div>
+            <div class="date-badge" id="date-badge">
+                <!-- Date inserted by JS -->
+            </div>
+        </header>
+
+        <!-- DASHBOARD VIEW -->
+        <div id="view-mood" class="container view-section">
+            
+            <section class="quote-carousel" aria-label="Inspiring quotes">
+                <div class="quote-track" id="quoteCarouselTrack">
+                    <!-- Slides inserted by script1.js -->
+                </div>
+            </section>
+            
+                <h2> Mood</h2>
+                <h4>Choose how you feel and jump into the right support.</h4>
+            
+
+            <div class="mood-buttons">
+                <!-- First Row: 5 buttons -->
+                <a href="../../module-2/v_emotion-coping.html?emotion=happy" class="big-mood-btn happy-color">
+                    <i class="fas fa-smile-beam"></i>
+                    <span>Happy 😊</span>
+                </a>
+
+                <a href="../../module-2/v_emotion-coping.html?emotion=sad" class="big-mood-btn sad-color">
+                    <i class="fas fa-sad-tear"></i>
+                    <span>Sad 🌧️</span>
+                </a>
+
+                <a href="../../module-2/v_emotion-coping.html?emotion=angry" class="big-mood-btn angry-color">
+                    <i class="fas fa-angry"></i>
+                    <span>Angry/Irritated 🔥</span>
+                </a>
+
+                <a href="../../module-2/v_emotion-coping.html?emotion=anxious" class="big-mood-btn anxious-color">
+                    <i class="fas fa-surprise"></i>
+                    <span>Fearful/Anxious 🦋</span>
+                </a>
+
+                <a href="../../module-2/v_emotion-coping.html?emotion=overwhelmed" class="big-mood-btn overwhelmed-color">
+                    <i class="fas fa-cloud-rain"></i>
+                    <span>Overwhelmed 🌪️</span>
+                </a>
+
+                <!-- Second Row: 4 buttons -->
+                <a href="../../module-2/v_emotion-coping.html?emotion=lonely" class="big-mood-btn lonely-color">
+                    <i class="fas fa-user-alone"></i>
+                    <span>Lonely 🌙</span>
+                </a>
+
+                <a href="../../module-2/v_emotion-coping.html?emotion=tired" class="big-mood-btn tired-color">
+                    <i class="fas fa-tired"></i>
+                    <span>Tired/Burnt Out 💤</span>
+                </a>
+
+                <a href="../../module-2/v_emotion-coping.html?emotion=calm" class="big-mood-btn calm-color">
+                    <i class="fas fa-peace"></i>
+                    <span>Calm/Peaceful 🌿</span>
+                </a>
+
+                <a href="../../module-2/v_emotion-coping.html?emotion=unknown" class="big-mood-btn unknown-color">
+                    <i class="fas fa-question-circle"></i>
+                    <span>I'm Not Sure 🤔</span>
+                </a>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="../../module-2/v_stats.html" class="nav-btn">
+                    <i class="fas fa-chart-line"></i> View Your Stats 📊
+                </a>
+            </div>
+
+            <footer>
+                <p>Welcome to your space! Even cloudy feelings look brighter here! ☁️➡️☀️</p>
+                <div class="emergency-contact">
+                    If you need immediate help, contact a mental health professional. You're not alone. 💙
+                </div>
+            </footer>
+        </div>
+
+        <!-- COUNSELORS VIEW -->
+        <div id="view-counselors" class="view-section">
+            <h2>Our Counselors</h2>
+            <div class="counselors-grid">
+                <div class="counselor-card">
+                    <div class="c-img"><img src="images/counselors/ryan_peter.jpg" alt="Ryan Peter"></div>
+                    <h3>Ryan Peter</h3>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 12px;">Career & Academic Coach</p>
+                    <button class="action-btn" onclick="openCounselorModal('Ryan Peter','Career & Academic Coach','Ryan helps students with career planning, goal setting and academic coaching. Book a short check-in to explore options and next steps.','images/counselors/ryan_peter.jpg')" style="background: var(--primary); color: white; width: 100%;">Connect</button>
+                </div>
+                <div class="counselor-card">
+                    <div class="c-img"><img src="images/counselors/joyson_jb.jpg" alt="Joyson J B"></div>
+                    <h3>Joyson J B</h3>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 12px;">Mindfulness Expert</p>
+                    <button class="action-btn" onclick="openCounselorModal('Joyson J B','Mindfulness Expert','Joyson guides short breathing and grounding exercises to reduce stress and improve focus. Ideal for quick resets.','images/counselors/joyson_jb.jpg')" style="background: var(--primary); color: white; width: 100%;">Connect</button>
+                </div>
+                <div class="counselor-card">
+                    <div class="c-img"><img src="images/counselors/muskan_mehta.jpg" alt="Muskan Mehta"></div>
+                    <h3>Muskan Mehta</h3>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 12px;">Mindfulness Expert</p>
+                    <button class="action-btn" onclick="openCounselorModal('Muskan Mehta','Mindfulness Expert','Muskan offers practical techniques for daily mindfulness and stress management. Great for building small, sustainable habits.','images/counselors/muskan_mehta.jpg')" style="background: var(--primary); color: white; width: 100%;">Connect</button>
+                </div>
+                <div class="counselor-card">
+                    <div class="c-img"><img src="images/counselors/estelle_dsouza.jpg" alt="Estelle D'Souza"></div>
+                    <h3>Estelle D'Souza</h3>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 12px;">Mindfulness Expert</p>
+                    <button class="action-btn" onclick="openCounselorModal(&quot;Estelle D'Souza&quot;,'Mindfulness Expert','Estelle focuses on compassionate self-talk and mood regulation practices to help you feel steadier.','images/counselors/estelle_dsouza.jpg')" style="background: var(--primary); color: white; width: 100%;">Connect</button>
+                </div>
+                <div class="counselor-card">
+                    <div class="c-img"><img src="images/counselors/muskan_jain.jpg" alt="Muskan Jain"></div>
+                    <h3>Muskan Jain</h3>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 12px;">Mindfulness Expert</p>
+                    <button class="action-btn" onclick="openCounselorModal('Muskan Jain','Mindfulness Expert','Muskan supports sleep hygiene and relaxation techniques tailored to students.','images/counselors/muskan_jain.jpg')" style="background: var(--primary); color: white; width: 100%;">Connect</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- GAMES SECTION -->
+        <div id="view-games" class="view-section">
+            <h2>Relaxation Games Area</h2>
+            <p style="margin-top: 10px; color: var(--text-muted);">More interactive games loaded here...</p>
+        </div>
+        
+        <!-- TOOLS SECTION -->
+         <div id="view-tools" class="view-section">
+            <h2>Tools To Playaround</h2>
+            <p style="margin-top: 10px; color: var(--text-muted);">Helpful tools loaded here...</p>
+        </div>
+        <h2>Tools To Playaround</h2>
+        <div class="tool-grid" role="list">
+        
+
+        <!-- BREATHING -->
+        <a class="tool-card pattern-2" href="../../module-1/breathing.html">
+            <div class="card-bg"></div>
+            <div class="card-inner">
+            <svg class="mini-anim" viewBox="0 0 80 60" width="80" height="60">
+                <circle class="pulse" cx="40" cy="30" r="6"/>
+            </svg>
+            <div class="card-title">Breathing</div>
+            <div class="card-sub">Find your calm</div>
+            </div>
+        </a>
+
+        <!-- QUOTES -->
+        <button class="tool-card pattern-3" onclick="openTool('../../module-1/quotes.html')">
+            <div class="card-bg"></div>
+            <div class="card-inner">
+            <svg class="mini-anim" viewBox="0 0 80 60" width="80" height="60">
+                <path d="M15 38 Q40 8 65 38" fill="none"/>
+            </svg>
+            <div class="card-title">Quotes</div>
+            <div class="card-sub">Affirmations</div>
+            </div>
+        </button>
+
+        <!-- BEST SELF -->
+        <button class="tool-card pattern-5" onclick="openTool('../../module-1/best-self.html')">
+            <div class="card-bg"></div>
+            <div class="card-inner">
+            <svg class="mini-anim best-self-anim" viewBox="0 0 100 100" width="90" height="90">
+                <circle class="ring ring-1" cx="50" cy="50" r="26" fill="none"/>
+                <circle class="ring ring-2" cx="50" cy="50" r="14" fill="none"/>
+                <path class="spark" d="M50 30 L52 46 L68 50 L52 54 L50 70 L48 54 L32 50 L48 46 Z"/>
+            </svg>
+            <div class="card-title">Best Self</div>
+            <div class="card-sub">Self reflection tools</div>
+            </div>
+        </button>
+
+        <!-- MIND LIBRARY (NEW TOOL) -->
+        <button class="tool-card pattern-6" onclick="openTool('../../module-1/mind-library.html')">
+            <div class="card-bg"></div>
+            <div class="card-inner">
+            <svg class="mini-anim mind-lib-anim" viewBox="0 0 100 100" width="90" height="90">
+                <!-- book -->
+                <path class="book"
+                d="M28 28
+                    Q42 22 50 28
+                    Q58 22 72 28
+                    L72 72
+                    Q58 66 50 72
+                    Q42 66 28 72
+                    Z" fill="none"/>
+                <!-- sparkle -->
+                <path class="spark2"
+                d="M50 36 L52 46 L62 50 L52 54 L50 64 L48 54 L38 50 L48 46 Z"/>
+            </svg>
+            <div class="card-title">Mind Library</div>
+            <div class="card-sub">Topics & worksheets</div>
+            </div>
+        </button>
+
+        </div>
+
+
+    </main>
+
+    </div> <!-- end .app-layout -->
+
+    <!-- CHATBOT WIDGET -->
+    <div class="chat-widget">
+        
+        <!-- Chat Window (Initially Hidden) -->
+        <div class="chat-window" id="chatWindow">
+            
+            <!-- Header -->
+            <div class="chat-header">
+                <div class="header-title">
+                    <span class="material-symbols-rounded gemini-icon">smart_toy</span>
+                    <span>Your Friendly Assistant</span>
+                </div>
+                <button class="close-btn" id="closeChatBtn">
+                    <span class="material-symbols-rounded">close</span>
+                </button>
+            </div>
+
+            <!-- Messages Container -->
+            <div class="chat-messages" id="chatMessages">
+                <!-- Initial Welcome Message -->
+                <div class="message bot">
+                    <div class="chat-avatar">
+                        <span class="material-symbols-rounded gemini-icon">smart_toy</span>
+                    </div>
+                    <div class="message-content">
+                        Hi Alen! 👋 I'm your wellness companion. How are you feeling today?
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Typing Indicator -->
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="chat-input-area">
+                <div class="input-wrapper">
+                    <textarea id="chatInput" rows="1" placeholder="Message..."></textarea>
+                    <button class="send-btn" id="sendBtn">
+                        <span class="material-symbols-rounded">send</span>
+                    </button>
+                </div>
+                
+            </div>
+
+        </div>
+
+        <!-- Toggle Button -->
+        <button class="chat-toggle-btn" id="toggleChatBtn">
+            <span class="material-symbols-rounded">chat_bubble</span>
+        </button>
+
+    </div>
+
+    <!-- Counselor modal (populated by script1.js) -->
+    <div id="counselorModal" class="modal" role="dialog" aria-hidden="true">
+        <div class="modal-content" role="document">
+            <div class="modal-left">
+                <img id="counselorImage" src="" alt="Counselor photo placeholder">
+            </div>
+            <div class="modal-right">
+                <h3 id="counselorName">Name</h3>
+                <div class="role" id="counselorRole">Role</div>
+                <p id="counselorDesc">Description</p>
+                <button class="modal-close" onclick="closeCounselorModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script1.js"></script>
+</body>
+</html>
+<!--       _
+       .__(.)< (MEOW)
+        \___)   
+ ~~~~~~~~~~~~~~~~~~-->
+
+
+
+
+
+

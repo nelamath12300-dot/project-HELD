@@ -1,0 +1,184 @@
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#FDF9F6;
+  --bg-soft:#DBB8AA;
+
+  --text:#243447;
+  --muted:#5f6b7a;
+
+  --radius:20px;
+  --gap:24px;
+
+  /* CORE PALETTE */
+  --teal:#8BC6CA;
+  --blue:#98b8db;
+  --mustard:#EFCD52;
+  --beige:#DBB8AA;
+}
+
+/* ===== PAGE ===== */
+body{
+  background:
+    linear-gradient(135deg, rgba(152,184,219,0.85), rgba(219,184,170,0.85)),
+    url('images/holding_hand.jpg') center/cover no-repeat;
+  color:var(--text);
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  padding:28px 32px;
+}
+
+/* subtle overlay to keep foreground readable */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;background:linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.22));mix-blend-mode:overlay;z-index:0}
+
+/* ===== HEADER ===== */
+.site-header{max-width:1200px;margin:0 auto 18px}
+.site-header h1{
+  font-family:"Playfair Display", serif;
+  font-size:48px;
+  margin-bottom:6px;
+  color:#1f2d3d;
+}
+.subtitle{
+  color:#374151;
+  font-size:15px;
+}
+
+/* ===== WRAPPER ===== */
+.wrap{max-width:1200px;margin:0 auto}
+
+/* ===== TOOL GRID ===== */
+.tool-grid{
+  display:grid;
+  grid-auto-flow:column;
+  grid-auto-columns:minmax(260px,1fr);
+  gap:28px;
+  margin-top:30px;
+  padding-bottom:12px;
+}
+
+/* ===== CARD ===== */
+.tool-card{
+  border-radius:26px;
+  overflow:hidden;
+  position:relative;
+  height:360px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:28px;
+  cursor:pointer;
+  box-shadow:0 18px 42px rgba(0,0,0,.18);
+  transition:.35s ease;
+  text-decoration:none;
+  flex-shrink:0;
+}
+
+.tool-card:hover{
+  transform:translateY(-8px) scale(1.02);
+  box-shadow:0 28px 60px rgba(0,0,0,.25);
+}
+
+/* ===== BACKGROUND ===== */
+.card-bg{
+  position:absolute;
+  inset:0;
+  z-index:0;
+}
+
+/* ===== CONTENT ===== */
+.card-inner{
+  position:relative;
+  z-index:2;
+}
+
+/* ===== TITLE ===== */
+.card-title{
+  color:#102030;
+  font-size:28px;
+  font-weight:800;
+  font-family:"Playfair Display", serif;
+  margin-bottom:10px;
+}
+
+/* ===== SUBTITLE ===== */
+.card-sub{
+  color:#1f2937;
+  font-size:15px;
+  font-weight:500;
+  opacity:.9;
+}
+
+/* ===== ANIMATIONS (BOLDER) ===== */
+.mini-anim{
+  margin-bottom:14px;
+  transform:scale(1.15);
+}
+
+/* breathing pulse */
+.pulse{
+  fill:#102030;
+  animation:pulse 3.5s ease-in-out infinite;
+}
+
+@keyframes pulse{
+  0%{transform:scale(.85);opacity:.7}
+  50%{transform:scale(1.4);opacity:1}
+  100%{transform:scale(.85);opacity:.7}
+}
+
+/* quotes */
+.pattern-3 path{
+  stroke:#102030;
+  stroke-width:3.2;
+  animation:wave 4s ease-in-out infinite;
+}
+
+@keyframes wave{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+}
+
+/* best self */
+.best-self-anim .ring{
+  stroke:#102030;
+  stroke-width:2.8;
+  opacity:.9;
+  animation:ring 6s ease-in-out infinite;
+}
+.best-self-anim .ring-2{
+  animation-delay:1.5s;
+}
+.best-self-anim .spark{
+  fill:#102030;
+  opacity:1;
+  animation:spark 3s ease-in-out infinite;
+}
+
+@keyframes ring{
+  0%{transform:scale(.9);opacity:.5}
+  50%{transform:scale(1.15);opacity:1}
+  100%{transform:scale(.9);opacity:.5}
+}
+@keyframes spark{
+  0%,100%{transform:scale(.9) rotate(0deg)}
+  50%{transform:scale(1.35) rotate(18deg)}
+}
+
+/* ===== COMBINED GRADIENTS (ALL 4 COLORS) ===== */
+.pattern-2 .card-bg{
+  background:linear-gradient(135deg, var(--teal), var(--mustard), var(--beige));
+}
+
+.pattern-3 .card-bg{
+  background:linear-gradient(135deg, var(--blue), var(--teal), var(--beige));
+}
+
+.pattern-5 .card-bg{
+  background:linear-gradient(135deg, var(--mustard), var(--blue), var(--beige));
+}
+
+.pattern-6 .card-bg{
+  background:linear-gradient(135deg, var(--teal), var(--blue), var(--mustard));
+}
