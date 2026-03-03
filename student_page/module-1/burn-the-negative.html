@@ -1,0 +1,432 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Burn the Negative</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,system-ui;
+  background:#ccb09a; /* Soft cream background */
+  color:#416285; /* Deep blue-gray text */
+  padding:28px;
+  overflow-x:hidden;
+}
+
+/* BACK BUTTON — left side like breathing tools */
+.back-btn{
+  display:inline-block;
+  margin-bottom:14px;
+  padding:10px 14px;
+  border-radius:999px;
+  background:#DBB8AA; /* Soft peach */
+  color:#416285; /* Deep blue-gray text */
+  font-weight:700;
+  cursor:pointer;
+  border:1px solid #DBB8AA; /* Soft peach border */
+}
+.back-btn:hover{
+  background:#c9a69a;
+}
+
+/* page layout */
+.page{max-width:980px;margin:auto}
+h1{font-family:"Playfair Display",serif;font-size:42px;margin:0;color:#416285} /* Deep blue-gray */
+p.lead{color:#5A7A9C;margin:10px 0 26px} /* Medium blue-gray text */
+
+/* layout */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{
+  background:linear-gradient(180deg,#ceb5b5,#cfb8aa); /* White to light cream gradient */
+  border-radius:14px;
+  padding:18px;
+  border:1px solid #a18779; /* Light warm gray border */
+  box-shadow:0 8px 24px rgba(65, 98, 133, 0.08);
+}
+
+/* input */
+textarea{
+  width:100%;
+  min-height:140px;
+  background:#bea28c;
+  border:1px solid #86513a; /* Soft peach border */
+  border-radius:12px;
+  color:#416285;
+  padding:14px;
+  font-size:15px;
+  font-family:Inter,system-ui;
+}
+textarea:focus{
+  outline:none;
+  border-color:#8BC6CA; /* Soft teal */
+  box-shadow:0 0 0 3px rgba(139, 198, 202, 0.1);
+}
+
+/* buttons */
+.btn{
+  padding:10px 16px;
+  border-radius:999px;
+  font-weight:600;
+  cursor:pointer;
+  border:none;
+  transition:all 0.2s ease;
+}
+.primary{
+  background:#416285; /* Deep blue-gray */
+  color:#fff;
+}
+.primary:hover{
+  background:#355074; /* Darker blue-gray */
+  transform:translateY(-2px);
+}
+.ghost{
+  background:transparent;
+  color:#416285;
+  border:1px solid #8BC6CA; /* Soft teal border */
+}
+.ghost:hover{
+  background:rgba(139, 198, 202, 0.1);
+}
+
+#actionMsg{margin-left:10px;font-size:14px;color:#5A7A9C} /* Medium blue-gray */
+
+/* overlay */
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(253, 249, 246, 0.97); /* Cream overlay */
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:50;
+  backdrop-filter: blur(8px);
+}
+
+/* burn card */
+.burn-card{
+  width:300px;
+  height:420px;
+  border-radius:22px;
+  background:linear-gradient(180deg,#FFFFFF,#F5F0ED); /* White to light warm gray */
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 0 60px rgba(65, 98, 133, 0.3);
+  border:2px solid #8BC6CA; /* Soft teal border */
+}
+
+.burn-title{
+  position:absolute;
+  top:18px;
+  left:18px;
+  font-family:"Playfair Display",serif;
+  font-size:18px;
+  color:#416285;
+  z-index: 2;
+}
+
+.burn-text{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+  font-weight:600;
+  text-align:center;
+  padding:20px;
+  color:#416285;
+  z-index: 2;
+}
+
+/* ENHANCED FIRE ANIMATION */
+.fire-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  z-index: 1;
+}
+
+.fire{
+  position:absolute;
+  bottom:0;
+  left:50%;
+  transform: translateX(-50%);
+  width: 140%;
+  height:200px;
+  background:
+    /* Base blue layer */
+    radial-gradient(circle at 30% 80%, rgba(65, 98, 133, 0.4) 0 25%, transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(65, 98, 133, 0.4) 0 25%, transparent 50%),
+    /* Orange/Yellow fire layers */
+    radial-gradient(circle at 40% 50%, #EFCD52 0 35%, rgba(239, 205, 82, 0.3) 60%, transparent 70%),
+    radial-gradient(circle at 60% 50%, #EFCD52 0 30%, rgba(239, 205, 82, 0.3) 55%, transparent 65%),
+    radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.7) 0 20%, transparent 40%),
+    /* Blue-teal accents */
+    radial-gradient(circle at 45% 70%, #8BC6CA 0 15%, rgba(139, 198, 202, 0.5) 30%, transparent 45%),
+    radial-gradient(circle at 55% 70%, #8BC6CA 0 15%, rgba(139, 198, 202, 0.5) 30%, transparent 45%);
+  filter:blur(8px);
+  animation:fireFlicker 1.5s infinite alternate;
+}
+
+@keyframes fireFlicker {
+  0% {
+    transform: translateX(-50%) scaleY(1) scaleX(1);
+    opacity: 0.9;
+  }
+  25% {
+    transform: translateX(-50%) scaleY(1.05) scaleX(0.95);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-50%) scaleY(0.95) scaleX(1.05);
+    opacity: 0.8;
+  }
+  75% {
+    transform: translateX(-50%) scaleY(1.1) scaleX(0.98);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) scaleY(1) scaleX(1);
+    opacity: 0.9;
+  }
+}
+
+/* Additional flame layers for more realistic fire */
+.fire::before,
+.fire::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.fire::before {
+  background: radial-gradient(circle at 50% 20%, #EFCD52 0 25%, transparent 60%);
+  filter: blur(5px);
+  animation: firePulse 2s infinite alternate;
+}
+
+.fire::after {
+  background: radial-gradient(circle at 50% 30%, #FFD700 0 15%, transparent 40%);
+  filter: blur(3px);
+  animation: fireShimmer 1.8s infinite alternate;
+}
+
+@keyframes firePulse {
+  from { transform: scale(1); opacity: 0.7; }
+  to { transform: scale(1.2); opacity: 1; }
+}
+
+@keyframes fireShimmer {
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
+}
+
+/* burn mask */
+.burn-mask{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, transparent 0%, #416285 40%, #2C3A4E 100%); /* Deep blue burn effect */
+  clip-path:inset(100% 0 0 0);
+  transition:clip-path 4.5s ease-in;
+  z-index: 3;
+}
+.burn-mask.active{clip-path:inset(0 0 0 0)}
+
+/* Enhanced sparks - blue and golden mix */
+.sparks {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+}
+
+.sparks span{
+  position:absolute;
+  bottom:0;
+  width:6px;
+  height:6px;
+  background:#EFCD52; /* Golden yellow sparks */
+  border-radius:50%;
+  animation:sparkFloat 2.5s linear infinite;
+  box-shadow: 0 0 10px #EFCD52;
+}
+
+.sparks span:nth-child(odd){
+  background:#ccb09a; /* Soft teal sparks for every other */
+  box-shadow: 0 0 10px #8BC6CA;
+}
+
+.sparks span:nth-child(3n){
+  background:#416285; /* Deep blue-gray sparks */
+  box-shadow: 0 0 10px #416285;
+}
+
+@keyframes sparkFloat{
+  0% {
+    transform:translateY(0) scale(1) rotate(0deg);
+    opacity:1;
+  }
+  50% {
+    transform:translateY(-130px) scale(1.2) rotate(180deg);
+    opacity:0.8;
+  }
+  100% {
+    transform:translateY(-260px) scale(0.2) rotate(360deg);
+    opacity:0;
+  }
+}
+
+/* done message */
+.done{
+  background:linear-gradient(180deg,#FFFFFF,#F0E6E0); /* White to light warm gray gradient */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size:22px;
+  font-weight:600;
+  padding:30px;
+  color:#416285;
+  border-radius:22px;
+  border:2px solid #8BC6CA;
+  z-index: 5;
+  position: relative;
+}
+
+/* For You card special styling - CHANGED TO #ccb09a */
+.card:nth-child(2) {
+  background:#d4ab8b;
+  border-color:#a18779;
+}
+
+.card:nth-child(2) h3 {
+  color:#416285;
+}
+
+.card:nth-child(2) p {
+  color:#5A7A9C;
+}
+
+@media(max-width:800px){
+  .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ⬅️ Back to BEST-SELF tools (not main tools page) -->
+<div class="back-btn" onclick="location.href='best-self.html'">← Back</div>
+
+<div class="page">
+
+  <h1>Burn the Negative</h1>
+
+  <p class="lead">
+    Identify negative stories you tell yourself — write them down
+    and burn them to let go.
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Write your negative story</h3>
+      <textarea id="text" placeholder="e.g. I'm not good enough..."></textarea>
+      <div style="margin-top:14px;display:flex;gap:10px;align-items:center">
+        <button class="btn primary" id="burn">Burn it 🔥</button>
+        <button class="btn ghost" id="preview">Preview</button>
+        <div id="actionMsg"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>For You</h3>
+      <p style="color:#5A7A9C;line-height:1.6">
+        Letting go creates space — for calm, clarity, and trust in yourself.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- overlay -->
+<div class="overlay" id="overlay">
+  <div class="burn-card" id="burnCard">
+    <div class="burn-title">My negative story</div>
+    <div class="burn-text" id="burnText"></div>
+    <div class="fire-container">
+      <div class="fire"></div>
+    </div>
+    <div class="sparks" id="sparks"></div>
+    <div class="burn-mask" id="mask"></div>
+  </div>
+</div>
+
+<script>
+const overlay = document.getElementById("overlay");
+const burnText = document.getElementById("burnText");
+const mask = document.getElementById("mask");
+const sparks = document.getElementById("sparks");
+const text = document.getElementById("text");
+const burnCard = document.getElementById("burnCard");
+
+function addSparks(){
+  sparks.innerHTML="";
+  // Create more sparks for better effect
+  for(let i=0;i<40;i++){
+    const s=document.createElement("span");
+    s.style.left=Math.random()*100+"%";
+    s.style.animationDelay=Math.random()*2+"s";
+    s.style.width = (Math.random() * 8 + 3) + "px";
+    s.style.height = s.style.width;
+    sparks.appendChild(s);
+  }
+}
+
+document.getElementById("preview").onclick=()=>{
+  if(!text.value.trim()) {
+    alert("Please write something first");
+    return;
+  }
+  burnText.textContent=text.value;
+  overlay.style.display="flex";
+  setTimeout(()=>overlay.style.display="none",2000);
+};
+
+document.getElementById("burn").onclick=()=>{
+  if(!text.value.trim()) {
+    alert("Please write something to burn");
+    return;
+  }
+
+  burnText.textContent=text.value;
+  overlay.style.display="flex";
+  addSparks();
+
+  // Start fire animation immediately
+  document.querySelector('.fire').style.animationPlayState = 'running';
+  
+  // Start burn effect after a short delay
+  setTimeout(()=>mask.classList.add("active"),500);
+
+  setTimeout(()=>{
+    burnCard.innerHTML=
+      `<div class="done">You did it.<br/>Letting go is an act of strength.</div>`;
+  },4500);
+
+  setTimeout(()=>{
+    overlay.style.display="none";
+    text.value = ""; // Clear the textarea
+    mask.classList.remove("active"); // Reset for next time
+  },7000);
+};
+</script>
+</body>
+</html>
+
+

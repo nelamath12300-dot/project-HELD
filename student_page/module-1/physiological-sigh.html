@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Physiological Sigh</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<style>
+:root{
+  /* NEW COLOR PALETTE: Green, Blue, Beige */
+  --bg-light: #f0f7f4;      /* Light green background */
+  --bg-dark: #1a3c34;       /* Dark green for depth */
+  --text-dark: #2d3748;     /* Dark gray text */
+  --text-light: #4a5568;    /* Light gray text */
+  
+  --pink: #2c7da0;          /* Changed to Soft Blue */
+  --yellow: #d4b483;        /* Changed to Warm Beige */
+  --teal: #4a9fa3;          /* Changed to Teal Green */
+  --green: #6a994e;         /* Changed to Fresh Green */
+  
+  --card-bg: #ffffff;       /* White card background */
+  --button-bg: #4a90e2;     /* Blue button */
+  --button-hover: #357abd;  /* Darker blue on hover */
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+  min-height:100vh;
+  background: linear-gradient(135deg, #a8e6cf, #dcedc1, #ffd3b6); /* Green to beige gradient */
+  color:var(--text-dark);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position:relative;
+}
+
+/* BACK BUTTON */
+.back-btn{
+  position:absolute;
+  top:30px;
+  left:34px;
+  padding:12px 20px;
+  border-radius:999px;
+  background:rgba(255, 255, 255, 0.9);
+  color:var(--text-dark);
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  border:2px solid rgba(74, 144, 226, 0.2);
+  box-shadow:0 4px 15px rgba(0,0,0,0.1);
+  transition:all 0.3s ease;
+}
+.back-btn:hover{
+  background:rgba(255, 255, 255, 1);
+  transform:translateY(-2px);
+  box-shadow:0 6px 20px rgba(0,0,0,0.15);
+}
+
+.screen{
+  width:100%;
+  max-width:440px;
+  height:90vh;
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:32px;
+  background:var(--card-bg);
+  border-radius:32px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.15);
+}
+
+.screen.active{display:flex;}
+
+h1{
+  font-size:2.4rem;
+  margin-bottom:16px;
+  background: linear-gradient(90deg, #2c7da0, #4a9fa3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight:700;
+}
+
+p{
+  color:var(--text-light);
+  margin-bottom:28px;
+  font-size:1.1rem;
+  line-height:1.6;
+}
+
+button{
+  border:none;
+  border-radius:999px;
+  padding:16px 48px;
+  font-size:1.1rem;
+  background:linear-gradient(90deg, var(--button-bg), #50c878);
+  color:white;
+  cursor:pointer;
+  font-weight:600;
+  transition:all 0.3s ease;
+  box-shadow:0 6px 20px rgba(74, 144, 226, 0.3);
+}
+button:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 25px rgba(74, 144, 226, 0.4);
+}
+
+/* Animation */
+.animation{
+  width:300px;
+  height:300px;
+  position:relative;
+  margin-bottom:40px;
+}
+
+.dot{
+  position:absolute;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  opacity:0.8;
+  transition:transform 6s ease, background 2s ease, box-shadow 2s ease;
+  box-shadow:0 0 8px currentColor;
+}
+
+.instruction{
+  font-size:1.8rem;
+  margin-top:20px;
+  font-weight:600;
+  transition:color 1.5s ease, transform 0.5s ease;
+  min-height:60px;
+}
+
+/* Feedback */
+.feedback{
+  display:flex;
+  gap:16px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+.feedback button{
+  background:var(--card-bg);
+  color:var(--text-dark);
+  border:2px solid #d4b483;
+  width:140px;
+  font-size:1rem;
+  padding:12px 24px;
+}
+.feedback button:hover{
+  background:linear-gradient(90deg, #2c7da0, #4a9fa3);
+  color:white;
+  border-color:transparent;
+}
+
+/* Done button animation */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+#doneBtn {
+  animation: pulse 2s infinite;
+}
+
+/* Screen transitions */
+.screen {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACK BUTTON -->
+<div class="back-btn" onclick="location.href='breathing.html'">← Back</div>
+
+<!-- INTRO -->
+<div class="screen active" id="intro">
+  <h1>Physiological Sigh</h1>
+  <p>
+    A gentle breathing pattern that helps your body<br/>
+    release built-up stress naturally.
+  </p>
+  <p style="color:#4a90e2; font-weight:600;">⏱ 1 minute · Calm pace</p>
+  <button onclick="start()">Begin</button>
+</div>
+
+<!-- PRACTICE -->
+<div class="screen" id="practice">
+  <div class="animation" id="animation"></div>
+  <div class="instruction" id="instruction"></div>
+</div>
+
+<!-- DONE SCREEN -->
+<div class="screen" id="done">
+  <h1>You stayed with the process — well done</h1>
+  <button id="doneBtn" onclick="completePractice()">Done</button>
+</div>
+
+<!-- FEEDBACK -->
+<div class="screen" id="feedback">
+  <h1>How helpful was<br/>this practice?</h1>
+  <div class="feedback">
+    <button>Not helpful</button>
+    <button>A little helpful</button>
+    <button>Very helpful</button>
+  </div>
+</div>
+
+<script>
+const intro=document.getElementById("intro");
+const practice=document.getElementById("practice");
+const done=document.getElementById("done");
+const feedback=document.getElementById("feedback");
+const animation=document.getElementById("animation");
+const instruction=document.getElementById("instruction");
+
+let dots=[];
+let cycles=0;
+const MAX_CYCLES=6;
+
+function show(s){
+  [intro,practice,done,feedback].forEach(x=>x.classList.remove("active"));
+  s.classList.add("active");
+}
+
+function start(){
+  show(practice);
+  settled();
+}
+
+function settled(){
+  instruction.textContent="Get settled";
+  instruction.style.color="var(--green)";
+  createCircle(20,"var(--green)");
+  setTimeout(inhale,3000);
+}
+
+function inhale(){
+  instruction.textContent="Inhale";
+  instruction.style.color="var(--pink)";
+  instruction.style.transform="scale(1.1)";
+  resizeCircle(60,"var(--pink)");
+  setTimeout(() => {
+    instruction.style.transform="scale(1)";
+  }, 300);
+  setTimeout(inhaleMore,3000);
+}
+
+function inhaleMore(){
+  instruction.textContent="Inhale a bit more";
+  instruction.style.color="var(--yellow)";
+  instruction.style.transform="scale(1.1)";
+  resizeCircle(85,"var(--yellow)");
+  setTimeout(() => {
+    instruction.style.transform="scale(1)";
+  }, 300);
+  setTimeout(exhale,3000);
+}
+
+function exhale(){
+  instruction.textContent="Exhale slowly";
+  instruction.style.color="var(--teal)";
+  instruction.style.transform="scale(1.1)";
+  resizeCircle(20,"var(--teal)");
+  setTimeout(() => {
+    instruction.style.transform="scale(1)";
+  }, 300);
+  cycles++;
+  if(cycles<MAX_CYCLES){
+    setTimeout(inhale,7000);
+  }else{
+    setTimeout(()=>show(done),3000);
+  }
+}
+
+function createCircle(radius,color){
+  animation.innerHTML="";
+  dots=[];
+  const count=48;
+  for(let i=0;i<count;i++){
+    const dot=document.createElement("div");
+    dot.className="dot";
+    dot.style.background=color;
+    animation.appendChild(dot);
+    dots.push(dot);
+  }
+  positionDots(radius);
+}
+
+function resizeCircle(radius,color){
+  dots.forEach(d=>{
+    d.style.background=color;
+    d.style.boxShadow=`0 0 12px ${color}80`;
+  });
+  positionDots(radius);
+}
+
+function positionDots(radius){
+  const center=150;
+  dots.forEach((dot,i)=>{
+    const angle=(i/dots.length)*Math.PI*2;
+    const x=center+radius*Math.cos(angle);
+    const y=center+radius*Math.sin(angle);
+    dot.style.transform=`translate(${x}px,${y}px)`;
+  });
+}
+
+function completePractice(){
+  const btn = document.getElementById("doneBtn");
+  btn.style.background = "#4a9fa3";
+  btn.style.color = "#ffffff";
+  btn.style.transform = "scale(0.96)";
+  setTimeout(() => {
+    location.href="breathing.html";
+  }, 600);
+}
+</script>
+
+</body>
+</html>

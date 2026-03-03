@@ -1,0 +1,3581 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title> - Emotional Wellness & Music</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* UPDATED COLOR PALETTE: Beige, Light Blue, and Green */
+        :root {
+            --beige-light: #F5F5DC;
+            --beige-medium: #E6E6C2;
+            --beige-dark: #D2D2A3;
+            --light-blue-1: #E6F3FF;
+            --light-blue-2: #B3D9FF;
+            --light-blue-3: #80C1FF;
+            --green-light: #D4EDDA;
+            --green-medium: #A3D9A5;
+            --green-dark: #7BC47F;
+            --accent-blue: #4A90E2;
+            --accent-green: #4CAF50;
+            --accent-beige: #C4B7A6;
+
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --text-dark: #2C3E50;
+            --text-light: #5D6D7E;
+
+            --shadow: 0 8px 25px rgba(100, 149, 237, 0.15);
+            --border-radius: 24px;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+
+            font-size: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Neue', 'Segoe UI', 'Nunito', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% 0%,
+            var(--light-blue-1) 0%,
+            var(--beige-light) 30%,
+            var(--green-light) 100%);
+            color: var(--text-dark);
+            line-height: 1.7;
+            min-height: 100vh;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        @media screen and (max-device-width: 480px) {
+            body {
+                -webkit-text-size-adjust: 100%;
+                text-size-adjust: 100%;
+            }
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                    radial-gradient(circle at 15% 10%, rgba(214, 237, 255, 0.15) 0%, transparent 25%),
+                    radial-gradient(circle at 85% 30%, rgba(245, 245, 220, 0.15) 0%, transparent 25%),
+                    radial-gradient(circle at 25% 70%, rgba(212, 237, 218, 0.15) 0%, transparent 25%),
+                    radial-gradient(circle at 75% 90%, rgba(163, 217, 165, 0.15) 0%, transparent 25%);
+            z-index: -1;
+            animation: floatBackground 20s infinite alternate ease-in-out;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding-bottom: 20px;
+        }
+
+        .page {
+            display: none;
+            animation: bounceIn 0.6s ease;
+            width: 100%;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        header {
+            background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(245, 245, 220, 0.95) 100%);
+            padding: 20px 15px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow), 0 0 40px rgba(100, 149, 237, 0.2);
+            text-align: center;
+            border-left: 10px solid var(--light-blue-3);
+            border-right: 10px solid var(--green-medium);
+            margin-bottom: 20px;
+            position: relative;
+            border-top: 4px solid var(--accent-beige);
+            border-bottom: 4px solid var(--accent-green);
+            backdrop-filter: blur(10px);
+            width: 100%;
+        }
+
+        .back-btn-top {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, var(--light-blue-3), var(--accent-blue));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(100, 149, 237, 0.4);
+            white-space: nowrap;
+            touch-action: manipulation;
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        .back-btn-top:hover {
+            background: linear-gradient(135deg, var(--accent-blue), var(--green-medium));
+            transform: translateY(-50%) scale(1.1) rotate(-2deg);
+            box-shadow: 0 8px 20px rgba(124, 196, 127, 0.4);
+        }
+
+        header h1 {
+            padding-left: 0;
+            padding-right: 0;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        header .subtitle {
+            padding-left: 0;
+            padding-right: 0;
+            font-size: 1rem;
+            margin: 10px 0;
+        }
+
+        h1 {
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg,
+            var(--accent-blue),
+            var(--green-medium),
+            var(--accent-beige),
+            var(--light-blue-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+            animation: colorShift 8s infinite alternate;
+            line-height: 1.2;
+        }
+
+        h1 i {
+            background: var(--light-blue-3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: var(--text-dark);
+            font-size: 1rem;
+            max-width: 100%;
+            margin: 0 auto 15px;
+            line-height: 1.4;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 12px 15px;
+            border-radius: 15px;
+            border: 2px dotted var(--light-blue-3);
+        }
+
+        .tagline {
+            background: linear-gradient(135deg,
+            rgba(100, 149, 237, 0.9),
+            rgba(124, 196, 127, 0.9));
+            padding: 12px 18px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            color: white;
+            font-weight: 800;
+            display: inline-block;
+            border: 2px solid white;
+            box-shadow: 0 6px 20px rgba(100, 149, 237, 0.4);
+            transform: rotate(-1deg);
+            animation: bounce 2s infinite;
+            margin-top: 10px;
+        }
+
+        /* NAVIGATION BUTTONS */
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, var(--light-blue-3), var(--accent-blue));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(100, 149, 237, 0.4);
+            touch-action: manipulation;
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, var(--accent-blue), var(--green-medium));
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(124, 196, 127, 0.4);
+        }
+
+        .nav-btn i {
+            font-size: 1.2rem;
+        }
+
+        /* STATS PAGE STYLES */
+        .stats-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(245, 245, 220, 0.95) 100%);
+            padding: 25px 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border-left: 8px solid var(--light-blue-3);
+            border-right: 8px solid var(--green-medium);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(100, 149, 237, 0.25);
+        }
+
+        .stat-card h3 {
+            color: var(--accent-blue);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-card h3 i {
+            background: linear-gradient(135deg, var(--accent-beige), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* STREAK STYLES */
+        .streak-display {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .streak-count {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-blue), var(--green-medium));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 10px 0;
+        }
+
+        .streak-label {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .streak-emoji {
+            font-size: 2.5rem;
+            margin: 10px 0;
+            animation: bounce 2s infinite;
+        }
+
+        /* WEEKLY CALENDAR */
+        .weekly-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .calendar-day {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 15px 5px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .calendar-day:hover {
+            transform: translateY(-3px);
+            border-color: var(--light-blue-3);
+        }
+
+        .calendar-day.active {
+            background: linear-gradient(135deg, var(--light-blue-2), var(--light-blue-3));
+            border-color: var(--accent-blue);
+        }
+
+        .day-name {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .day-date {
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .day-mood {
+            font-size: 1.5rem;
+            margin-top: 5px;
+            min-height: 30px;
+        }
+
+        .day-empty {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        /* BAR GRAPH */
+        .bar-graph-container {
+            margin-top: 20px;
+        }
+
+        .bar-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 15px;
+        }
+
+        .mood-label {
+            width: 120px;
+            font-weight: 700;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mood-label i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .bar-track {
+            flex: 1;
+            height: 30px;
+            background: var(--light-gray);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 15px;
+            transition: width 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg,
+            transparent,
+            rgba(255,255,255,0.3),
+            transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        .bar-count {
+            width: 50px;
+            text-align: right;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        /* MOOD FREQUENCY */
+        .mood-frequency {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .mood-emoji-large {
+            font-size: 4rem;
+            margin: 15px 0;
+            animation: floatEmoji 3s infinite ease-in-out;
+        }
+
+        .mood-name-large {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+        }
+
+        .mood-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .mood-stat-item {
+            text-align: center;
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .mood-stat-value {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--green-medium);
+            margin-bottom: 5px;
+        }
+
+        .mood-stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        /* HISTORY LOG */
+        .history-log {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+            padding-right: 10px;
+        }
+
+        .history-item {
+            background: var(--white);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            border-left: 5px solid var(--light-blue-3);
+            transition: var(--transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .history-mood {
+            font-size: 1.8rem;
+        }
+
+        .history-details {
+            flex: 1;
+            margin-left: 15px;
+        }
+
+        .history-emotion {
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .history-date {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .history-time {
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        /* UPDATED MOOD BUTTONS LAYOUT - 5 in first row, 4 in second row */
+        .mood-buttons {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        /* For mobile: 2 columns */
+        @media (max-width: 768px) {
+            .mood-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .weekly-calendar {
+                grid-template-columns: repeat(7, 1fr);
+                gap: 5px;
+            }
+
+            .calendar-day {
+                padding: 10px 3px;
+            }
+
+            .day-name {
+                font-size: 0.7rem;
+            }
+
+            .day-date {
+                font-size: 0.9rem;
+            }
+
+            .day-mood {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* For tablet: 3 columns */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .mood-buttons {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .big-mood-btn {
+            background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(255, 255, 255, 0.8) 100%);
+            border: none;
+            border-radius: 20px;
+            padding: 25px 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 3px solid transparent;
+            touch-action: manipulation;
+            min-height: 120px;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .big-mood-btn {
+                padding: 20px 10px;
+                min-height: 100px;
+            }
+        }
+
+        .big-mood-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.6),
+            transparent);
+            transition: 0.8s;
+        }
+
+        .big-mood-btn:hover::before {
+            left: 100%;
+        }
+
+        .big-mood-btn:hover {
+            transform: translateY(-8px) scale(1.05) rotate(2deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border: 3px solid var(--light-blue-3);
+        }
+
+        .big-mood-btn:active {
+            transform: translateY(-2px) scale(0.98);
+            transition: transform 0.1s ease;
+        }
+
+        .big-mood-btn i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            transition: var(--transition);
+            background: linear-gradient(135deg,
+            var(--light-blue-3),
+            var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .big-mood-btn:hover i {
+            transform: scale(1.2) rotate(15deg);
+            animation: wiggle 0.5s ease;
+        }
+
+        .big-mood-btn span {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            transition: var(--transition);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            padding: 0 5px;
+        }
+
+        .big-mood-btn:hover span {
+            color: var(--accent-blue);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .emotion-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        .emotion-option {
+            background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(245, 245, 220, 0.95) 100%);
+            border: none;
+            border-radius: 18px;
+            padding: 20px 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 6px 15px rgba(100, 149, 237, 0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-left: 8px solid var(--light-blue-3);
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+            backdrop-filter: blur(10px);
+            touch-action: manipulation;
+            min-height: 140px;
+            width: 100%;
+        }
+
+        .emotion-option:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 12px 25px rgba(100, 149, 237, 0.25);
+            border-top-color: var(--accent-beige);
+            border-bottom-color: var(--green-medium);
+            animation: happyWiggle 0.5s ease;
+        }
+
+        .emotion-option:active {
+            transform: translateY(-2px) scale(0.98);
+            transition: transform 0.1s ease;
+        }
+
+        .emotion-option.selected {
+            background: linear-gradient(135deg,
+            rgba(100, 149, 237, 0.2) 0%,
+            rgba(245, 245, 220, 0.95) 100%);
+            box-shadow: 0 0 0 3px rgba(100, 149, 237, 0.3),
+            0 10px 20px rgba(100, 149, 237, 0.2);
+            transform: scale(1.03);
+            border-left-color: var(--accent-blue);
+        }
+
+        .emotion-emoji {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+            animation: floatEmoji 3s infinite ease-in-out;
+        }
+
+        .emotion-name {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            padding: 0 5px;
+        }
+
+        .emotion-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.3;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 6px 10px;
+            border-radius: 12px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .coping-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin: 30px 0;
+            width: 100%;
+        }
+
+        .coping-card {
+            background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(245, 245, 220, 0.95) 100%);
+            padding: 25px 20px;
+            border-radius: 20px;
+            transition: var(--transition);
+            box-shadow: 0 10px 20px rgba(100, 149, 237, 0.15);
+            border-top: 8px solid var(--light-blue-3);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            width: 100%;
+        }
+
+        .coping-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg,
+            var(--light-blue-3),
+            var(--accent-beige),
+            var(--green-medium),
+            var(--accent-blue));
+            animation: rainbowLine 3s infinite linear;
+        }
+
+        .coping-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(100, 149, 237, 0.25);
+        }
+
+        .coping-card h3 {
+            color: var(--accent-blue);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .coping-card h3 i {
+            background: linear-gradient(135deg, var(--accent-beige), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.5rem;
+        }
+
+        .coping-card p {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: var(--text-dark);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .music-player {
+            background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(245, 245, 220, 0.95) 100%);
+            padding: 25px 20px;
+            border-radius: 20px;
+            margin: 30px 0;
+            box-shadow: 0 12px 25px rgba(100, 149, 237, 0.2);
+            border: 3px solid var(--light-blue-3);
+            backdrop-filter: blur(10px);
+            width: 100%;
+        }
+
+        .song-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .song-item {
+            background: linear-gradient(135deg,
+            rgba(100, 149, 237, 0.1) 0%,
+            rgba(245, 245, 220, 0.9) 100%);
+            border-radius: 15px;
+            transition: var(--transition);
+            border-left: 6px solid var(--accent-blue);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            width: 100%;
+        }
+
+        .song-item:hover {
+            transform: translateY(-5px) rotate(1deg);
+            box-shadow: 0 15px 30px rgba(100, 149, 237, 0.25);
+            border-color: var(--accent-beige);
+        }
+
+        .song-item.active {
+            background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(230, 243, 255, 0.95) 100%);
+            border-left-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(100, 149, 237, 0.3);
+        }
+
+        .song-info {
+            padding: 20px;
+            cursor: pointer;
+            touch-action: manipulation;
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        .song-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            color: var(--accent-blue);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .song-artist {
+            font-size: 1rem;
+            color: var(--accent-blue);
+            margin-bottom: 8px;
+            font-weight: 600;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .song-help {
+            font-size: 0.9rem;
+            color: var(--green-dark);
+            font-style: italic;
+            margin-bottom: 15px;
+            line-height: 1.4;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .spotify-player {
+            width: 100%;
+            height: 152px;
+            border: none;
+            border-top: 2px solid rgba(100, 149, 237, 0.3);
+            display: block;
+        }
+
+        .song-item.active .spotify-player {
+            display: block;
+        }
+
+        .auto-play-notice {
+            background: linear-gradient(135deg,
+            rgba(100, 149, 237, 0.2),
+            rgba(124, 196, 127, 0.15));
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            border-left: 4px solid var(--accent-beige);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 700;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .auto-play-notice i {
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, var(--accent-beige), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: spin 4s infinite linear;
+            flex-shrink: 0;
+        }
+
+        .games-section {
+            background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(245, 245, 220, 0.95) 100%);
+            padding: 25px 20px;
+            border-radius: 20px;
+            margin: 30px 0;
+            box-shadow: 0 15px 30px rgba(100, 149, 237, 0.2);
+            border: 3px dotted var(--light-blue-3);
+            backdrop-filter: blur(10px);
+            width: 100%;
+        }
+
+        .games-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .game-card {
+            background: linear-gradient(135deg,
+            rgba(100, 149, 237, 0.15) 0%,
+            rgba(245, 245, 220, 0.9) 100%);
+            padding: 25px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 10px 20px rgba(100, 149, 237, 0.15);
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+            touch-action: manipulation;
+            min-height: 150px;
+            width: 100%;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg,
+            var(--light-blue-3),
+            var(--accent-beige),
+            var(--green-medium));
+            animation: rainbowLine 2s infinite linear;
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px) scale(1.03) rotate(2deg);
+            box-shadow: 0 20px 40px rgba(100, 149, 237, 0.3);
+            border-color: var(--light-blue-3);
+        }
+
+        .game-card:active {
+            transform: translateY(-2px) scale(0.98);
+            transition: transform 0.1s ease;
+        }
+
+        .game-card i {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--light-blue-3), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            transition: var(--transition);
+        }
+
+        .game-card:hover i {
+            transform: scale(1.2) rotate(10deg);
+            animation: bounceIcon 0.8s ease;
+        }
+
+        .game-card h3 {
+            font-size: 1.3rem;
+            color: var(--accent-blue);
+            margin-bottom: 15px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .game-card p {
+            font-size: 1rem;
+            line-height: 1.4;
+            color: var(--text-light);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .save-section {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 3px dashed var(--light-blue-3);
+            width: 100%;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg,
+            var(--light-blue-3),
+            var(--accent-blue),
+            var(--green-medium));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 800;
+            box-shadow: 0 8px 20px rgba(100, 149, 237, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid white;
+            touch-action: manipulation;
+            min-height: 44px;
+            min-width: 44px;
+            width: auto;
+            max-width: 100%;
+        }
+
+        .save-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.4),
+            transparent);
+            transition: 0.6s;
+        }
+
+        .save-btn:hover::before {
+            left: 100%;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(124, 196, 127, 0.5);
+            background: linear-gradient(135deg,
+            var(--green-medium),
+            var(--accent-blue),
+            var(--light-blue-3));
+            animation: happyDance 0.5s ease;
+        }
+
+        .save-btn:active {
+            transform: translateY(-2px) scale(0.98);
+            transition: transform 0.1s ease;
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 1rem;
+            padding: 25px 20px;
+            width: 100%;
+            max-width: 1200px;
+            background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(245, 245, 220, 0.95) 100%);
+            border-radius: 20px;
+            box-shadow: 0 12px 25px rgba(100, 149, 237, 0.2);
+            border-top: 6px solid var(--light-blue-3);
+            border-bottom: 6px solid var(--green-medium);
+            backdrop-filter: blur(10px);
+        }
+
+        .emergency-contact {
+            background: linear-gradient(135deg,
+            rgba(196, 183, 166, 0.15) 0%,
+            rgba(100, 149, 237, 0.15) 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            font-weight: 700;
+            color: var(--accent-blue);
+            font-size: 1rem;
+            border: 3px solid var(--light-blue-3);
+            box-shadow: 0 8px 20px rgba(100, 149, 237, 0.2);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .game-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center,
+            rgba(100, 149, 237, 0.95) 0%,
+            rgba(124, 196, 127, 0.9) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none;
+            padding: 10px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .game-popup.active {
+            display: flex;
+            animation: popIn 0.5s ease;
+        }
+
+        .game-content {
+            background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.98) 0%,
+            rgba(245, 245, 220, 0.98) 100%);
+            padding: 25px 20px;
+            border-radius: 25px;
+            max-width: 95%;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 6px solid var(--light-blue-3);
+            position: relative;
+            backdrop-filter: blur(20px);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .close-game {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, var(--accent-beige), var(--accent-blue));
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 1001;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            touch-action: manipulation;
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        .close-game:hover {
+            transform: scale(1.2) rotate(90deg);
+            background: linear-gradient(135deg, var(--accent-blue), var(--green-medium));
+        }
+
+        .number-game-container {
+            background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(245, 245, 220, 0.95) 100%);
+            width: 100%;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(100, 149, 237, 0.2);
+            margin: 0 auto;
+            border: 4px solid var(--light-blue-3);
+        }
+
+        .number-game-header {
+            margin-bottom: 15px;
+        }
+
+        .number-game-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            background: linear-gradient(135deg, var(--light-blue-3), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .number-game-header p {
+            margin: 8px 0 0;
+            font-size: 1rem;
+            color: var(--accent-blue);
+            font-weight: 600;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .number-game-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg,
+            rgba(100, 149, 237, 0.15),
+            rgba(245, 245, 220, 0.8));
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 1rem;
+            border: 2px solid var(--light-blue-3);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .number-game-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .number-game-tile {
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg,
+            rgba(100, 149, 237, 0.2),
+            rgba(245, 245, 220, 0.9));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: var(--accent-blue);
+            border: 2px solid var(--light-blue-3);
+            box-shadow: 0 4px 10px rgba(100, 149, 237, 0.2);
+            touch-action: manipulation;
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        .number-game-tile:hover {
+            background: linear-gradient(135deg, var(--light-blue-3), var(--accent-blue));
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 15px rgba(100, 149, 237, 0.3);
+            color: white;
+            border-color: white;
+        }
+
+        .number-game-tile:active {
+            transform: translateY(-1px) scale(0.98);
+            transition: transform 0.1s ease;
+        }
+
+        .number-game-tile.correct {
+            background: linear-gradient(135deg, var(--green-medium), #32CD32);
+            color: white;
+            cursor: default;
+            transform: scale(0.95);
+            border-color: #228B22;
+            animation: happyPop 0.3s ease;
+        }
+
+        .number-game-tile.disabled {
+            pointer-events: none;
+        }
+
+        .number-game-footer {
+            margin-top: 15px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .number-game-finish {
+            font-weight: 800;
+            color: var(--green-dark);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            animation: celebrateText 1s infinite;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            padding: 0 10px;
+        }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .color-btn {
+            height: 70px;
+            border-radius: 15px;
+            border: 4px solid white;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            touch-action: manipulation;
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        .color-btn:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .color-btn:active {
+            transform: scale(1.05) rotate(2deg);
+            transition: transform 0.1s ease;
+        }
+
+        .color-btn.active {
+            border: 4px solid var(--accent-blue);
+            box-shadow: 0 0 0 6px var(--light-blue-3);
+            animation: pulseColor 1s infinite;
+        }
+
+        #targetColor {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            border-radius: 20px;
+            border: 6px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            animation: rainbowBorder 3s infinite linear;
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        @media (min-width: 768px) {
+            :root {
+                font-size: 18px;
+            }
+
+            .container {
+                gap: 30px;
+                padding-bottom: 30px;
+            }
+
+            header {
+                padding: 25px 30px;
+            }
+
+            .back-btn-top {
+                left: 20px;
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+
+            header h1 {
+                font-size: 2.5rem;
+                margin-bottom: 20px;
+            }
+
+            .subtitle {
+                font-size: 1.3rem;
+                padding: 15px 25px;
+            }
+
+            .tagline {
+                font-size: 1.2rem;
+                padding: 15px 25px;
+            }
+
+            .mood-buttons {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 20px;
+                margin: 30px 0;
+            }
+
+            .big-mood-btn {
+                padding: 35px 20px;
+                min-height: 150px;
+                border-radius: 25px;
+            }
+
+            .big-mood-btn i {
+                font-size: 3.5rem;
+            }
+
+            .big-mood-btn span {
+                font-size: 1.5rem;
+            }
+
+            .emotion-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+
+            .emotion-option {
+                padding: 25px 20px;
+                min-height: 180px;
+                border-radius: 20px;
+            }
+
+            .emotion-emoji {
+                font-size: 3.5rem;
+            }
+
+            .emotion-name {
+                font-size: 1.3rem;
+            }
+
+            .emotion-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .coping-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+
+            .coping-card {
+                padding: 30px 25px;
+                border-radius: 25px;
+            }
+
+            .coping-card h3 {
+                font-size: 1.5rem;
+            }
+
+            .coping-card p {
+                font-size: 1.2rem;
+            }
+
+            .music-player {
+                padding: 30px 25px;
+                border-radius: 25px;
+            }
+
+            .song-list {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+
+            .song-title {
+                font-size: 1.4rem;
+            }
+
+            .song-artist {
+                font-size: 1.2rem;
+            }
+
+            .song-help {
+                font-size: 1.1rem;
+            }
+
+            .games-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+
+            .game-card {
+                padding: 30px 25px;
+                border-radius: 25px;
+                min-height: 200px;
+            }
+
+            .game-card i {
+                font-size: 3.5rem;
+            }
+
+            .game-card h3 {
+                font-size: 1.6rem;
+            }
+
+            .game-card p {
+                font-size: 1.2rem;
+            }
+
+            .save-btn {
+                padding: 20px 40px;
+                font-size: 1.3rem;
+                border-radius: 50px;
+            }
+
+            footer {
+                padding: 30px;
+                border-radius: 25px;
+                font-size: 1.2rem;
+            }
+
+            .emergency-contact {
+                padding: 25px;
+                font-size: 1.2rem;
+            }
+
+            .game-content {
+                padding: 35px 30px;
+                border-radius: 30px;
+                max-width: 800px;
+            }
+
+            .close-game {
+                top: 25px;
+                right: 25px;
+                width: 50px;
+                height: 50px;
+                font-size: 2.5rem;
+            }
+
+            .number-game-container {
+                padding: 30px;
+                border-radius: 25px;
+                max-width: 500px;
+            }
+
+            .number-game-header h2 {
+                font-size: 2rem;
+            }
+
+            .number-game-header p {
+                font-size: 1.2rem;
+            }
+
+            .number-game-stats {
+                padding: 20px;
+                font-size: 1.2rem;
+            }
+
+            .number-game-grid {
+                gap: 12px;
+            }
+
+            .number-game-tile {
+                height: 60px;
+                font-size: 1.3rem;
+            }
+
+            .number-game-finish {
+                font-size: 1.3rem;
+            }
+
+            .color-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 20px;
+            }
+
+            .color-btn {
+                height: 90px;
+            }
+
+            #targetColor {
+                width: 120px;
+                height: 120px;
+            }
+
+            .stat-value {
+                font-size: 2rem;
+            }
+
+            .stat-label {
+                font-size: 1.1rem;
+            }
+
+            .streak-count {
+                font-size: 4.5rem;
+            }
+
+            .mood-emoji-large {
+                font-size: 5rem;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .mood-buttons {
+                grid-template-columns: repeat(5, 1fr);
+            }
+
+            .emotion-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .coping-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .song-list {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .stats-container {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+
+            .stat-card:nth-child(1),
+            .stat-card:nth-child(2) {
+                grid-column: span 1;
+            }
+
+            .stat-card:nth-child(3),
+            .stat-card:nth-child(4) {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mood-buttons {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .emotion-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .big-mood-btn {
+                min-height: 90px;
+                padding: 15px 10px;
+            }
+
+            .big-mood-btn i {
+                font-size: 2rem;
+            }
+
+            .big-mood-btn span {
+                font-size: 1rem;
+            }
+
+            .emotion-option {
+                min-height: 120px;
+                padding: 15px 10px;
+            }
+
+            .emotion-emoji {
+                font-size: 2rem;
+            }
+
+            .emotion-name {
+                font-size: 1rem;
+            }
+
+            .emotion-subtitle {
+                font-size: 0.8rem;
+            }
+
+            .number-game-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .number-game-tile {
+                height: 40px;
+                font-size: 1rem;
+                min-height: 40px;
+                min-width: 40px;
+            }
+
+            .color-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+
+            .color-btn {
+                height: 60px;
+                min-height: 44px;
+                min-width: 44px;
+            }
+
+            #targetColor {
+                width: 80px;
+                height: 80px;
+            }
+
+            .game-stats {
+                gap: 10px;
+            }
+
+            .stat-item {
+                min-width: 80px;
+            }
+
+            .stat-value {
+                font-size: 1.3rem;
+            }
+
+            .stat-label {
+                font-size: 0.8rem;
+            }
+
+            .streak-count {
+                font-size: 2.5rem;
+            }
+
+            .mood-emoji-large {
+                font-size: 3rem;
+            }
+
+            .mood-stat-value {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (orientation: landscape) and (max-height: 500px) {
+            .container {
+                gap: 10px;
+            }
+
+            header {
+                padding: 15px 10px;
+                margin-bottom: 10px;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+                padding: 8px 10px;
+                margin-bottom: 10px;
+            }
+
+            .tagline {
+                font-size: 0.8rem;
+                padding: 8px 12px;
+            }
+
+            .mood-buttons {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 8px;
+                margin: 15px 0;
+            }
+
+            .big-mood-btn {
+                padding: 10px 5px;
+                min-height: 80px;
+            }
+
+            .big-mood-btn i {
+                font-size: 1.5rem;
+                margin-bottom: 8px;
+            }
+
+            .big-mood-btn span {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3) rotate(-15deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0); }
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.5) translateY(50px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        @keyframes floatBackground {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(20px) rotate(1deg); }
+        }
+
+        @keyframes colorShift {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+
+        @keyframes happyWiggle {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            25% { transform: translateY(-5px) rotate(-2deg); }
+            75% { transform: translateY(-5px) rotate(2deg); }
+        }
+
+        @keyframes floatEmoji {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.1); }
+        }
+
+        @keyframes rainbowLine {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes bounceIcon {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @keyframes happyDance {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            25% { transform: translateY(-5px) rotate(-5deg); }
+            50% { transform: translateY(-10px) rotate(0); }
+            75% { transform: translateY(-5px) rotate(5deg); }
+        }
+
+        @keyframes happyPop {
+            0% { transform: scale(0.8); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(0.95); }
+        }
+
+        @keyframes celebrateText {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes pulseColor {
+            0% { box-shadow: 0 0 0 0 rgba(100, 149, 237, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(100, 149, 237, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(100, 149, 237, 0); }
+        }
+
+        @keyframes rainbowBorder {
+            0% { border-color: var(--light-blue-3); }
+            25% { border-color: var(--accent-beige); }
+            50% { border-color: var(--green-medium); }
+            75% { border-color: var(--accent-blue); }
+            100% { border-color: var(--light-blue-3); }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* UPDATED Emotion-specific colors */
+        .happy-color {
+            border-bottom-color: var(--light-blue-3);
+            background: linear-gradient(135deg, rgba(100, 149, 237, 0.1), rgba(245, 245, 220, 0.9));
+        }
+        .sad-color {
+            border-bottom-color: var(--light-blue-2);
+            background: linear-gradient(135deg, rgba(179, 217, 255, 0.1), rgba(245, 245, 220, 0.9));
+        }
+        .angry-color {
+            border-bottom-color: var(--accent-blue);
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(245, 245, 220, 0.9));
+        }
+        .anxious-color {
+            border-bottom-color: var(--green-medium);
+            background: linear-gradient(135deg, rgba(163, 217, 165, 0.1), rgba(245, 245, 220, 0.9));
+        }
+        .overwhelmed-color {
+            border-bottom-color: var(--accent-blue);
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(245, 245, 220, 0.9));
+        }
+        .lonely-color {
+            border-bottom-color: var(--beige-dark);
+            background: linear-gradient(135deg, rgba(210, 210, 163, 0.1), rgba(245, 245, 220, 0.9));
+        }
+        .tired-color {
+            border-bottom-color: var(--green-dark);
+            background: linear-gradient(135deg, rgba(123, 196, 127, 0.1), rgba(245, 245, 220, 0.9));
+        }
+        .calm-color {
+            border-bottom-color: var(--light-blue-1);
+            background: linear-gradient(135deg, rgba(230, 243, 255, 0.1), rgba(245, 245, 220, 0.9));
+        }
+        .unknown-color {
+            border-bottom-color: var(--accent-beige);
+            background: linear-gradient(135deg, rgba(196, 183, 166, 0.1), rgba(245, 245, 220, 0.9));
+        }
+
+        /* Bar graph colors matching moods */
+        .happy-bar { background: linear-gradient(90deg, var(--light-blue-3), var(--accent-blue)); }
+        .sad-bar { background: linear-gradient(90deg, var(--light-blue-2), #6495ED); }
+        .angry-bar { background: linear-gradient(90deg, #FF6B6B, #FF5252); }
+        .anxious-bar { background: linear-gradient(90deg, var(--green-medium), #4CAF50); }
+        .overwhelmed-bar { background: linear-gradient(90deg, #9C27B0, #7B1FA2); }
+        .lonely-bar { background: linear-gradient(90deg, var(--beige-dark), #C4B7A6); }
+        .tired-bar { background: linear-gradient(90deg, var(--green-dark), #388E3C); }
+        .calm-bar { background: linear-gradient(90deg, var(--light-blue-1), #B3D9FF); }
+        .unknown-bar { background: linear-gradient(90deg, var(--accent-beige), #A1887F); }
+
+        /* Game-specific colors updated */
+        .game-color-1 { background-color: var(--light-blue-3); }
+        .game-color-2 { background-color: var(--accent-beige); }
+        .game-color-3 { background-color: var(--green-medium); }
+        .game-color-4 { background-color: var(--green-dark); }
+        .game-color-5 { background-color: var(--accent-blue); }
+        .game-color-6 { background-color: var(--light-blue-2); }
+        .game-color-7 { background-color: var(--beige-dark); }
+        .game-color-8 { background-color: var(--light-blue-1); }
+
+        /* iOS specific fixes */
+        @supports (-webkit-touch-callout: none) {
+            .container {
+                padding-bottom: env(safe-area-inset-bottom, 20px);
+            }
+
+            body {
+                padding-top: env(safe-area-inset-top, 10px);
+                padding-bottom: env(safe-area-inset-bottom, 10px);
+            }
+
+            .save-btn, .back-btn-top, .close-game, .big-mood-btn, .emotion-option, .game-card, .song-info, .number-game-tile, .color-btn {
+                cursor: pointer;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            input, select, textarea {
+                font-size: 16px !important;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="container" id="appContainer">
+    <!-- Page 1: Quick Emotion Selection -->
+    <section class="page active" id="page1">
+        <header>
+            <h1><i class="fas fa-heart"></i> </h1>
+            <p class="subtitle">Your happy place for emotional wellbeing! Tap how you're feeling and let's spread some happiness together! 🌈</p>
+            <div class="tagline">"Every feeling deserves a little sunshine!" ☀️</div>
+        </header>
+
+        <div class="mood-buttons">
+            <!-- First Row: 5 buttons -->
+            <button class="big-mood-btn happy-color" data-emotion="happy">
+                <i class="fas fa-smile-beam"></i>
+                <span>Happy 😊</span>
+            </button>
+
+            <button class="big-mood-btn sad-color" data-emotion="sad">
+                <i class="fas fa-sad-tear"></i>
+                <span>Sad 🌧️</span>
+            </button>
+
+            <button class="big-mood-btn angry-color" data-emotion="angry">
+                <i class="fas fa-angry"></i>
+                <span>Angry/Irritated 🔥</span>
+            </button>
+
+            <button class="big-mood-btn anxious-color" data-emotion="anxious">
+                <i class="fas fa-surprise"></i>
+                <span>Fearful/Anxious 🦋</span>
+            </button>
+
+            <button class="big-mood-btn overwhelmed-color" data-emotion="overwhelmed">
+                <i class="fas fa-cloud-rain"></i>
+                <span>Overwhelmed 🌪️</span>
+            </button>
+
+            <!-- Second Row: 4 buttons -->
+            <button class="big-mood-btn lonely-color" data-emotion="lonely">
+                <i class="fas fa-user-alone"></i>
+                <span>Lonely 🌙</span>
+            </button>
+
+            <button class="big-mood-btn tired-color" data-emotion="tired">
+                <i class="fas fa-tired"></i>
+                <span>Tired/Burnt Out 💤</span>
+            </button>
+
+            <button class="big-mood-btn calm-color" data-emotion="calm">
+                <i class="fas fa-peace"></i>
+                <span>Calm/Peaceful 🌿</span>
+            </button>
+
+            <button class="big-mood-btn unknown-color" data-emotion="unknown">
+                <i class="fas fa-question-circle"></i>
+                <span>I'm Not Sure 🤔</span>
+            </button>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-btn" id="viewStatsBtn">
+                <i class="fas fa-chart-line"></i> View Your Stats 📊
+            </button>
+        </div>
+
+        <footer>
+            <p>Welcome to your ! Even cloudy feelings look brighter here! ☁️➡️☀️</p>
+            <div class="emergency-contact">
+                If you need immediate help, contact a mental health professional. You're not alone. 💙
+            </div>
+        </footer>
+    </section>
+
+    <!-- Page 2: Specific Emotion & Coping -->
+    <section class="page" id="page2">
+        <header>
+            <button class="back-btn-top" id="backToPage1">
+                <i class="fas fa-arrow-left"></i> Back </button>
+            <h1><i class="fas fa-search-heart"></i> Let's Find Your Happiness! 🌈</h1>
+            <p class="subtitle">Feeling uncertain is like a rainbow before the sunshine! Let's explore together! ✨</p>
+            <div class="tagline" id="selectedEmotionTag">Exploring: <span id="selectedEmotionText">I'm Not Sure</span></div>
+        </header>
+
+        <div id="emotionGridContainer">
+            <!-- Emotions will be loaded here based on selection -->
+        </div>
+
+        <div id="copingSection" style="display: none;">
+            <h2 style="margin: 40px 0 20px; font-size: 1.8rem;">
+                <i class="fas fa-life-ring"></i> Coping Strategies ☀️
+            </h2>
+            <div id="copingGrid" class="coping-grid">
+                <!-- Coping strategies will be loaded here -->
+            </div>
+
+            <div id="musicPlayer" class="music-player">
+                <h2 style="margin-bottom: 20px; font-size: 1.8rem;">
+                    <i class="fab fa-spotify"></i> Musical Sunshine! 🎵
+                </h2>
+                <p style="font-size: 1.1rem; margin-bottom: 20px;">Click any song to fill your space with happy vibes! 🎶✨</p>
+
+                <div id="songList" class="song-list">
+                    <!-- Songs will be loaded here -->
+                </div>
+
+                <div class="auto-play-notice">
+                    <i class="fas fa-volume-up"></i>
+                    <span>Music is happiness for your soul! Let's dance! 💃🕺</span>
+                </div>
+            </div>
+
+            <div class="games-section">
+                <div class="games-header">
+                    <h2 style="margin-bottom: 15px; font-size: 1.8rem;">
+                        <i class="fas fa-gamepad"></i> Fun Breaks! 🎮
+                    </h2>
+                    <p style="font-size: 1.1rem;">Take a happy break with these fun games! 🌞✨</p>
+                </div>
+
+                <div class="games-grid">
+                    <div class="game-card" id="numberFindGame">
+                        <i class="fas fa-search"></i>
+                        <h3>Find Numbers Fun! 🔢</h3>
+                        <p>Find numbers 1-25 in order! How fast can you go? ⚡</p>
+                    </div>
+
+                    <div class="game-card" id="colorMatchGame">
+                        <i class="fas fa-palette"></i>
+                        <h3>Rainbow Match! 🌈</h3>
+                        <p>Match the colors in this happy rainbow game! 🎨</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="save-section">
+                <button class="save-btn" id="saveEntryBtn">
+                    <i class="fas fa-save"></i> Save & Spread Happiness! 🌟
+                </button>
+            </div>
+        </div>
+
+        <footer>
+            <p>Remember: Even rainbows need clouds first! Your feelings are creating something beautiful! 🌈✨</p>
+        </footer>
+    </section>
+
+    <!-- Page 3: Stats & Analytics -->
+    <section class="page" id="page3">
+        <header>
+            <button class="back-btn-top" id="backToPage1FromStats">
+                <i class="fas fa-arrow-left"></i> Back </button>
+            <h1><i class="fas fa-chart-line"></i> Your Mood Journey 📊</h1>
+            <p class="subtitle">Track your emotional patterns and celebrate your progress! Every feeling counts! 🌈✨</p>
+            <div class="tagline">"Your feelings create beautiful patterns!" 🎨</div>
+        </header>
+
+        <div class="stats-container">
+            <!-- Streak Counter -->
+            <div class="stat-card">
+                <h3><i class="fas fa-fire"></i> Current Streak 🔥</h3>
+                <div class="streak-display">
+                    <div class="streak-count" id="streakCount">0</div>
+                    <div class="streak-label">Days in a row! Keep shining! ✨</div>
+                    <div class="streak-emoji" id="streakEmoji">🔥</div>
+                </div>
+            </div>
+
+            <!-- Most Frequent Mood -->
+            <div class="stat-card">
+                <h3><i class="fas fa-star"></i> Most Frequent Mood 🌟</h3>
+                <div class="mood-frequency">
+                    <div class="mood-emoji-large" id="mostFrequentEmoji">😊</div>
+                    <div class="mood-name-large" id="mostFrequentMood">Happy</div>
+                    <div class="mood-stats">
+                        <div class="mood-stat-item">
+                            <div class="mood-stat-value" id="moodFrequencyCount">0</div>
+                            <div class="mood-stat-label">Times logged</div>
+                        </div>
+                        <div class="mood-stat-item">
+                            <div class="mood-stat-value" id="moodPercentage">0%</div>
+                            <div class="mood-stat-label">Of all entries</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weekly Calendar -->
+            <div class="stat-card">
+                <h3><i class="fas fa-calendar-week"></i> This Week's Moods 📅</h3>
+                <div class="weekly-calendar" id="weeklyCalendar">
+                    <!-- Days will be inserted here by JavaScript -->
+                </div>
+                <p style="text-align: center; margin-top: 15px; color: var(--text-light); font-size: 0.9rem;">
+                    Your weekly emotional journey! 🌈
+                </p>
+            </div>
+
+            <!-- Bar Graph -->
+            <div class="stat-card">
+                <h3><i class="fas fa-chart-bar"></i> Mood Frequency 📈</h3>
+                <div class="bar-graph-container" id="barGraphContainer">
+                    <!-- Bars will be inserted here by JavaScript -->
+                </div>
+                <p style="text-align: center; margin-top: 15px; color: var(--text-light); font-size: 0.9rem;">
+                    Which moods visit you most often? 🌟
+                </p>
+            </div>
+
+            <!-- Recent History -->
+            <div class="stat-card" style="grid-column: span 2;">
+                <h3><i class="fas fa-history"></i> Recent Mood Log 📝</h3>
+                <div class="history-log" id="historyLog">
+                    <!-- History items will be inserted here by JavaScript -->
+                </div>
+                <p style="text-align: center; margin-top: 15px; color: var(--text-light); font-size: 0.9rem;">
+                    Your last 10 mood entries ✨
+                </p>
+            </div>
+        </div>
+
+        <footer>
+            <p>Every mood entry is a step towards self-awareness and growth! Keep shining! 🌟</p>
+        </footer>
+    </section>
+</div>
+
+<!-- Game Popups -->
+<div class="game-popup" id="numberFindPopup">
+    <div class="game-content">
+        <div class="number-game-container">
+            <div class="number-game-header">
+                <h2>Find Numbers Fun! 🔢✨</h2>
+                <p>Find numbers 1-25 in order! Let's race against time! ⏱️⚡</p>
+            </div>
+
+            <div class="number-game-stats">
+                <div>Next: <span id="nextNum">1</span></div>
+                <div>Time: <span id="timer">0.00</span>s ⏱️</div>
+            </div>
+
+            <div class="number-game-grid" id="numberGrid"></div>
+
+            <div class="number-game-footer">
+                <div class="number-game-finish" id="finishMsg"></div>
+                <button class="save-btn" id="restartNumberGame">Play Again! 🔄</button>
+                <button class="save-btn" style="margin-top: 15px; background: linear-gradient(135deg, var(--accent-blue), var(--light-blue-2));" id="closeNumberFind">
+                    Back! ☀️
+                </button>
+            </div>
+        </div>
+    </div>
+    <button class="close-game" id="closeNumberFindBtn">×</button>
+</div>
+
+<div class="game-popup" id="colorMatchPopup">
+    <div class="game-content">
+        <h2 style="margin-bottom: 20px; font-size: 1.8rem;">Rainbow Match Game! 🌈🎨</h2>
+        <p style="font-size: 1.1rem; margin-bottom: 20px;" id="colorGameInstruction">Match the rainbow colors! You have 60 seconds of colorful fun! ⏰✨</p>
+
+        <div id="targetColor">
+            <!-- Target color will appear here -->
+        </div>
+
+        <div class="color-grid" id="colorGrid">
+            <!-- Color buttons will be generated here -->
+        </div>
+
+        <div class="game-stats">
+            <div class="stat-item">
+                <div class="stat-value" id="timeLeft">60</div>
+                <div class="stat-label">Seconds ⏰</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="matches">0</div>
+                <div class="stat-label">Matches 🎯</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="accuracy">0%</div>
+                <div class="stat-label">Accuracy 🏆</div>
+            </div>
+        </div>
+
+        <button class="save-btn" style="margin-top: 25px; background: linear-gradient(135deg, var(--accent-beige), var(--accent-blue));" id="closeColorGame">
+            Back to Rainbow! 🌈
+        </button>
+    </div>
+    <button class="close-game" id="closeColorGameBtn">×</button>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Prevent default touch behavior
+        document.addEventListener('touchstart', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(e) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // Initialize main app
+        function initMainApp() {
+            // Updated emotion data with "I don't know" option
+            const emotions = {
+                happy: [
+                    { name: "Joyful Sunshine! 😄", emoji: "😄", specifics: "Lighthearted, Cheerful, Shining!" },
+                    { name: "Content & Cozy 🌻", emoji: "😌", specifics: "Satisfied, At Peace, Warm" },
+                    { name: "Hopeful Rainbow! 🌈", emoji: "🌈", specifics: "Optimistic, Looking Forward" },
+                    { name: "Excited Sparkles! ✨", emoji: "🤩", specifics: "Energetic, Anticipating" },
+                    { name: "Grateful Heart! 💖", emoji: "🙏", specifics: "Thankful, Appreciative" }
+                ],
+                sad: [
+                    { name: "Rainy Day Heart 🌧️", emoji: "💔", specifics: "Deeply Hurt, Grieving" },
+                    { name: "Lonely Cloud ☁️", emoji: "🥺", specifics: "Isolated, Longing" },
+                    { name: "Disappointed Star 🌟", emoji: "😞", specifics: "Let Down, Unfulfilled" },
+                    { name: "Hopeless Fog 🌫️", emoji: "😔", specifics: "Despairing, No Energy" },
+                    { name: "Numb Space 🪐", emoji: "😶", specifics: "Empty, Detached" }
+                ],
+                angry: [
+                    { name: "Frustrated Volcano 🌋", emoji: "😤", specifics: "Annoyed, Stuck" },
+                    { name: "Irritated Storm ⚡", emoji: "😠", specifics: "On Edge, Agitated" },
+                    { name: "Resentful Fire 🔥", emoji: "🤬", specifics: "Bitterness, Hostile" },
+                    { name: "Betrayed Thunder ⛈️", emoji: "😡", specifics: "Let Down, Hurt" },
+                    { name: "Outraged Tornado 🌪️", emoji: "👿", specifics: "Furious, Enraged" }
+                ],
+                anxious: [
+                    { name: "Worried Butterfly 🦋", emoji: "😟", specifics: "Concerned, Stressed" },
+                    { name: "Panicked Rabbit 🐇", emoji: "😨", specifics: "Overwhelmed, Racing" },
+                    { name: "Overthinking Hamster 🐹", emoji: "🤯", specifics: "Looping Thoughts" },
+                    { name: "Insecure Seed 🌱", emoji: "😕", specifics: "Self-Doubt, Uncertainty" },
+                    { name: "Restless Energy ⚡", emoji: "😰", specifics: "Can't Settle, Tense" }
+                ],
+                overwhelmed: [
+                    { name: "Stressed Mountain 🏔️", emoji: "😫", specifics: "Pressure, Too Much" },
+                    { name: "Burnt Out Candle 🕯️", emoji: "😩", specifics: "Exhausted, Drained" },
+                    { name: "Overloaded Basket 🧺", emoji: "🏋️", specifics: "Too Many Tasks" },
+                    { name: "Confused Maze 🌀", emoji: "😵", specifics: "Can't Think Clearly" },
+                    { name: "Stuck Snail 🐌", emoji: "🫠", specifics: "Paralyzed, Frozen" }
+                ],
+                lonely: [
+                    { name: "Isolated Island 🏝️", emoji: "👤", specifics: "Alone, No Connection" },
+                    { name: "Unseen Ghost 👻", emoji: "👻", specifics: "Invisible, Ignored" },
+                    { name: "Longing Bird 🕊️", emoji: "💭", specifics: "Missing Connection" },
+                    { name: "Misunderstood Alien 👽", emoji: "🤷", specifics: "Not Heard, Alien" },
+                    { name: "Homesick Heart 🏠", emoji: "🏠", specifics: "Nostalgic, Yearning" }
+                ],
+                tired: [
+                    { name: "Exhausted Sloth 🦥", emoji: "😴", specifics: "Drained, No Energy" },
+                    { name: "Burnt Out Phoenix 🔥", emoji: "🔥", specifics: "Emotionally Drained" },
+                    { name: "Unmotivated Turtle 🐢", emoji: "🛌", specifics: "No Drive, Lethargic" },
+                    { name: "Foggy Forest 🌳", emoji: "🌫️", specifics: "Can't Focus, Hazy" },
+                    { name: "Weary Moon 🌙", emoji: "😮‍💨", specifics: "Tired of Everything" }
+                ],
+                calm: [
+                    { name: "Peaceful Lotus 🪷", emoji: "☮️", specifics: "Serene, Tranquil" },
+                    { name: "Content Sunset 🌅", emoji: "😊", specifics: "Satisfied, At Ease" },
+                    { name: "Grounded Tree 🌳", emoji: "🌳", specifics: "Centered, Present" },
+                    { name: "Relaxed Ocean 🌊", emoji: "🪷", specifics: "At Rest, Unwound" },
+                    { name: "Balanced Scale ⚖️", emoji: "⚖️", specifics: "Harmonious, Steady" }
+                ],
+                unknown: [
+                    { name: "Confused Puzzle 🧩", emoji: "🤔", specifics: "Uncertain, Puzzled" },
+                    { name: "Blank Canvas 🎨", emoji: "😐", specifics: "Empty, No Clear Feeling" },
+                    { name: "Mixed Rainbow 🌈", emoji: "😶‍🌫️", specifics: "Many Feelings at Once" },
+                    { name: "Detached Observer 🔭", emoji: "👁️", specifics: "Observant, Not Feeling" },
+                    { name: "Exploring Adventurer 🧭", emoji: "🧭", specifics: "Curious, Still Discovering" }
+                ]
+            };
+
+            // Updated coping strategies with "I don't know" options
+            const copingStrategies = {
+                happy: [
+                    { title: "🌻 Share the Happiness!", description: "Text a friend about something good that happened. Happiness grows when shared like sunshine!" },
+                    { title: "🌈 Savor the Rainbow!", description: "Take 2 minutes to fully notice and appreciate this good feeling. Where do you feel it in your body?" },
+                    { title: "✨ Spread Sparkles!", description: "Do one small kind thing for someone else - even just a compliment or a smile!" }
+                ],
+                sad: [
+                    { title: "🌧️ Rainy Day Self-Care", description: "Put your hand on your heart and say: 'It's okay to have rainy days. The sun will return.'" },
+                    { title: "💌 Gentle Release", description: "Write what you're feeling on paper, decorate it with fun drawings, then safely keep it." },
+                    { title: "☕ Cozy Comfort", description: "Make yourself a warm drink, wrap in a soft blanket, watch a favorite happy scene." }
+                ],
+                angry: [
+                    { title: "🔥 Energy Release", description: "Do 10 jumping jacks, squeeze a stress ball, or punch a pillow. Release that fire safely!" },
+                    { title: "❄️ Cool Down", description: "Hold an ice cube in your hand or splash cold water on your face for 30 seconds." },
+                    { title: "🎨 Anger Art", description: "Draw your anger with bright colors on paper. No one sees it but you!" }
+                ],
+                anxious: [
+                    { title: "🌿 Grounding Exercise", description: "Name: 5 blue things you see, 4 soft things you feel, 3 happy sounds, 2 nice smells, 1 taste you like." },
+                    { title: "🛡️ Safety Check", description: "Ask: 'Am I actually in danger right now, or just uncomfortable?' Look for evidence of safety." },
+                    { title: "🌬️ Calm Breathing", description: "Breathe in calmly for 4 counts, hold the light for 4, exhale clouds for 6. Repeat 5 times." }
+                ],
+                overwhelmed: [
+                    { title: "🎯 One Sunbeam Only", description: "Close all tabs, put away everything except ONE small task. Focus on just that sunbeam!" },
+                    { title: "⏸️ Pause", description: "Set a timer for 5 minutes and do absolutely nothing but breathe. You have permission!" },
+                    { title: "🐌 Tiny Step", description: "What's the smallest possible next step? Just do that one tiny, manageable thing!" }
+                ],
+                lonely: [
+                    { title: "📺 Virtual Mood lifter", description: "Put on a comforting TV show or YouTube video just for background happy human presence." },
+                    { title: "💫 Reach Out with Sparkles", description: "Send a simple text to someone: 'Thinking of you' or a funny happy meme." },
+                    { title: "☀️ Self-Companionship", description: "Talk to yourself kindly, as you would to a friend. Make yourself a special drink." }
+                ],
+                tired: [
+                    { title: "💦 Hydration First", description: "Drink a full glass of water right now. Dehydration amplifies exhaustion like clouds block sun!" },
+                    { title: "😴 Micro-Break", description: "Set a timer for 5 minutes and rest your eyes. No screens, no tasks, just rest." },
+                    { title: "🍓 Tiny Nourishment", description: "Eat one small, easy thing (fruit, nuts, yogurt). Low blood sugar worsens fatigue." }
+                ],
+                calm: [
+                    { title: "🌅 Mindful Appreciation", description: "Notice this peaceful feeling. Where do you feel it in your body? Savor it like sunset!" },
+                    { title: "🌸 Gentle Movement", description: "Do some slow stretching or take a gentle walk to maintain this sunny state." },
+                    { title: "📝 Happiness Journal", description: "Write a few notes about what helped you reach this calm state for future reference." }
+                ],
+                unknown: [
+                    { title: "🔍 Gentle Curiosity", description: "Instead of trying to name the feeling, just notice where in your body you feel something. No judgment!" },
+                    { title: "🔄 Permission to Not Know", description: "Say to yourself: 'It's okay that I don't know how I feel right now. I don't need to figure it out.'" },
+                    { title: "☁️ Neutral Grounding", description: "Focus on your breathing for 2 minutes. Just notice the in-breath and out-breath like clouds passing." }
+                ]
+            };
+
+            // Updated songs with working Spotify track IDs
+            const songs = {
+                happy: [
+                    {
+                        title: "Can't Stop the Feeling!",
+                        artist: "Justin Timberlake",
+                        spotifyId: "1WkMMavIMc4JZ8cfMmxHkI",
+                        help: "Upbeat, positive energy! Perfect for boosting mood! 💃✨"
+                    },
+                    {
+                        title: "Happy",
+                        artist: "Pharrell Williams",
+                        spotifyId: "60nZcImufyMA1MKQY3dcCH",
+                        help: "Bright, upbeat energy that instantly lifts mood and encourages positive emotions ☀️😄"
+                    },
+                    {
+                        title: "Best Day of My Life",
+                        artist: "American Authors",
+                        spotifyId: "5Hroj5K7vLpIG4FNCRIjbP",
+                        help: "Celebratory and uplifting! Makes every day brighter! ☀️🎉"
+                    }
+                ],
+                sad: [
+                    {
+                        title: "Fix You",
+                        artist: "Coldplay",
+                        spotifyId: "7LVHVU3tWfcxj5aiPFEW4Q",
+                        help: "Emotional but safe comfort 🫂✨"
+                    },
+                    {
+                        title: "Someone You Loved",
+                        artist: "Lewis Capaldi",
+                        spotifyId: "7qEHsqek33rTcFNT9PFqLf",
+                        help: "Gentle emotional validation - it's okay to feel this 🌧️💔"
+                    },
+                    {
+                        title: "Say You Won't Let Go",
+                        artist: "James Arthur",
+                        spotifyId: "5uCax9HTNlzGybIStD3vDh",
+                        help: "Soft, emotional reassurance that feels personal and comforting 🤍🎶"
+                    }
+                ],
+                angry: [
+                    {
+                        title: "Believer",
+                        artist: "Imagine Dragons",
+                        spotifyId: "0pqnGHJpmpxLKifKRmU6WP",
+                        help: "Controlled release - turns anger into motivation! 🐉🔥"
+                    },
+                    {
+                        title: "Stronger (What Doesn't Kill You)",
+                        artist: "Kelly Clarkson",
+                        spotifyId: "1nInOsHbtotAmEOQhtvnzP",
+                        help: "Motivational power anthem! Transform frustration into strength! 💪🌟"
+                    },
+                    {
+                        title: "Centuries",
+                        artist: "Fall Out Boy",
+                        spotifyId: "04aAxqtGp5pv12UXAg4pkq",
+                        help: "Channel energy into powerful determination! 🏆✨"
+                    }
+                ],
+                anxious: [
+                    {
+                        title: "Weightless",
+                        artist: "Marconi Union",
+                        spotifyId: "6kkwzB6hXLIONkEk9JciA6",
+                        help: "Scientifically proven to reduce anxiety by 65%! Calming and slow 🧠✨"
+                    },
+                    {
+                        title: "Before You Go",
+                        artist: "Lewis Capaldi",
+                        spotifyId: "2gMXnyrvIjhVBUZwvLZDMP",
+                        help: "Slow, steady emotion that feels grounding rather than overwhelming 🌫️💙"
+                    },
+                    {
+                        title: "bad liar",
+                        artist: "Imagine Dragons",
+                        spotifyId: "2RSHsoi04658QL5xgQVov3",
+                        help: "Soft, calming vocals that gently slow racing thoughts 📖✨"
+                    }
+                ],
+                overwhelmed: [
+                    {
+                        title: "Let It Be",
+                        artist: "The Beatles",
+                        spotifyId: "7iN1s7xHE4ifF5povM6A48",
+                        help: "Grounding reminder to accept what is 🕊️✨"
+                    },
+                    {
+                        title: "Experience",
+                        artist: "Ludovico Einaudi",
+                        spotifyId: "1BncfTJAWxrsxyT9culBrj",
+                        help: "Spacious, emotional music that lets thoughts flow without pressure 🌊✨"
+                    },
+                    {
+                        title: "Fix You",
+                        artist: "Coldplay",
+                        spotifyId: "7LVHVU3tWfcxj5aiPFEW4Q",
+                        help: "Comforting reminder that things will get better 🌪️💫"
+                    }
+                ],
+                lonely: [
+                    {
+                        title: "Lean On Me",
+                        artist: "Bill Withers",
+                        spotifyId: "3M8FzayQWtkvOhqMn2V4T2",
+                        help: "Warm companionship feeling - you're not alone 🤝💖"
+                    },
+                    {
+                        title: "Fix You",
+                        artist: "Coldplay",
+                        spotifyId: "7LVHVU3tWfcxj5aiPFEW4Q",
+                        help: "Feels like quiet emotional support, reminding you that help exists even when you feel isolated 🌙🤍"
+                    },
+                    {
+                        title: "Someone To Stay",
+                        artist: "Vancouver Sleep Clinic",
+                        spotifyId: "0fYVliAYKHuPmECRs1pbRf",
+                        help: "Soft, intimate reassurance that feels like gentle company during lonely moments 🕯️✨"
+                    }
+                ],
+                tired: [
+                    {
+                        title: "I Will Follow You Into the Dark",
+                        artist: "Death Cab for Cutie",
+                        spotifyId: "3kZC0ZmFWrEHdUCmUqlvgZ",
+                        help: "Quiet, stripped-down comfort that feels steady and non-demanding 🕯️😴"
+                    },
+                    {
+                        title: "Happier than ever",
+                        artist: "Billie Eilish",
+                        spotifyId: "4RVwu0g32PAqgUiJoXsdF8",
+                        help: "Low-energy, emotionally honest sound that matches exhaustion without pushing you 🌫️🛌"
+                    },
+                    {
+                        title: "Slow Dancing in a Burning Room",
+                        artist: "John Mayer",
+                        spotifyId: "2jdAk8ATWIL3dwT47XpRfu",
+                        help: "Soft emotional space for burnt-out feelings 🔥💃"
+                    }
+                ],
+                calm: [
+                    {
+                        title: "Come Away With Me",
+                        artist: "Norah Jones",
+                        spotifyId: "6jG2YzhxptolDzLHTGLt7S",
+                        help: "Warm, steady vocals that slow breathing and create a peaceful inner space 🌙☕"
+                    },
+                    {
+                        title: "All of Me",
+                        artist: "John Legend",
+                        spotifyId: "3U4isOIWM3VvDubwSI3y7a",
+                        help: "Warm, soulful calm that feels steady, grounding, and emotionally safe 🌿🤍"
+                    },
+                    {
+                        title: "Pink + White",
+                        artist: "Frank Ocean",
+                        spotifyId: "3xKsf9qdS1CyvXSMEid6g8",
+                        help: "Smooth, flowing sound that feels emotionally calm and reassuring without heaviness 🌸☁️"
+                    }
+                ],
+                unknown: [
+                    {
+                        title: "Experience",
+                        artist: "Ludovico Einaudi",
+                        spotifyId: "1BncfTJAWxrsxyT9culBrj",
+                        help: "Neutral space with no emotional pressure 🎹💭"
+                    },
+                    {
+                        title: "Stargazing",
+                        artist: "Kygo, Justin Jesso",
+                        spotifyId: "0Zbbxnx4SGGHoIow4PpISP",
+                        help: "Soft, flowing piano that creates mental space without pushing any emotion 🌊🎹"
+                    },
+                    {
+                        title: "Sunset Lover",
+                        artist: "Petit Biscuit",
+                        spotifyId: "0hNduWmlWmEmuwEFcYvRu1",
+                        help: "No pressure - just peaceful background 🤔🌅"
+                    }
+                ]
+            };
+
+            // Mood emoji mapping
+            const moodEmojis = {
+                happy: "😊",
+                sad: "😢",
+                angry: "😠",
+                anxious: "😰",
+                overwhelmed: "😫",
+                lonely: "🥺",
+                tired: "😴",
+                calm: "😌",
+                unknown: "🤔"
+            };
+
+            // Mood display names
+            const moodDisplayNames = {
+                happy: "Happy",
+                sad: "Sad",
+                angry: "Angry",
+                anxious: "Anxious",
+                overwhelmed: "Overwhelmed",
+                lonely: "Lonely",
+                tired: "Tired",
+                calm: "Calm",
+                unknown: "Unknown"
+            };
+
+            // App state
+            let selectedCoreEmotion = null;
+            let selectedSpecificEmotion = null;
+            let currentlyActiveSong = null;
+
+            // Game state variables
+            let numberGame = {
+                current: 1,
+                startTime: null,
+                timerInterval: null
+            };
+
+            let colorGame = {
+                timeLeft: 60,
+                matches: 0,
+                totalClicks: 0,
+                gameInterval: null,
+                targetColor: null
+            };
+
+            // DOM Elements
+            const page1 = document.getElementById('page1');
+            const page2 = document.getElementById('page2');
+            const page3 = document.getElementById('page3');
+            const emotionGridContainer = document.getElementById('emotionGridContainer');
+            const copingSection = document.getElementById('copingSection');
+            const selectedEmotionText = document.getElementById('selectedEmotionText');
+            const selectedEmotionTag = document.getElementById('selectedEmotionTag');
+            const backToPage1Btn = document.getElementById('backToPage1');
+            const backToPage1FromStatsBtn = document.getElementById('backToPage1FromStats');
+            const saveEntryBtn = document.getElementById('saveEntryBtn');
+            const viewStatsBtn = document.getElementById('viewStatsBtn');
+            const moodButtons = document.querySelectorAll('.big-mood-btn');
+
+            // Initialize
+            function initApp() {
+                // Set up mood buttons
+                moodButtons.forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        if (e.type === 'touchstart') {
+                            e.preventDefault();
+                        }
+
+                        // Remove selection from all buttons
+                        moodButtons.forEach(b => {
+                            b.style.opacity = '0.7';
+                            b.style.transform = 'none';
+                        });
+
+                        // Select this button
+                        this.style.opacity = '1';
+                        this.style.transform = 'scale(1.05)';
+
+                        selectedCoreEmotion = this.dataset.emotion;
+                        selectedEmotionText.textContent = this.querySelector('span').textContent;
+
+                        // Auto-navigate to page 2
+                        setTimeout(() => {
+                            loadPage2();
+                            page1.classList.remove('active');
+                            page2.classList.add('active');
+                            window.scrollTo(0, 0);
+                        }, 300);
+                    });
+
+                    // Add touch events for mobile
+                    btn.addEventListener('touchstart', function(e) {
+                        this.style.transform = 'scale(0.98)';
+                    });
+
+                    btn.addEventListener('touchend', function(e) {
+                        this.style.transform = 'scale(1.05)';
+                    });
+                });
+
+                // Back button at top
+                backToPage1Btn.addEventListener('click', function(e) {
+                    if (e.type === 'touchstart') {
+                        e.preventDefault();
+                    }
+                    page2.classList.remove('active');
+                    page1.classList.add('active');
+                    resetPage2();
+                    window.scrollTo(0, 0);
+                });
+
+                // Back button from stats
+                backToPage1FromStatsBtn.addEventListener('click', function(e) {
+                    if (e.type === 'touchstart') {
+                        e.preventDefault();
+                    }
+                    page3.classList.remove('active');
+                    page1.classList.add('active');
+                    window.scrollTo(0, 0);
+                });
+
+                // View stats button
+                viewStatsBtn.addEventListener('click', function(e) {
+                    if (e.type === 'touchstart') {
+                        e.preventDefault();
+                    }
+                    loadStatsPage();
+                    page1.classList.remove('active');
+                    page3.classList.add('active');
+                    window.scrollTo(0, 0);
+                });
+
+                saveEntryBtn.addEventListener('click', saveEntry);
+
+                // Game setup
+                setupGames();
+            }
+
+            function loadPage2() {
+                // Load specific emotions for selected core emotion
+                const specificEmotions = emotions[selectedCoreEmotion];
+
+                // Update header
+                selectedEmotionText.textContent = getEmotionDisplayName(selectedCoreEmotion);
+                const emotionColorElement = document.querySelector(`.${selectedCoreEmotion}-color`);
+                if (emotionColorElement) {
+                    selectedEmotionTag.style.borderBottomColor = getComputedStyle(emotionColorElement).borderBottomColor;
+                }
+
+                // Clear previous emotions
+                emotionGridContainer.innerHTML = '';
+
+                // Create emotion grid
+                const grid = document.createElement('div');
+                grid.className = 'emotion-grid';
+
+                specificEmotions.forEach(emotion => {
+                    const emotionBtn = document.createElement('button');
+                    emotionBtn.className = 'emotion-option';
+                    emotionBtn.innerHTML = `
+                        <div class="emotion-emoji">${emotion.emoji}</div>
+                        <div class="emotion-name">${emotion.name}</div>
+                        <div class="emotion-subtitle">${emotion.specifics}</div>
+                    `;
+
+                    emotionBtn.addEventListener('click', function(e) {
+                        if (e.type === 'touchstart') {
+                            e.preventDefault();
+                        }
+
+                        // Remove selection from all
+                        document.querySelectorAll('.emotion-option').forEach(opt => {
+                            opt.classList.remove('selected');
+                        });
+
+                        // Select this one
+                        this.classList.add('selected');
+                        selectedSpecificEmotion = emotion.name;
+
+                        // Show coping strategies after a short delay
+                        setTimeout(() => {
+                            showCopingStrategies();
+                        }, 300);
+                    });
+
+                    // Add touch events for mobile
+                    emotionBtn.addEventListener('touchstart', function(e) {
+                        this.style.transform = 'translateY(-2px) scale(0.98)';
+                    });
+
+                    emotionBtn.addEventListener('touchend', function(e) {
+                        this.style.transform = 'translateY(-5px) scale(1.03)';
+                    });
+
+                    grid.appendChild(emotionBtn);
+                });
+
+                emotionGridContainer.appendChild(grid);
+
+                // Hide coping section initially
+                copingSection.style.display = 'none';
+            }
+
+            function showCopingStrategies() {
+                // Show coping section
+                copingSection.style.display = 'block';
+
+                // Load coping strategies
+                const strategies = copingStrategies[selectedCoreEmotion];
+                const copingGrid = document.getElementById('copingGrid');
+                copingGrid.innerHTML = '';
+
+                strategies.forEach(strategy => {
+                    const card = document.createElement('div');
+                    card.className = 'coping-card';
+                    card.innerHTML = `
+                        <h3><i class="fas fa-lightbulb"></i> ${strategy.title}</h3>
+                        <p>${strategy.description}</p>
+                    `;
+                    copingGrid.appendChild(card);
+                });
+
+                // Load songs with Spotify embeds
+                const songList = document.getElementById('songList');
+                songList.innerHTML = '';
+
+                const emotionSongs = songs[selectedCoreEmotion];
+                emotionSongs.forEach((song, index) => {
+                    const songItem = document.createElement('div');
+                    songItem.className = 'song-item';
+                    if (index === 0) {
+                        songItem.classList.add('active');
+                        currentlyActiveSong = songItem;
+                    }
+
+                    // Create Spotify embed URL
+                    const spotifyEmbedUrl = `https://open.spotify.com/embed/track/${song.spotifyId}`;
+
+                    songItem.innerHTML = `
+                        <div class="song-info">
+                            <div class="song-title">${song.title}</div>
+                            <div class="song-artist">${song.artist}</div>
+                            <div class="song-help">${song.help}</div>
+                            <div style="margin-top: 10px; font-size: 1.3rem; color: var(--accent-blue); font-weight: 600;">
+                                <i class="fas fa-play"></i> Click play button to listen! 🎶\n
+
+                            </div>
+                            <i class="fab fa-spotify"></i> Click the name of the song to open it on Spotify
+
+                        </div>
+                        <iframe
+                            class="spotify-player"
+                            src="${spotifyEmbedUrl}"
+                            width="100%"
+                            height="152"
+                            frameBorder="0"
+                            allowfullscreen=""
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                            loading="lazy">
+                        </iframe>
+                    `;
+
+
+                    // Add click event to toggle the Spotify player
+                    const songInfo = songItem.querySelector('.song-info');
+                    songInfo.addEventListener('click', function (e) {
+                        if (e.type === 'touchstart') {
+                            e.preventDefault();
+                        }
+
+                        // Close any currently active song
+                        if (currentlyActiveSong && currentlyActiveSong !== songItem) {
+                            currentlyActiveSong.classList.remove('active');
+                            const activeIframe = currentlyActiveSong.querySelector('.spotify-player');
+                            if (activeIframe) {
+                                const src = activeIframe.src;
+                                activeIframe.src = '';
+                                setTimeout(() => {
+                                    activeIframe.src = src;
+                                }, 100);
+                            }
+                        }
+
+                        // Toggle this song
+                        songItem.classList.toggle('active');
+
+                        if (songItem.classList.contains('active')) {
+                            currentlyActiveSong = songItem;
+
+                            // Auto-play when clicked
+                            const iframe = songItem.querySelector('.spotify-player');
+                            if (iframe) {
+                                const src = iframe.src;
+                                iframe.src = '';
+                                setTimeout(() => {
+                                    iframe.src = src;
+                                }, 100);
+                            }
+                        } else {
+                            currentlyActiveSong = null;
+                        }
+                    });
+
+                    songList.appendChild(songItem);
+                });
+
+                // Auto-scroll to coping strategies
+                setTimeout(() => {
+                    copingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 500);
+            }
+
+            // STATS PAGE FUNCTIONS
+            function loadStatsPage() {
+                // Get all entries from localStorage
+                const entries = getMoodEntries();
+
+                if (entries.length === 0) {
+                    showEmptyStats();
+                    return;
+                }
+
+                // Calculate stats
+                const stats = calculateStats(entries);
+
+                // Update UI
+                updateStreakDisplay(stats.streak);
+                updateMostFrequentMood(stats.mostFrequent);
+                updateWeeklyCalendar(stats.weeklyData);
+                updateBarGraph(stats.moodFrequency);
+                updateHistoryLog(entries.slice(0, 10)); // Show last 10 entries
+            }
+
+            function getMoodEntries() {
+                try {
+                    const entries = JSON.parse(localStorage.getItem('moodEntries') || '[]');
+                    // Sort by date, newest first
+                    return entries.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                } catch (e) {
+                    console.error('Error loading mood entries:', e);
+                    return [];
+                }
+            }
+
+            function calculateStats(entries) {
+                // Initialize mood frequency counter
+                const moodFrequency = {
+                    happy: 0,
+                    sad: 0,
+                    angry: 0,
+                    anxious: 0,
+                    overwhelmed: 0,
+                    lonely: 0,
+                    tired: 0,
+                    calm: 0,
+                    unknown: 0
+                };
+
+                // Calculate mood frequencies
+                entries.forEach(entry => {
+                    if (moodFrequency[entry.coreEmotion] !== undefined) {
+                        moodFrequency[entry.coreEmotion]++;
+                    }
+                });
+
+                // Find most frequent mood
+                let mostFrequent = { mood: 'happy', count: 0 };
+                Object.entries(moodFrequency).forEach(([mood, count]) => {
+                    if (count > mostFrequent.count) {
+                        mostFrequent = { mood, count };
+                    }
+                });
+
+                // Calculate streak
+                const streak = calculateStreak(entries);
+
+                // Get weekly data
+                const weeklyData = getWeeklyData(entries);
+
+                return {
+                    moodFrequency,
+                    mostFrequent,
+                    streak,
+                    weeklyData,
+                    totalEntries: entries.length
+                };
+            }
+
+            function calculateStreak(entries) {
+                if (entries.length === 0) return 0;
+
+                // Sort entries by date (oldest first)
+                const sortedEntries = [...entries].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+                let streak = 1;
+                let currentDate = new Date(sortedEntries[0].timestamp);
+
+                // Check if there was an entry yesterday
+                for (let i = 1; i < sortedEntries.length; i++) {
+                    const entryDate = new Date(sortedEntries[i].timestamp);
+                    const prevDate = new Date(currentDate);
+
+                    // Reset time to compare only dates
+                    entryDate.setHours(0, 0, 0, 0);
+                    prevDate.setHours(0, 0, 0, 0);
+
+                    const dayDiff = Math.floor((entryDate - prevDate) / (1000 * 60 * 60 * 24));
+
+                    if (dayDiff === 1) {
+                        // Consecutive day
+                        streak++;
+                    } else if (dayDiff > 1) {
+                        // Break in streak
+                        streak = 1;
+                    }
+
+                    currentDate = new Date(sortedEntries[i].timestamp);
+                }
+
+                return streak;
+            }
+
+            function getWeeklyData(entries) {
+                const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                const weeklyData = [];
+
+                // Get last 7 days
+                for (let i = 6; i >= 0; i--) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - i);
+
+                    const dayName = days[date.getDay()];
+                    const dayDate = date.getDate();
+
+                    // Find entries for this day
+                    const dayEntries = entries.filter(entry => {
+                        const entryDate = new Date(entry.timestamp);
+                        return (
+                            entryDate.getDate() === date.getDate() &&
+                            entryDate.getMonth() === date.getMonth() &&
+                            entryDate.getFullYear() === date.getFullYear()
+                        );
+                    });
+
+                    // Get the latest mood for this day
+                    const latestMood = dayEntries.length > 0 ? dayEntries[0].coreEmotion : null;
+
+                    weeklyData.push({
+                        dayName,
+                        dayDate,
+                        mood: latestMood,
+                        hasEntry: dayEntries.length > 0
+                    });
+                }
+
+                return weeklyData;
+            }
+
+            function updateStreakDisplay(streak) {
+                const streakCountEl = document.getElementById('streakCount');
+                const streakEmojiEl = document.getElementById('streakEmoji');
+
+                streakCountEl.textContent = streak;
+
+                // Set appropriate emoji based on streak length
+                if (streak >= 7) {
+                    streakEmojiEl.textContent = '🔥🔥🔥';
+                } else if (streak >= 3) {
+                    streakEmojiEl.textContent = '🔥🔥';
+                } else if (streak >= 1) {
+                    streakEmojiEl.textContent = '🔥';
+                } else {
+                    streakEmojiEl.textContent = '✨';
+                }
+            }
+
+            function updateMostFrequentMood(mostFrequentData) {
+                const emojiEl = document.getElementById('mostFrequentEmoji');
+                const nameEl = document.getElementById('mostFrequentMood');
+                const countEl = document.getElementById('moodFrequencyCount');
+                const percentageEl = document.getElementById('moodPercentage');
+
+                const entries = getMoodEntries();
+                const totalEntries = entries.length;
+
+                emojiEl.textContent = moodEmojis[mostFrequentData.mood] || '😊';
+                nameEl.textContent = moodDisplayNames[mostFrequentData.mood] || 'Happy';
+                countEl.textContent = mostFrequentData.count;
+                percentageEl.textContent = totalEntries > 0 ?
+                    Math.round((mostFrequentData.count / totalEntries) * 100) + '%' : '0%';
+            }
+
+            function updateWeeklyCalendar(weeklyData) {
+                const calendarEl = document.getElementById('weeklyCalendar');
+                calendarEl.innerHTML = '';
+
+                weeklyData.forEach(day => {
+                    const dayEl = document.createElement('div');
+                    dayEl.className = `calendar-day ${day.hasEntry ? 'active' : ''}`;
+
+                    const moodEmoji = day.mood ? moodEmojis[day.mood] : '';
+
+                    dayEl.innerHTML = `
+                        <div class="day-name">${day.dayName}</div>
+                        <div class="day-date">${day.dayDate}</div>
+                        <div class="day-mood">${moodEmoji}</div>
+                        ${!day.hasEntry ? '<div class="day-empty">No entry</div>' : ''}
+                    `;
+
+                    calendarEl.appendChild(dayEl);
+                });
+            }
+
+            function updateBarGraph(moodFrequency) {
+                const containerEl = document.getElementById('barGraphContainer');
+                containerEl.innerHTML = '';
+
+                const totalEntries = Object.values(moodFrequency).reduce((sum, count) => sum + count, 0);
+
+                // Sort moods by frequency (highest first)
+                const sortedMoods = Object.entries(moodFrequency)
+                    .filter(([_, count]) => count > 0)
+                    .sort((a, b) => b[1] - a[1]);
+
+                sortedMoods.forEach(([mood, count]) => {
+                    const percentage = totalEntries > 0 ? Math.round((count / totalEntries) * 100) : 0;
+                    const width = totalEntries > 0 ? Math.max(10, (count / totalEntries) * 100) : 0;
+
+                    const barItem = document.createElement('div');
+                    barItem.className = 'bar-item';
+
+                    barItem.innerHTML = `
+                        <div class="mood-label">
+                            <i>${moodEmojis[mood]}</i>
+                            <span>${moodDisplayNames[mood]}</span>
+                        </div>
+                        <div class="bar-track">
+                            <div class="bar-fill ${mood}-bar" style="width: ${width}%"></div>
+                        </div>
+                        <div class="bar-count">${count}</div>
+                    `;
+
+                    containerEl.appendChild(barItem);
+                });
+
+                if (sortedMoods.length === 0) {
+                    containerEl.innerHTML = '<p style="text-align: center; color: var(--text-light); padding: 20px;">No mood entries yet! Start tracking your moods! 🌈</p>';
+                }
+            }
+
+            function updateHistoryLog(entries) {
+                const logEl = document.getElementById('historyLog');
+                logEl.innerHTML = '';
+
+                if (entries.length === 0) {
+                    logEl.innerHTML = '<p style="text-align: center; color: var(--text-light); padding: 20px;">No mood entries yet! 🌈</p>';
+                    return;
+                }
+
+                entries.forEach(entry => {
+                    const entryDate = new Date(entry.timestamp);
+                    const timeString = entryDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    const dateString = entryDate.toLocaleDateString();
+
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+
+                    historyItem.innerHTML = `
+                        <div class="history-mood">${moodEmojis[entry.coreEmotion]}</div>
+                        <div class="history-details">
+                            <div class="history-emotion">${moodDisplayNames[entry.coreEmotion]}</div>
+                            <div class="history-date">${dateString}</div>
+                        </div>
+                        <div class="history-time">${timeString}</div>
+                    `;
+
+                    logEl.appendChild(historyItem);
+                });
+            }
+
+            function showEmptyStats() {
+                // Update all stats sections to show empty state
+                document.getElementById('streakCount').textContent = '0';
+                document.getElementById('streakEmoji').textContent = '✨';
+                document.getElementById('mostFrequentEmoji').textContent = '😊';
+                document.getElementById('mostFrequentMood').textContent = 'No data yet';
+                document.getElementById('moodFrequencyCount').textContent = '0';
+                document.getElementById('moodPercentage').textContent = '0%';
+
+                // Clear calendar
+                const calendarEl = document.getElementById('weeklyCalendar');
+                calendarEl.innerHTML = '<p style="text-align: center; color: var(--text-light); padding: 20px;">Start tracking your moods to see your weekly patterns! 🌈</p>';
+
+                // Clear bar graph
+                const barGraphEl = document.getElementById('barGraphContainer');
+                barGraphEl.innerHTML = '<p style="text-align: center; color: var(--text-light); padding: 20px;">Log your first mood to see your mood frequency! ✨</p>';
+
+                // Clear history
+                const historyEl = document.getElementById('historyLog');
+                historyEl.innerHTML = '<p style="text-align: center; color: var(--text-light); padding: 20px;">Your mood history will appear here! 🌟</p>';
+            }
+
+            function setupGames() {
+                // Number Find game
+                document.getElementById('numberFindGame').addEventListener('click', function(e) {
+                    if (e.type === 'touchstart') {
+                        e.preventDefault();
+                    }
+                    document.getElementById('numberFindPopup').classList.add('active');
+                    startNumberGame();
+                });
+
+                // Color Match game
+                document.getElementById('colorMatchGame').addEventListener('click', function(e) {
+                    if (e.type === 'touchstart') {
+                        e.preventDefault();
+                    }
+                    document.getElementById('colorMatchPopup').classList.add('active');
+                    startColorMatchGame();
+                });
+
+                // Game close buttons
+                document.getElementById('closeNumberFind').addEventListener('click', closeNumberGame);
+                document.getElementById('closeNumberFindBtn').addEventListener('click', closeNumberGame);
+                document.getElementById('closeColorGame').addEventListener('click', closeColorGame);
+                document.getElementById('closeColorGameBtn').addEventListener('click', closeColorGame);
+                document.getElementById('restartNumberGame').addEventListener('click', startNumberGame);
+            }
+
+            // NUMBER GAME FUNCTIONS
+            function startNumberGame() {
+                const grid = document.getElementById("numberGrid");
+                const timerEl = document.getElementById("timer");
+                const nextNumEl = document.getElementById("nextNum");
+                const finishMsg = document.getElementById("finishMsg");
+
+                grid.innerHTML = "";
+                finishMsg.textContent = "";
+                numberGame.current = 1;
+                nextNumEl.textContent = numberGame.current;
+                timerEl.textContent = "0.00";
+                clearInterval(numberGame.timerInterval);
+                numberGame.startTime = null;
+
+                const numbers = shuffle([...Array(25).keys()].map(n => n + 1));
+
+                numbers.forEach(num => {
+                    const tile = document.createElement("div");
+                    tile.className = "number-game-tile";
+                    tile.textContent = num;
+                    tile.onclick = () => handleNumberClick(tile, num);
+                    // Add touch events for mobile
+                    tile.addEventListener('touchstart', function(e) {
+                        this.style.transform = 'translateY(-1px) scale(0.98)';
+                    });
+                    tile.addEventListener('touchend', function(e) {
+                        this.style.transform = 'translateY(-3px) scale(1.05)';
+                    });
+                    grid.appendChild(tile);
+                });
+            }
+
+            function handleNumberClick(tile, num) {
+                if (num !== numberGame.current) return;
+
+                if (numberGame.current === 1) startNumberTimer();
+
+                tile.classList.add("correct", "disabled");
+                numberGame.current++;
+                document.getElementById("nextNum").textContent = numberGame.current;
+
+                if (numberGame.current > 25) endNumberGame();
+            }
+
+            function startNumberTimer() {
+                numberGame.startTime = Date.now();
+                numberGame.timerInterval = setInterval(() => {
+                    document.getElementById("timer").textContent = ((Date.now() - numberGame.startTime) / 1000).toFixed(2);
+                }, 10);
+            }
+
+            function endNumberGame() {
+                clearInterval(numberGame.timerInterval);
+                const timerEl = document.getElementById("timer").textContent;
+                document.getElementById("finishMsg").textContent = `🎉 Amazing! Completed in ${timerEl} seconds! 🎉`;
+                document.getElementById("finishMsg").style.animation = "celebrateText 1s infinite";
+            }
+
+            function shuffle(arr) {
+                for (let i = arr.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+                return arr;
+            }
+
+            function closeNumberGame() {
+                document.getElementById('numberFindPopup').classList.remove('active');
+                if (numberGame.timerInterval) {
+                    clearInterval(numberGame.timerInterval);
+                }
+            }
+
+            // COLOR GAME FUNCTIONS
+            function startColorMatchGame() {
+                // Reset game state
+                colorGame = {
+                    timeLeft: 60,
+                    matches: 0,
+                    totalClicks: 0,
+                    gameInterval: null,
+                    targetColor: null
+                };
+
+                // Update display
+                updateColorGameDisplay();
+
+                // Create color grid
+                createColorGrid();
+
+                // Set target color
+                setNewTargetColor();
+
+                // Start timer
+                colorGame.gameInterval = setInterval(() => {
+                    colorGame.timeLeft--;
+                    updateColorGameDisplay();
+
+                    if (colorGame.timeLeft <= 0) {
+                        endColorGame();
+                    }
+                }, 1000);
+            }
+
+            function createColorGrid() {
+                const gridEl = document.getElementById('colorGrid');
+                gridEl.innerHTML = '';
+
+                const colors = [
+                    '#F57711', '#1421F5', '#F52188', '#4DF5E2',
+                    '#41F527', '#FFFD55', '#BC2CC9', '#F20000',
+                    '#EDF2F0', '#020303', '#F08784', '#00735B'
+                ];
+
+                // Shuffle colors
+                const shuffledColors = [...colors].sort(() => Math.random() - 0.5);
+
+                shuffledColors.forEach((color, index) => {
+                    const btn = document.createElement('div');
+                    btn.className = 'color-btn';
+                    btn.style.backgroundColor = color;
+                    btn.dataset.color = color;
+                    btn.dataset.index = index;
+
+                    btn.addEventListener('click', function(e) {
+                        if (e.type === 'touchstart') {
+                            e.preventDefault();
+                        }
+
+                        if (colorGame.timeLeft <= 0) return;
+
+                        colorGame.totalClicks++;
+                        const clickedColor = this.dataset.color;
+
+                        if (clickedColor === colorGame.targetColor) {
+                            // Correct match
+                            colorGame.matches++;
+                            this.classList.add('correct');
+
+                            // Visual feedback
+                            this.style.transform = 'scale(1.1) rotate(5deg)';
+                            setTimeout(() => {
+                                this.style.transform = 'scale(1) rotate(0)';
+                                this.classList.remove('correct');
+                            }, 300);
+
+                            // Set new target color
+                            setNewTargetColor();
+                        } else {
+                            // Incorrect
+                            this.classList.add('incorrect');
+                            setTimeout(() => {
+                                this.classList.remove('incorrect');
+                            }, 300);
+                        }
+
+                        updateColorGameDisplay();
+                    });
+
+                    // Add touch events for mobile
+                    btn.addEventListener('touchstart', function(e) {
+                        this.style.transform = 'scale(1.05) rotate(2deg)';
+                    });
+
+                    btn.addEventListener('touchend', function(e) {
+                        this.style.transform = 'scale(1.1) rotate(5deg)';
+                    });
+
+                    gridEl.appendChild(btn);
+                });
+            }
+
+            function setNewTargetColor() {
+                const colors = [
+                    '#F57711', '#1421F5', '#F52188', '#4DF5E2',
+                    '#41F527', '#FFFD55', '#BC2CC9', '#F20000',
+                    '#EDF2F0', '#020303', '#F08784', '#00735B'
+                ];
+
+                // Pick a random color from the grid
+                const colorButtons = document.querySelectorAll('.color-btn');
+                if (colorButtons.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * colorButtons.length);
+                    colorGame.targetColor = colorButtons[randomIndex].dataset.color;
+
+                    // Update target color display
+                    const targetColorEl = document.getElementById('targetColor');
+                    targetColorEl.style.backgroundColor = colorGame.targetColor;
+                }
+            }
+
+            function updateColorGameDisplay() {
+                document.getElementById('timeLeft').textContent = colorGame.timeLeft;
+                document.getElementById('matches').textContent = colorGame.matches;
+
+                const accuracy = colorGame.totalClicks > 0 ?
+                    Math.round((colorGame.matches / colorGame.totalClicks) * 100) : 0;
+                document.getElementById('accuracy').textContent = `${accuracy}%`;
+            }
+
+            function endColorGame() {
+                clearInterval(colorGame.gameInterval);
+
+                const instructionEl = document.getElementById('colorGameInstruction');
+                const accuracy = colorGame.totalClicks > 0 ?
+                    Math.round((colorGame.matches / colorGame.totalClicks) * 100) : 0;
+
+                instructionEl.textContent = `🌈 Time's up! You made ${colorGame.matches} rainbow matches with ${accuracy}% accuracy! 🌈`;
+
+                // Disable buttons
+                const buttons = document.querySelectorAll('.color-btn');
+                buttons.forEach(btn => {
+                    btn.style.pointerEvents = 'none';
+                    btn.style.opacity = '0.7';
+                });
+            }
+
+            function closeColorGame() {
+                document.getElementById('colorMatchPopup').classList.remove('active');
+                if (colorGame.gameInterval) {
+                    clearInterval(colorGame.gameInterval);
+                }
+            }
+
+            function saveEntry() {
+                if (!selectedSpecificEmotion) {
+                    alert("🌈 Please select a specific feeling first! 🌈");
+                    return;
+                }
+
+                // Save to localStorage
+                const entry = {
+                    date: new Date().toISOString(),
+                    coreEmotion: selectedCoreEmotion,
+                    specificEmotion: selectedSpecificEmotion,
+                    timestamp: Date.now()
+                };
+
+                // Get existing entries
+                let entries = JSON.parse(localStorage.getItem('moodEntries') || '[]');
+                entries.unshift(entry); // Add to beginning
+
+                // Keep only last 100 entries
+                if (entries.length > 100) {
+                    entries = entries.slice(0, 100);
+                }
+
+                localStorage.setItem('moodEntries', JSON.stringify(entries));
+
+                // Show confirmation
+                alert("🎉 Check-in saved! Remember to shine bright today! ✨");
+
+                // Reset and go back to page 1
+                resetPage2();
+                page2.classList.remove('active');
+                page1.classList.add('active');
+
+                // Reset page 1 selections
+                moodButtons.forEach(btn => {
+                    btn.style.opacity = '1';
+                    btn.style.transform = 'none';
+                });
+                selectedCoreEmotion = null;
+
+                // Scroll to top on page change
+                window.scrollTo(0, 0);
+            }
+
+            function resetPage2() {
+                selectedSpecificEmotion = null;
+                copingSection.style.display = 'none';
+
+                // Close any active song players
+                if (currentlyActiveSong) {
+                    currentlyActiveSong.classList.remove('active');
+                    currentlyActiveSong = null;
+                }
+            }
+
+            function getEmotionDisplayName(emotion) {
+                const displayNames = {
+                    happy: "Happy 😊",
+                    sad: "Sad 🌧️",
+                    angry: "Angry/Irritated 🔥",
+                    anxious: "Fearful/Anxious 🦋",
+                    overwhelmed: "Overwhelmed 🌪️",
+                    lonely: "Lonely 🌙",
+                    tired: "Tired/Burnt Out 💤",
+                    calm: "Calm/Peaceful 🌿",
+                    unknown: "I'm Not Sure 🤔"
+                };
+                return displayNames[emotion] || capitalizeFirstLetter(emotion);
+            }
+
+            function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1);
+            }
+
+            // Initialize the app
+            initApp();
+        }
+
+        // Start everything when page loads
+        initMainApp();
+    });
+</script>
+</body>
+</html>
+
+
+
+

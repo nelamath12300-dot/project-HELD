@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Best Self — Tools</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+/* ===== COLOR PALETTE ===== */
+:root{
+  --beige:#DBB8AA;
+  --blue:#416285;
+  --teal:#8BC6CA;
+  --mustard:#EFCD52;
+  --text-dark:#243447;
+}
+
+/* ===== BASE ===== */
+body{
+  margin:0;
+  background:linear-gradient(135deg,var(--beige),var(--teal));
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+}
+
+#bestSelfApp{
+  max-width:1100px;
+  margin:0 auto;
+  padding:32px;
+  color:var(--text-dark);
+}
+
+/* ===== BACK BUTTON ===== */
+.back-btn{
+  position:fixed;
+  top:12px;
+  left:12px;
+  padding:10px 16px;
+  border-radius:999px;
+  background:var(--mustard);
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+  z-index:20;
+  border:none;
+  color:#243447;
+}
+
+/* ===== HEADER ===== */
+h1{
+  font-family:"Playfair Display", serif;
+  font-size:44px;
+  margin-bottom:8px;
+  color:#243447;
+}
+
+.lead{
+  color:#374151;
+  margin-bottom:36px;
+  max-width:620px;
+}
+
+/* ===== TOOL GRID ===== */
+.tool-row{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:28px;
+}
+
+/* ===== TILE ===== */
+.mini-tile{
+  height:300px;
+  border-radius:26px;
+  position:relative;
+  cursor:pointer;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  box-shadow:0 14px 36px rgba(0,0,0,.15);
+  transition:.3s ease;
+}
+
+.mini-tile:hover{
+  transform:translateY(-8px);
+  box-shadow:0 26px 60px rgba(0,0,0,.22);
+}
+
+/* ===== CENTER CONTENT ===== */
+.tile-content{
+  position:relative;
+  z-index:2;
+  padding:24px;
+}
+
+.title{
+  font-family:"Playfair Display", serif;
+  font-size:26px;
+  font-weight:700;
+  margin-bottom:10px;
+}
+
+.sub{
+  font-size:14px;
+  opacity:.9;
+}
+
+/* ===== INDIVIDUAL COLOR THEMES ===== */
+.mini-tile:nth-child(1){
+  background:linear-gradient(135deg,var(--teal),var(--mustard));
+  color:#243447;
+}
+
+.mini-tile:nth-child(2){
+  background:linear-gradient(135deg,var(--blue),var(--teal));
+  color:#ffffff;
+}
+
+.mini-tile:nth-child(3){
+  background:linear-gradient(135deg,var(--mustard),var(--beige));
+  color:#243447;
+}
+
+.hidden{display:none;}
+</style>
+</head>
+
+<body>
+
+<!-- Back -->
+<div class="back-btn" onclick="location.href='../dashboard/dash/HELD.html'">← Back</div>
+
+<div id="bestSelfApp">
+
+<h1>Best Self</h1>
+
+<div class="lead">
+Create a visual reminder of your inner strengths — pick a role, choose three strengths, then save.
+</div>
+
+<!-- ===== TOOLS ===== -->
+<div class="tool-row" id="toolRow">
+
+  <!-- Best Selfie -->
+  <div class="mini-tile" onclick="location.href='best-selfie.html'">
+    <div class="tile-content">
+      <div class="title">Best Selfie</div>
+      <div class="sub">Interactive portrait builder</div>
+    </div>
+  </div>
+
+  <!-- Burn the Negative -->
+  <div class="mini-tile" onclick="location.href='burn-the-negative.html'">
+    <div class="tile-content">
+      <div class="title">Burn the Negative</div>
+      <div class="sub">Identify negative stories and let them go</div>
+    </div>
+  </div>
+
+  <!-- Grateful Moments -->
+  <div class="mini-tile" onclick="location.href='grateful.html'">
+    <div class="tile-content">
+      <div class="title">Grateful Moments</div>
+      <div class="sub">Short prompts to focus on gratitude</div>
+    </div>
+  </div>
+
+</div>
+
+<div id="detail" class="hidden"></div>
+
+</div>
+
+<script>
+const detail = document.getElementById("detail");
+const toolRow = document.getElementById("toolRow");
+
+function exitBestSelf(){
+  detail.classList.add("hidden");
+  toolRow.classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>

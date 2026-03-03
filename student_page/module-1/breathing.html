@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Breathing</title> 
+
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+
+    :root{
+      /* THERAPY PALETTE (combined – no white) */
+      --bg:#FDF9F6;
+      --text:#243447;
+      --muted:#6B7280;
+
+      --teal:#8BC6CA;
+      --blue:#416285;
+      --mustard:#EFCD52;
+      --beige:#DBB8AA;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: linear-gradient(135deg, var(--bg), var(--beige));
+      color: var(--text);
+    }
+
+    /* BACK BUTTON */
+    .back-btn{
+      position:fixed;
+      top:12px;
+      left:12px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:var(--bg);
+      font-size:16px;
+      font-weight:700;
+      cursor:pointer;
+      z-index:20;
+      border:1px solid rgba(0,0,0,.15);
+      color:var(--blue);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 20px 40px;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 8px;
+      font-family: "Playfair Display", serif;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin-bottom: 36px;
+    }
+
+    /* GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 28px;
+    }
+
+    /* CARD – centered like main tools */
+    .card {
+      border-radius: 26px;
+      height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 28px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+      color:#243447;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 22px 44px rgba(0,0,0,0.18);
+    }
+
+    .card h2 {
+      font-size: 26px;
+      font-family:"Playfair Display", serif;
+      font-weight:700;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 14px;
+      opacity: .9;
+      max-width: 90%;
+      margin: 0 auto;
+    }
+
+    /* INDIVIDUAL COLOR COMBINATIONS */
+    .sigh{
+      background: linear-gradient(135deg, var(--mustard), var(--beige));
+    }
+
+    .box{
+      background: linear-gradient(135deg, var(--teal), var(--blue));
+      color:#ffffff;
+    }
+
+    .box h2, .box p{
+      color:#ffffff;
+    }
+
+    .coherent{
+      background: linear-gradient(135deg, var(--blue), var(--beige));
+      color:#ffffff;
+    }
+
+    .coherent h2, .coherent p{
+      color:#ffffff;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Back button -->
+  <div class="back-btn" onclick="location.href='../dashboard/dash/HELD.html'">
+    ← Back
+  </div>
+
+  <div class="container">
+    <h1>Breathing</h1>
+    <p class="subtitle">
+      Simple guided breathing practices to calm your mind and body.
+    </p>
+
+    <div class="grid">
+
+      <!-- Physiological Sigh -->
+      <div class="card sigh" onclick="location.href='physiological-sigh.html'">
+        <div>
+          <h2>Physiological Sigh</h2>
+          <p>Quick reset for stress and anxiety</p>
+        </div>
+      </div>
+
+      <!-- Box Breathing -->
+      <div class="card box" onclick="location.href='box-breathing.html'">
+        <div>
+          <h2>Box Breathing</h2>
+          <p>Balanced breathing for focus and control</p>
+        </div>
+      </div>
+
+      <!-- Coherent Breathing -->
+      <div class="card coherent" onclick="location.href='coherent-breathing.html'">
+        <div>
+          <h2>Coherent Breathing</h2>
+          <p>Steady rhythm for emotional balance</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
