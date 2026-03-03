@@ -28,7 +28,7 @@
             --chat-accent: #ff6b9d;
             --chat-bg: #ffffff;
             --chat-secondary-bg: #f7fafc;
-            --chat-font: 'Google Sans', sans-serif;
+            --chat-font: "Times New Roman", Times, serif, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji";
             --gradient-bot: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --gradient-mood-great: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
             --gradient-mood-good: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
@@ -37,15 +37,20 @@
             --gradient-mood-low: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
             /*Mezia Tools*/
            
-            --bg:#fbfbff;
-            --text:#222;
-            --muted:#7a7a86;
+            --bg:#FDF9F6;
+            --bg-soft:#DBB8AA;
+            --text:#243447;
+            --muted:#5f6b7a;
             --radius:20px;
             --gap:24px;
 
-            --c2:#2f5bd6;
-            --c3:#4a90e2;
-            --c5:#8e44ad;
+            --teal:#8BC6CA;
+            --blue:#98b8db;
+            --mustard:#EFCD52;
+            --beige:#DBB8AA;
+            --c2:#8BC6CA;
+            --c3:#98b8db;
+            --c5:#EFCD52;
             --border-radius:20px;
             --text-dark:#1a202c;
             --text-light:#f8fafc;
@@ -64,11 +69,8 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Outfit', sans-serif;
-            background-image: url('Holding hands.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            font-family: "Times New Roman", Times, serif, "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji";
+            
             
             color: var(--text-main);
             min-height: 100vh;
@@ -79,6 +81,10 @@
             position: relative;
             /* remove outer padding so app fills the window */
             padding: 0;
+        }
+
+        .material-symbols-rounded {
+            font-family: "Material Symbols Rounded" !important;
         }
 
         /* --- TOP NAVBAR (single-line) --- */
@@ -192,7 +198,7 @@
         }
 
         .brand-title {
-            font-family: 'Google Sans', 'Outfit', sans-serif;
+            font-family: "Times New Roman", Times, serif;
             font-weight: 700;
             font-size: 19px;
             color: var(--primary-dark);
@@ -2023,7 +2029,7 @@
     /* header */
 .site-header{max-width:1200px;margin:0 auto 18px}
 .site-header h1{
-  font-family:"Playfair Display", serif;
+  font-family:"Times New Roman", Times, serif;
   font-size:48px;
   margin-bottom:6px
 }
@@ -2071,7 +2077,7 @@
   color:#fff;
   font-size:22px;
   font-weight:700;
-  font-family:"Playfair Display", serif;
+  font-family:"Times New Roman", Times, serif;
 }
 .card-sub{
   color:rgba(255,255,255,.9);
@@ -2134,9 +2140,75 @@
 }
 
 /* colors */
-.pattern-2 .card-bg{background:linear-gradient(135deg,var(--c2),#163d8b)}
-.pattern-3 .card-bg{background:linear-gradient(135deg,var(--c3),#ff5b6a)}
-.pattern-5 .card-bg{background:linear-gradient(135deg,var(--c5),#f0c5ff)}
+.pattern-2 .card-bg{background:linear-gradient(135deg,var(--teal),var(--mustard),var(--beige))}
+.pattern-3 .card-bg{background:linear-gradient(135deg,var(--blue),var(--teal),var(--beige))}
+.pattern-5 .card-bg{background:linear-gradient(135deg,var(--mustard),var(--blue),var(--beige))}
+.pattern-6 .card-bg{background:linear-gradient(135deg,var(--teal),var(--blue),var(--mustard))}
+
+/* === Restored snap layout (overwritten block) === */
+.main-content{
+  height: calc(100vh - var(--header-height));
+  margin-top: var(--header-height);
+  padding: 16px;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+.snap-stack{
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.snap-section{
+  min-height: calc(100vh - var(--header-height) - 22px);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  padding: 14px 8px;
+  opacity: 0.75;
+  transform: translateY(8px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.snap-section.is-active{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#view-hero{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+#view-games{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+#view-tools .tool-grid{
+  margin-top: 18px;
+}
+
+@media (max-width: 768px){
+  .main-content{
+    height: calc(100vh - var(--header-height));
+    margin-top: var(--header-height);
+    padding: 10px;
+  }
+
+  .snap-stack{
+    gap: 12px;
+  }
+
+  .snap-section{
+    min-height: calc(100vh - var(--header-height) - 14px);
+    padding: 8px 4px;
+  }
+}
 
 
 
