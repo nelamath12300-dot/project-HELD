@@ -1,16 +1,14 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>HELD - Student Counseling Dashboard</title>
-    <!-- Fonts: Outfit for Dashboard, Google Sans for Chatbot -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Google+Sans:wght@400;500;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Text font is handled locally in CSS with a Roman stack -->
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="stylesheet1.css" />
-    <link rel="stylesheet" href="style.css" />
     <style>
     /* Counselor modal */
     .modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.45); z-index: 1200; }
@@ -40,7 +38,7 @@
     #view-counselors h2{
         margin-bottom:14px;
         font-size:30px;
-        font-family:"Playfair Display", serif;
+        font-family:"Times New Roman", Times, serif;
     }
     #view-counselors .counselors-grid{
         grid-template-columns:repeat(6,minmax(0,1fr));
@@ -154,7 +152,7 @@
         display:flex;
         align-items:center;
         gap:10px;
-        font-family:"Playfair Display", serif;
+        font-family:"Times New Roman", Times, serif;
         font-size:32px;
         line-height:1.1;
         color:#1f2d3d;
@@ -194,8 +192,8 @@
                 <div class="brand-title">HELD</div>
             </div>
             <nav class="nav">
+                <a href="#view-hero" onclick="switchTab('hero')"><span class="material-symbols-rounded">home</span> Hero</a>
                 <a href="#view-mood" onclick="switchTab('mood')"><span class="material-symbols-rounded">mood</span> Mood</a>
-                <a href="#view-counselors" onclick="switchTab('counselors')"><span class="material-symbols-rounded">group</span> Counselors</a>
                 <a href="#view-games" onclick="switchTab('games')"><span class="material-symbols-rounded">sports_esports</span> Games</a>
                 <a href="#view-tools" onclick="switchTab('tools')"><span class="material-symbols-rounded">build</span> Tools</a>
             </nav>
@@ -204,73 +202,66 @@
     
 
     <!-- MAIN CONTENT -->
-    <main class="main-content">  
-        <header>
-            <div class="greeting">
-                <h1 id="greeting-text">Good Morning, Alen</h1>
-                <p>Let's take care of your mind today.</p>
-            </div>
-            <div class="date-badge" id="date-badge">
-                <!-- Date inserted by JS -->
-            </div>
-        </header>
+    <main class="main-content">
+        <div class="snap-stack">
 
-        <!-- DASHBOARD VIEW -->
-        <div id="view-mood" class="container view-section">
-            
+        <!-- HERO SNAP -->
+        <section id="view-hero" class="view-section snap-section">
+            <header>
+                <div class="greeting">
+                    <h1 id="greeting-text">Good Morning, Alen</h1>
+                    <p>Let's take care of your mind today.</p>
+                </div>
+                <div class="date-badge" id="date-badge">
+                    <!-- Date inserted by JS -->
+                </div>
+            </header>
+
             <section class="quote-carousel" aria-label="Inspiring quotes">
                 <div class="quote-track" id="quoteCarouselTrack">
                     <!-- Slides inserted by script1.js -->
                 </div>
             </section>
-            
-                <h2> Mood</h2>
-                <h4>Choose how you feel and jump into the right support.</h4>
-            
+        </section>
+
+        <!-- MOOD SNAP -->
+        <section id="view-mood" class="container view-section snap-section">
+            <h2>Mood</h2>
+            <h4>Choose how you feel and jump into the right support.</h4>
 
             <div class="mood-buttons">
-                <!-- First Row: 5 buttons -->
                 <a href="../../module-2/v_emotion-coping.html?emotion=happy" class="big-mood-btn happy-color">
                     <i class="fas fa-smile-beam"></i>
                     <span>Happy 😊</span>
                 </a>
-
                 <a href="../../module-2/v_emotion-coping.html?emotion=sad" class="big-mood-btn sad-color">
                     <i class="fas fa-sad-tear"></i>
                     <span>Sad 🌧️</span>
                 </a>
-
                 <a href="../../module-2/v_emotion-coping.html?emotion=angry" class="big-mood-btn angry-color">
                     <i class="fas fa-angry"></i>
                     <span>Angry/Irritated 🔥</span>
                 </a>
-
                 <a href="../../module-2/v_emotion-coping.html?emotion=anxious" class="big-mood-btn anxious-color">
                     <i class="fas fa-surprise"></i>
                     <span>Fearful/Anxious 🦋</span>
                 </a>
-
                 <a href="../../module-2/v_emotion-coping.html?emotion=overwhelmed" class="big-mood-btn overwhelmed-color">
                     <i class="fas fa-cloud-rain"></i>
                     <span>Overwhelmed 🌪️</span>
                 </a>
-
-                <!-- Second Row: 4 buttons -->
                 <a href="../../module-2/v_emotion-coping.html?emotion=lonely" class="big-mood-btn lonely-color">
                     <i class="fas fa-user-alone"></i>
                     <span>Lonely 🌙</span>
                 </a>
-
                 <a href="../../module-2/v_emotion-coping.html?emotion=tired" class="big-mood-btn tired-color">
                     <i class="fas fa-tired"></i>
                     <span>Tired/Burnt Out 💤</span>
                 </a>
-
                 <a href="../../module-2/v_emotion-coping.html?emotion=calm" class="big-mood-btn calm-color">
                     <i class="fas fa-peace"></i>
                     <span>Calm/Peaceful 🌿</span>
                 </a>
-
                 <a href="../../module-2/v_emotion-coping.html?emotion=unknown" class="big-mood-btn unknown-color">
                     <i class="fas fa-question-circle"></i>
                     <span>I'm Not Sure 🤔</span>
@@ -289,58 +280,17 @@
                     If you need immediate help, contact a mental health professional. You're not alone. 💙
                 </div>
             </footer>
-        </div>
+        </section>
 
-        <!-- COUNSELORS VIEW -->
-        <div id="view-counselors" class="view-section">
-            <h2>Our Counselors</h2>
-            <div class="counselors-grid">
-                <div class="counselor-card">
-                    <div class="c-img"><img src="images/counselors/ryan_peter.jpg" alt="Ryan Peter"></div>
-                    <h3>Ryan Peter</h3>
-                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 12px;">Career & Academic Coach</p>
-                    <button class="action-btn" onclick="openCounselorModal('Ryan Peter','Career & Academic Coach','Ryan helps students with career planning, goal setting and academic coaching. Book a short check-in to explore options and next steps.','images/counselors/ryan_peter.jpg')" style="background: var(--primary); color: white; width: 100%;">Connect</button>
-                </div>
-                <div class="counselor-card">
-                    <div class="c-img"><img src="images/counselors/joyson_jb.jpg" alt="Joyson J B"></div>
-                    <h3>Joyson J B</h3>
-                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 12px;">Mindfulness Expert</p>
-                    <button class="action-btn" onclick="openCounselorModal('Joyson J B','Mindfulness Expert','Joyson guides short breathing and grounding exercises to reduce stress and improve focus. Ideal for quick resets.','images/counselors/joyson_jb.jpg')" style="background: var(--primary); color: white; width: 100%;">Connect</button>
-                </div>
-                <div class="counselor-card">
-                    <div class="c-img"><img src="images/counselors/muskan_mehta.jpg" alt="Muskan Mehta"></div>
-                    <h3>Muskan Mehta</h3>
-                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 12px;">Mindfulness Expert</p>
-                    <button class="action-btn" onclick="openCounselorModal('Muskan Mehta','Mindfulness Expert','Muskan offers practical techniques for daily mindfulness and stress management. Great for building small, sustainable habits.','images/counselors/muskan_mehta.jpg')" style="background: var(--primary); color: white; width: 100%;">Connect</button>
-                </div>
-                <div class="counselor-card">
-                    <div class="c-img"><img src="images/counselors/estelle_dsouza.jpg" alt="Estelle D'Souza"></div>
-                    <h3>Estelle D'Souza</h3>
-                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 12px;">Mindfulness Expert</p>
-                    <button class="action-btn" onclick="openCounselorModal(&quot;Estelle D'Souza&quot;,'Mindfulness Expert','Estelle focuses on compassionate self-talk and mood regulation practices to help you feel steadier.','images/counselors/estelle_dsouza.jpg')" style="background: var(--primary); color: white; width: 100%;">Connect</button>
-                </div>
-                <div class="counselor-card">
-                    <div class="c-img"><img src="images/counselors/muskan_jain.jpg" alt="Muskan Jain"></div>
-                    <h3>Muskan Jain</h3>
-                    <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 12px;">Mindfulness Expert</p>
-                    <button class="action-btn" onclick="openCounselorModal('Muskan Jain','Mindfulness Expert','Muskan supports sleep hygiene and relaxation techniques tailored to students.','images/counselors/muskan_jain.jpg')" style="background: var(--primary); color: white; width: 100%;">Connect</button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- GAMES SECTION -->
-        <div id="view-games" class="view-section">
-            <h2>Relaxation Games Area</h2>
-            <p style="margin-top: 10px; color: var(--text-muted);">More interactive games loaded here...</p>
-        </div>
-        
-        <!-- TOOLS SECTION -->
-         <div id="view-tools" class="view-section">
+        <!-- GAMES SNAP -->
+        <section id="view-games" class="view-section snap-section">
+            <h2>Games</h2>
+        </section>
+
+        <!-- TOOLS SNAP -->
+        <section id="view-tools" class="view-section snap-section">
             <h2>Tools To Playaround</h2>
-            <p style="margin-top: 10px; color: var(--text-muted);">Helpful tools loaded here...</p>
-        </div>
-        <h2>Tools To Playaround</h2>
-        <div class="tool-grid" role="list">
+            <div class="tool-grid" role="list">
         
 
         <!-- BREATHING -->
@@ -403,6 +353,9 @@
             <div class="card-sub">Topics & worksheets</div>
             </div>
         </button>
+
+            </div>
+        </section>
 
         </div>
 
