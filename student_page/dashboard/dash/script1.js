@@ -494,6 +494,135 @@
             startAutoScroll();
         }
         initDashboardQuoteCarousel();
+
+        // Dashboard mood insights (main emotion, streak, emotion graph)
+        const DASHBOARD_EMOTIONS = ['high_unpleasant', 'high_pleasant', 'low_unpleasant', 'low_pleasant'];
+        const DASHBOARD_EMOTION_LABELS = {
+            high_unpleasant: 'High Energy Unpleasant',
+            high_pleasant: 'High Energy Pleasant',
+            low_unpleasant: 'Low Energy Unpleasant',
+            low_pleasant: 'Low Energy Pleasant'
+        };
+
+        function getMoodEntries() {
+            try {
+                return JSON.parse(localStorage.getItem('moodEntries') || '[]');
+            } catch (err) {
+                console.error('Error loading mood entries:', err);
+                return [];
+            }
+        }
+
+        function calculateStreak(entries) {
+            if (entries.length === 0) return 0;
+
+            const sorted = [...entries].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+            let streak = 1;
+            let currentDate = new Date(sorted[0].timestamp);
+
+            for (let i = 1; i < sorted.length; i++) {
+                const entryDate = new Date(sorted[i].timestamp);
+                const prevDate = new Date(currentDate);
+
+                entryDate.setHours(0, 0, 0, 0);
+                prevDate.setHours(0, 0, 0, 0);
+
+                const dayDiff = Math.floor((entryDate - prevDate) / (1000 * 60 * 60 * 24));
+
+                if (dayDiff === 1) {
+                    streak++;
+                } else if (dayDiff > 1) {
+                    streak = 1;
+                }
+
+                currentDate = new Date(sorted[i].timestamp);
+            }
+
+            return streak;
+        }
+
+        function setMainEmotionCircle(circleEl, moodKey, label) {
+            if (!circleEl) return;
+            circleEl.classList.remove(
+                'high-pleasant-color',
+                'low-unpleasant-color',
+                'high-unpleasant-color',
+                'low-pleasant-color',
+                'neutral-color'
+            );
+            if (moodKey && moodKey !== 'neutral') {
+                const classKey = moodKey.replace('_', '-');
+                circleEl.classList.add(`${classKey}-color`);
+            } else {
+                circleEl.classList.add('neutral-color');
+            }
+            circleEl.textContent = label;
+        }
+
+        function updateDashboardMoodInsights() {
+            const circleEl = document.getElementById('mainEmotionCircle');
+            const nameEl = document.getElementById('mainEmotionName');
+            const countEl = document.getElementById('mainEmotionCount');
+            const streakEl = document.getElementById('dashboardStreakValue');
+            const graphEl = document.getElementById('emotionGraph');
+
+            if (!circleEl || !nameEl || !countEl || !streakEl || !graphEl) return;
+
+            const entries = getMoodEntries();
+            const moodFrequency = {
+                high_unpleasant: 0,
+                high_pleasant: 0,
+                low_unpleasant: 0,
+                low_pleasant: 0
+            };
+
+            entries.forEach(entry => {
+                if (moodFrequency[entry.coreEmotion] !== undefined) {
+                    moodFrequency[entry.coreEmotion]++;
+                }
+            });
+
+            const total = Object.values(moodFrequency).reduce((sum, count) => sum + count, 0);
+            const streak = calculateStreak(entries);
+            streakEl.textContent = streak;
+
+            if (total === 0) {
+                setMainEmotionCircle(circleEl, 'neutral', 'Log');
+                nameEl.textContent = 'No entries yet';
+                countEl.textContent = 'Log your first mood';
+                graphEl.innerHTML = '<div class="emotion-graph-empty">Log your first mood to see your graph.</div>';
+                return;
+            }
+
+            // Use most recent specific emotion for the main display
+            const latestEntry = entries[0];
+            const latestSpecific = latestEntry?.specificEmotion || 'No entry';
+            const latestCore = latestEntry?.coreEmotion || 'high_pleasant';
+            const specificCount = entries.filter((e) => e.specificEmotion === latestSpecific).length;
+
+            setMainEmotionCircle(circleEl, latestCore, latestSpecific);
+            nameEl.textContent = latestSpecific;
+            countEl.textContent = `${specificCount} check-ins`;
+
+            graphEl.innerHTML = '';
+            DASHBOARD_EMOTIONS.forEach(mood => {
+                const count = moodFrequency[mood] || 0;
+                const percent = total > 0 ? Math.round((count / total) * 100) : 0;
+                const width = count > 0 ? Math.max(percent, 8) : 0;
+                const row = document.createElement('div');
+                row.className = 'emotion-graph-row';
+                row.innerHTML = `
+                    <div class="emotion-graph-label">${DASHBOARD_EMOTION_LABELS[mood]}</div>
+                    <div class="emotion-graph-bar">
+                        <div class="emotion-graph-fill ${mood.replace('_', '-')}-fill" style="width: ${width}%"></div>
+                    </div>
+                    <div class="emotion-graph-value">${percent}%</div>
+                `;
+                graphEl.appendChild(row);
+            });
+        }
+
+        updateDashboardMoodInsights();
         // ====== HELPINGAI API CALL ======
         async function sendMessage() {
             const userText = chatInput.value.trim();

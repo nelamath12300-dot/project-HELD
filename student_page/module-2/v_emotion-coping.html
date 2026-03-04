@@ -221,43 +221,43 @@
         }
 
         .emotion-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
             margin: 20px 0;
             width: 100%;
+            justify-content: center;
+        }
+
+        @media (min-width: 1200px) {
+            .emotion-grid {
+                gap: 40px;
+                justify-content: space-between;
+            }
         }
 
         .emotion-option {
-            background: linear-gradient(135deg,
-            rgba(255, 255, 255, 0.95) 0%,
-            rgba(245, 245, 220, 0.95) 100%);
-            border: none;
+            width: min(24vw, 260px);
+            padding: 30px 20px;
             border-radius: 18px;
-            padding: 20px 15px;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: 0 6px 15px rgba(100, 149, 237, 0.15);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            border-left: 8px solid var(--light-blue-3);
-            border-top: 4px solid transparent;
-            border-bottom: 4px solid transparent;
+            background: rgba(255,255,255,0.6);
             backdrop-filter: blur(10px);
-            touch-action: manipulation;
-            min-height: 140px;
-            width: 100%;
+            border-left: 6px solid #6aa6e8;
+            box-shadow:
+                0 10px 25px rgba(0,0,0,0.08),
+                inset 0 2px 4px rgba(255,255,255,0.6);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
 
-        .emotion-option:hover {
-            transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 12px 25px rgba(100, 149, 237, 0.25);
-            border-top-color: var(--accent-beige);
-            border-bottom-color: var(--green-medium);
-            animation: happyWiggle 0.5s ease;
+        .emotion-option:hover{
+            transform: translateY(-8px);
+            box-shadow:
+                0 18px 35px rgba(0,0,0,0.15),
+                inset 0 2px 4px rgba(255,255,255,0.6);
         }
 
         .emotion-option:active {
@@ -266,42 +266,44 @@
         }
 
         .emotion-option.selected {
-            background: linear-gradient(135deg,
-            rgba(100, 149, 237, 0.2) 0%,
-            rgba(245, 245, 220, 0.95) 100%);
-            box-shadow: 0 0 0 3px rgba(100, 149, 237, 0.3),
-            0 10px 20px rgba(100, 149, 237, 0.2);
-            transform: scale(1.03);
-            border-left-color: var(--accent-blue);
+            box-shadow:
+                0 0 0 3px rgba(96, 165, 250, 0.35),
+                0 18px 35px rgba(0,0,0,0.15);
+            transform: translateY(-6px);
         }
 
+        .emotion-option::before,
+        .emotion-option::after { display: none; }
+
         .emotion-emoji {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
-            animation: floatEmoji 3s infinite ease-in-out;
+            font-size: 42px;
+            margin-bottom: 18px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
         }
 
         .emotion-name {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: var(--text-dark);
-            margin-bottom: 8px;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            padding: 0 5px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #2e3a4f;
         }
 
         .emotion-subtitle {
-            font-size: 0.9rem;
-            color: var(--text-light);
-            line-height: 1.3;
-            background: rgba(255, 255, 255, 0.7);
-            padding: 6px 10px;
-            border-radius: 12px;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
+            display:inline-block;
+            padding:6px 14px;
+            font-size:13px;
+            border-radius:999px;
+            background:rgba(255,255,255,0.7);
+            color:#5a677b;
+            box-shadow:
+                inset 0 2px 3px rgba(0,0,0,0.05),
+                0 2px 6px rgba(0,0,0,0.08);
         }
+
+        .high-unpleasant-tone { border-left-color: #f97316; }
+        .high-pleasant-tone { border-left-color: #facc15; }
+        .low-unpleasant-tone { border-left-color: #60a5fa; }
+        .low-pleasant-tone { border-left-color: #34d399; }
 
         .coping-grid {
             display: grid;
@@ -1256,6 +1258,7 @@
             50% { transform: translateY(-10px) rotate(1deg); }
         }
 
+
         @keyframes happyWiggle {
             0%, 100% { transform: translateY(0) rotate(0); }
             25% { transform: translateY(-5px) rotate(-2deg); }
@@ -1498,122 +1501,60 @@
         // Get emotion from URL parameter
         function getEmotionFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('emotion') || 'unknown';
+            const allowed = ['high_unpleasant', 'high_pleasant', 'low_unpleasant', 'low_pleasant'];
+            const raw = urlParams.get('emotion');
+            return allowed.includes(raw) ? raw : 'high_pleasant';
         }
 
-        // Updated emotion data with "I don't know" option
+        // Core emotions (4 only) + matching sub-emotions
         const emotions = {
-            happy: [
-                { name: "Joyful Sunshine! 😄", emoji: "😄", specifics: "Lighthearted, Cheerful, Shining!" },
-                { name: "Content & Cozy 🌻", emoji: "😌", specifics: "Satisfied, At Peace, Warm" },
-                { name: "Hopeful Rainbow! 🌈", emoji: "🌈", specifics: "Optimistic, Looking Forward" },
-                { name: "Excited Sparkles! ✨", emoji: "🤩", specifics: "Energetic, Anticipating" },
-                { name: "Grateful Heart! 💖", emoji: "🙏", specifics: "Thankful, Appreciative" }
+            high_pleasant: [
+                { name: "Joyful", specifics: "Lighthearted, upbeat" },
+                { name: "Content", specifics: "Warm, at ease" },
+                { name: "Hopeful", specifics: "Optimistic, looking ahead" },
+                { name: "Excited", specifics: "Energized, eager" }
             ],
-            sad: [
-                { name: "Rainy Day Heart 🌧️", emoji: "💔", specifics: "Deeply Hurt, Grieving" },
-                { name: "Lonely Cloud ☁️", emoji: "🥺", specifics: "Isolated, Longing" },
-                { name: "Disappointed Star 🌟", emoji: "😞", specifics: "Let Down, Unfulfilled" },
-                { name: "Hopeless Fog 🌫️", emoji: "😔", specifics: "Despairing, No Energy" },
-                { name: "Numb Space 🪐", emoji: "😶", specifics: "Empty, Detached" }
+            low_unpleasant: [
+                { name: "Hurt", specifics: "Tender, aching" },
+                { name: "Lonely", specifics: "Disconnected, longing" },
+                { name: "Disappointed", specifics: "Let down" },
+                { name: "Numb", specifics: "Empty, detached" }
             ],
-            angry: [
-                { name: "Frustrated Volcano 🌋", emoji: "😤", specifics: "Annoyed, Stuck" },
-                { name: "Irritated Storm ⚡", emoji: "😠", specifics: "On Edge, Agitated" },
-                { name: "Resentful Fire 🔥", emoji: "🤬", specifics: "Bitterness, Hostile" },
-                { name: "Betrayed Thunder ⛈️", emoji: "😡", specifics: "Let Down, Hurt" },
-                { name: "Outraged Tornado 🌪️", emoji: "👿", specifics: "Furious, Enraged" }
+            high_unpleasant: [
+                { name: "Frustrated", specifics: "Blocked, impatient" },
+                { name: "Irritated", specifics: "On edge" },
+                { name: "Resentful", specifics: "Bitter, tense" },
+                { name: "Outraged", specifics: "Furious, heated" }
             ],
-            anxious: [
-                { name: "Worried Butterfly 🦋", emoji: "😟", specifics: "Concerned, Stressed" },
-                { name: "Panicked Rabbit 🐇", emoji: "😨", specifics: "Overwhelmed, Racing" },
-                { name: "Overthinking Hamster 🐹", emoji: "🤯", specifics: "Looping Thoughts" },
-                { name: "Insecure Seed 🌱", emoji: "😕", specifics: "Self-Doubt, Uncertainty" },
-                { name: "Restless Energy ⚡", emoji: "😰", specifics: "Can't Settle, Tense" }
-            ],
-            overwhelmed: [
-                { name: "Stressed Mountain 🏔️", emoji: "😫", specifics: "Pressure, Too Much" },
-                { name: "Burnt Out Candle 🕯️", emoji: "😩", specifics: "Exhausted, Drained" },
-                { name: "Overloaded Basket 🧺", emoji: "🏋️", specifics: "Too Many Tasks" },
-                { name: "Confused Maze 🌀", emoji: "😵", specifics: "Can't Think Clearly" },
-                { name: "Stuck Snail 🐌", emoji: "🫠", specifics: "Paralyzed, Frozen" }
-            ],
-            lonely: [
-                { name: "Isolated Island 🏝️", emoji: "👤", specifics: "Alone, No Connection" },
-                { name: "Unseen Ghost 👻", emoji: "👻", specifics: "Invisible, Ignored" },
-                { name: "Longing Bird 🕊️", emoji: "💭", specifics: "Missing Connection" },
-                { name: "Misunderstood Alien 👽", emoji: "🤷", specifics: "Not Heard, Alien" },
-                { name: "Homesick Heart 🏠", emoji: "🏠", specifics: "Nostalgic, Yearning" }
-            ],
-            tired: [
-                { name: "Exhausted Sloth 🦥", emoji: "😴", specifics: "Drained, No Energy" },
-                { name: "Burnt Out Phoenix 🔥", emoji: "🔥", specifics: "Emotionally Drained" },
-                { name: "Unmotivated Turtle 🐢", emoji: "🛌", specifics: "No Drive, Lethargic" },
-                { name: "Foggy Forest 🌳", emoji: "🌫️", specifics: "Can't Focus, Hazy" },
-                { name: "Weary Moon 🌙", emoji: "😮‍💨", specifics: "Tired of Everything" }
-            ],
-            calm: [
-                { name: "Peaceful Lotus 🪷", emoji: "☮️", specifics: "Serene, Tranquil" },
-                { name: "Content Sunset 🌅", emoji: "😊", specifics: "Satisfied, At Ease" },
-                { name: "Grounded Tree 🌳", emoji: "🌳", specifics: "Centered, Present" },
-                { name: "Relaxed Ocean 🌊", emoji: "🪷", specifics: "At Rest, Unwound" },
-                { name: "Balanced Scale ⚖️", emoji: "⚖️", specifics: "Harmonious, Steady" }
-            ],
-            unknown: [
-                { name: "Confused Puzzle 🧩", emoji: "🤔", specifics: "Uncertain, Puzzled" },
-                { name: "Blank Canvas 🎨", emoji: "😐", specifics: "Empty, No Clear Feeling" },
-                { name: "Mixed Rainbow 🌈", emoji: "😶‍🌫️", specifics: "Many Feelings at Once" },
-                { name: "Detached Observer 🔭", emoji: "👁️", specifics: "Observant, Not Feeling" },
-                { name: "Exploring Adventurer 🧭", emoji: "🧭", specifics: "Curious, Still Discovering" }
+            low_pleasant: [
+                { name: "Worried", specifics: "Uneasy, concerned" },
+                { name: "Overthinking", specifics: "Spiraling thoughts" },
+                { name: "Insecure", specifics: "Self-doubt" },
+                { name: "Restless", specifics: "Tense, keyed up" }
             ]
         };
 
         // Updated coping strategies with "I don't know" options
         const copingStrategies = {
-            happy: [
-                { title: "🌻 Share the Happiness!", description: "Text a friend about something good that happened. Happiness grows when shared like sunshine!" },
-                { title: "🌈 Savor the Rainbow!", description: "Take 2 minutes to fully notice and appreciate this good feeling. Where do you feel it in your body?" },
-                { title: "✨ Spread Sparkles!", description: "Do one small kind thing for someone else - even just a compliment or a smile!" }
+            high_pleasant: [
+                { title: "Share the Good", description: "Text someone about one bright moment from today." },
+                { title: "Savor It", description: "Pause for 60 seconds and notice where the good feeling sits in your body." },
+                { title: "Kindness Boost", description: "Do one small kind action to amplify the positive energy." }
             ],
-            sad: [
-                { title: "🌧️ Rainy Day Self-Care", description: "Put your hand on your heart and say: 'It's okay to have rainy days. The sun will return.'" },
-                { title: "💌 Gentle Release", description: "Write what you're feeling on paper, decorate it with fun drawings, then safely keep it." },
-                { title: "☕ Cozy Comfort", description: "Make yourself a warm drink, wrap in a soft blanket, watch a favorite happy scene." }
+            low_unpleasant: [
+                { title: "Gentle Self-Care", description: "Place a hand on your heart and remind yourself it's okay to feel this." },
+                { title: "Soft Release", description: "Write a few lines about what hurts, then take three slow breaths." },
+                { title: "Comfort Cue", description: "Wrap in a blanket, sip something warm, and slow your pace." }
             ],
-            angry: [
-                { title: "🔥 Energy Release", description: "Do 10 jumping jacks, squeeze a stress ball, or punch a pillow. Release that fire safely!" },
-                { title: "❄️ Cool Down", description: "Hold an ice cube in your hand or splash cold water on your face for 30 seconds." },
-                { title: "🎨 Anger Art", description: "Draw your anger with bright colors on paper. No one sees it but you!" }
+            high_unpleasant: [
+                { title: "Safe Release", description: "Move your body for 60 seconds to let the heat out safely." },
+                { title: "Cool Reset", description: "Splash cold water on your face or hold an ice cube for 30 seconds." },
+                { title: "Name the Need", description: "Ask: What boundary or need is being crossed right now?" }
             ],
-            anxious: [
-                { title: "🌿 Grounding Exercise", description: "Name: 5 blue things you see, 4 soft things you feel, 3 happy sounds, 2 nice smells, 1 taste you like." },
-                { title: "🛡️ Safety Check", description: "Ask: 'Am I actually in danger right now, or just uncomfortable?' Look for evidence of safety." },
-                { title: "🌬️ Calm Breathing", description: "Breathe in calmly for 4 counts, hold the light for 4, exhale clouds for 6. Repeat 5 times." }
-            ],
-            overwhelmed: [
-                { title: "🎯 One Sunbeam Only", description: "Close all tabs, put away everything except ONE small task. Focus on just that sunbeam!" },
-                { title: "⏸️ Pause", description: "Set a timer for 5 minutes and do absolutely nothing but breathe. You have permission!" },
-                { title: "🐌 Tiny Step", description: "What's the smallest possible next step? Just do that one tiny, manageable thing!" }
-            ],
-            lonely: [
-                { title: "📺 Virtual Mood lifter", description: "Put on a comforting TV show or YouTube video just for background happy human presence." },
-                { title: "💫 Reach Out with Sparkles", description: "Send a simple text to someone: 'Thinking of you' or a funny happy meme." },
-                { title: "☀️ Self-Companionship", description: "Talk to yourself kindly, as you would to a friend. Make yourself a special drink." }
-            ],
-            tired: [
-                { title: "💦 Hydration First", description: "Drink a full glass of water right now. Dehydration amplifies exhaustion like clouds block sun!" },
-                { title: "😴 Micro-Break", description: "Set a timer for 5 minutes and rest your eyes. No screens, no tasks, just rest." },
-                { title: "🍓 Tiny Nourishment", description: "Eat one small, easy thing (fruit, nuts, yogurt). Low blood sugar worsens fatigue." }
-            ],
-            calm: [
-                { title: "🌅 Mindful Appreciation", description: "Notice this peaceful feeling. Where do you feel it in your body? Savor it like sunset!" },
-                { title: "🌸 Gentle Movement", description: "Do some slow stretching or take a gentle walk to maintain this sunny state." },
-                { title: "📝 Happiness Journal", description: "Write a few notes about what helped you reach this calm state for future reference." }
-            ],
-            unknown: [
-                { title: "🔍 Gentle Curiosity", description: "Instead of trying to name the feeling, just notice where in your body you feel something. No judgment!" },
-                { title: "🔄 Permission to Not Know", description: "Say to yourself: 'It's okay that I don't know how I feel right now. I don't need to figure it out.'" },
-                { title: "☁️ Neutral Grounding", description: "Focus on your breathing for 2 minutes. Just notice the in-breath and out-breath like clouds passing." }
+            low_pleasant: [
+                { title: "Grounding", description: "Find 5 things you can see and 4 things you can feel." },
+                { title: "Reality Check", description: "Ask: Is this danger or discomfort? Look for signs of safety." },
+                { title: "Slow Breath", description: "Inhale for 4, hold for 4, exhale for 6. Repeat 5 times." }
             ]
         };
 
@@ -3344,15 +3285,10 @@
 
         // Mood display names
         const moodDisplayNames = {
-            happy: "Happy 😊",
-            sad: "Sad 🌧️",
-            angry: "Angry/Irritated 🔥",
-            anxious: "Fearful/Anxious 🦋",
-            overwhelmed: "Overwhelmed 🌪️",
-            lonely: "Lonely 🌙",
-            tired: "Tired/Burnt Out 💤",
-            calm: "Calm/Peaceful 🌿",
-            unknown: "I'm Not Sure 🤔"
+            high_unpleasant: "High Energy Unpleasant",
+            high_pleasant: "High Energy Pleasant",
+            low_unpleasant: "Low Energy Unpleasant",
+            low_pleasant: "Low Energy Pleasant"
         };
 
         // App state
@@ -3393,7 +3329,14 @@
 
         // Function to get random 3 songs for emotion
         function getRandomSongsForEmotion(emotion) {
-            const emotionSongs = songs[emotion] || songs.unknown;
+            const songMap = {
+                high_pleasant: 'happy',
+                low_unpleasant: 'sad',
+                high_unpleasant: 'angry',
+                low_pleasant: 'calm'
+            };
+            const songKey = songMap[emotion] || emotion;
+            const emotionSongs = songs[songKey] || songs.unknown;
             const shuffled = shuffleArray([...emotionSongs]);
             return shuffled.slice(0, 3);
         }
@@ -3404,7 +3347,7 @@
             selectedCoreEmotion = getEmotionFromURL();
 
             // Update header
-            selectedEmotionText.textContent = moodDisplayNames[selectedCoreEmotion] || "I'm Not Sure 🤔";
+            selectedEmotionText.textContent = moodDisplayNames[selectedCoreEmotion] || "High Energy Pleasant";
 
             // Load specific emotions
             loadSpecificEmotions();
@@ -3417,7 +3360,7 @@
         }
 
         function loadSpecificEmotions() {
-            const specificEmotions = emotions[selectedCoreEmotion] || emotions.unknown;
+            const specificEmotions = emotions[selectedCoreEmotion] || emotions.high_pleasant;
 
             // Clear previous emotions
             emotionGridContainer.innerHTML = '';
@@ -3426,11 +3369,31 @@
             const grid = document.createElement('div');
             grid.className = 'emotion-grid';
 
+            const emotionEmojiMap = {
+                Joyful: "😄",
+                Content: "😌",
+                Hopeful: "🌈",
+                Excited: "🤩",
+                Hurt: "💔",
+                Lonely: "🥺",
+                Disappointed: "😞",
+                Numb: "😶",
+                Frustrated: "😤",
+                Irritated: "😠",
+                Resentful: "😡",
+                Outraged: "🤬",
+                Worried: "😟",
+                Overthinking: "🤯",
+                Insecure: "😕",
+                Restless: "😰"
+            };
+
             specificEmotions.forEach(emotion => {
                 const emotionBtn = document.createElement('button');
-                emotionBtn.className = 'emotion-option';
+                const toneClass = `${selectedCoreEmotion.replace('_', '-')}-tone`;
+                emotionBtn.className = `emotion-option ${toneClass}`;
                 emotionBtn.innerHTML = `
-                    <div class="emotion-emoji">${emotion.emoji}</div>
+                    <div class="emotion-emoji">${emotionEmojiMap[emotion.name] || "🙂"}</div>
                     <div class="emotion-name">${emotion.name}</div>
                     <div class="emotion-subtitle">${emotion.specifics}</div>
                 `;
@@ -3475,7 +3438,7 @@
             copingSection.style.display = 'block';
 
             // Load coping strategies
-            const strategies = copingStrategies[selectedCoreEmotion] || copingStrategies.unknown;
+            const strategies = copingStrategies[selectedCoreEmotion] || copingStrategies.high_pleasant;
             const copingGrid = document.getElementById('copingGrid');
             copingGrid.innerHTML = '';
 

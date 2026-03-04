@@ -211,13 +211,14 @@
             font-size: 1.2rem;
         }
 
-        /* UPDATED MOOD BUTTONS LAYOUT - 5 in first row, 4 in second row */
+        /* Mood buttons layout (quadrant style) */
         .mood-buttons {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 12px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
             margin: 20px 0;
             width: 100%;
+            justify-items: center;
         }
 
         /* For mobile: 2 columns */
@@ -230,20 +231,16 @@
         /* For tablet: 3 columns */
         @media (min-width: 769px) and (max-width: 1024px) {
             .mood-buttons {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
         .big-mood-btn {
-            background: linear-gradient(135deg,
-            rgba(255, 255, 255, 0.95) 0%,
-            rgba(255, 255, 255, 0.8) 100%);
             border: none;
-            border-radius: 20px;
-            padding: 25px 15px;
+            border-radius: 50%;
+            padding: 0;
             cursor: pointer;
             transition: var(--transition);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -252,59 +249,48 @@
             position: relative;
             overflow: hidden;
             backdrop-filter: blur(10px);
-            border: 3px solid transparent;
+            border: 4px solid rgba(255, 255, 255, 0.6);
             touch-action: manipulation;
-            min-height: 120px;
+            min-height: 140px;
             width: 100%;
+            aspect-ratio: 1;
             text-decoration: none;
             color: inherit;
+            transition: transform 0.3s ease;
+            transform-style: preserve-3d;
+            overflow: visible;
         }
 
         @media (max-width: 768px) {
             .big-mood-btn {
-                padding: 20px 10px;
-                min-height: 100px;
+                min-height: 110px;
             }
         }
 
         .big-mood-btn::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg,
-            transparent,
-            rgba(255, 255, 255, 0.6),
-            transparent);
-            transition: 0.8s;
-        }
-
-        .big-mood-btn:hover::before {
-            left: 100%;
+            top: -10px;
+            left: -10px;
+            right: 10px;
+            bottom: 10px;
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.6;
         }
 
         .big-mood-btn:hover {
-            transform: translateY(-8px) scale(1.05) rotate(2deg);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-            border: 3px solid var(--light-blue-3);
+            transform: scale(1.06);
+            box-shadow: 0 18px 30px rgba(0, 0, 0, 0.2);
         }
 
         .big-mood-btn:active {
-            transform: translateY(-2px) scale(0.98);
+            transform: scale(0.95) translateY(5px);
             transition: transform 0.1s ease;
         }
 
         .big-mood-btn i {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            transition: var(--transition);
-            background: linear-gradient(135deg,
-            var(--light-blue-3),
-            var(--accent-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            display: none;
         }
 
         .big-mood-btn:hover i {
@@ -315,16 +301,23 @@
         .big-mood-btn span {
             font-size: 1.1rem;
             font-weight: 800;
-            color: var(--text-dark);
+            color: #000;
+            font-family: "Times New Roman", Times, serif;
             transition: var(--transition);
             word-wrap: break-word;
             overflow-wrap: break-word;
-            padding: 0 5px;
+            padding: 0 12px;
+            text-align: center;
+            text-shadow:
+                0 1px 0 rgba(255, 255, 255, 0.6),
+                0 -1px 0 rgba(0, 0, 0, 0.18);
         }
 
         .big-mood-btn:hover span {
-            color: var(--accent-blue);
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            color: #000;
+            text-shadow:
+                0 1px 0 rgba(255, 255, 255, 0.6),
+                0 -1px 0 rgba(0, 0, 0, 0.18);
         }
 
         footer {
@@ -391,15 +384,14 @@
             }
 
             .mood-buttons {
-                grid-template-columns: repeat(5, 1fr);
-                gap: 20px;
-                margin: 30px 0;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+                margin: 30px auto;
+                max-width: 720px;
             }
 
             .big-mood-btn {
-                padding: 35px 20px;
-                min-height: 150px;
-                border-radius: 25px;
+                min-height: 180px;
             }
 
             .big-mood-btn i {
@@ -407,7 +399,7 @@
             }
 
             .big-mood-btn span {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
             }
 
             footer {
@@ -443,22 +435,32 @@
         }
 
         /* UPDATED Emotion-specific colors */
-        .happy-color {
-            border-bottom-color: var(--light-blue-3);
-            background: linear-gradient(135deg, rgba(100, 149, 237, 0.1), rgba(245, 245, 220, 0.9));
+        .high-unpleasant-color .back { background: #ff4d3a; }
+        .high-unpleasant-color .front { background: #ff2d55; }
+
+        .high-unpleasant-color {
+            background: radial-gradient(circle, #ff5f6d, #ffc371);
+            box-shadow: 0 0 40px rgba(255, 95, 109, 0.5);
         }
-        .sad-color {
-            border-bottom-color: var(--light-blue-2);
-            background: linear-gradient(135deg, rgba(179, 217, 255, 0.1), rgba(245, 245, 220, 0.9));
+        .high-unpleasant-color::before { background-color: #ff4b2b; }
+
+        .high-pleasant-color {
+            background: radial-gradient(circle, #ffe259, #ffa751);
+            box-shadow: 0 0 40px rgba(255, 226, 89, 0.5);
         }
-        .angry-color {
-            border-bottom-color: var(--accent-blue);
-            background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(245, 245, 220, 0.9));
+        .high-pleasant-color::before { background-color: #f7bb07; }
+
+        .low-unpleasant-color {
+            background: radial-gradient(circle, #56ccf2, #2f80ed);
+            box-shadow: 0 0 40px rgba(86, 204, 242, 0.5);
         }
-        .anxious-color {
-            border-bottom-color: var(--green-medium);
-            background: linear-gradient(135deg, rgba(163, 217, 165, 0.1), rgba(245, 245, 220, 0.9));
+        .low-unpleasant-color::before { background-color: #2d9cdb; }
+
+        .low-pleasant-color {
+            background: radial-gradient(circle, #a8ff78, #78ffd6);
+            box-shadow: 0 0 40px rgba(168, 255, 120, 0.5);
         }
+        .low-pleasant-color::before { background-color: #56ab2f; }
         .overwhelmed-color {
             border-bottom-color: var(--accent-blue);
             background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(245, 245, 220, 0.9));
@@ -502,6 +504,7 @@
             75% { transform: rotate(10deg); }
         }
 
+
         @media (orientation: landscape) and (max-height: 500px) {
             .container {
                 gap: 10px;
@@ -529,14 +532,13 @@
             }
 
             .mood-buttons {
-                grid-template-columns: repeat(5, 1fr);
-                gap: 8px;
-                margin: 15px 0;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+                margin: 15px auto;
             }
 
             .big-mood-btn {
-                padding: 10px 5px;
-                min-height: 80px;
+                min-height: 90px;
             }
 
             .big-mood-btn i {
@@ -583,51 +585,20 @@
     </header>
 
     <div class="mood-buttons">
-        <!-- First Row: 5 buttons -->
-        <a href="emotion-coping.html?emotion=happy" class="big-mood-btn happy-color">
-            <i class="fas fa-smile-beam"></i>
-            <span>Happy 😊</span>
+        <a href="emotion-coping.html?emotion=high_unpleasant" class="big-mood-btn high-unpleasant-color">
+            <span>High Energy<br>Unpleasant</span>
         </a>
 
-        <a href="emotion-coping.html?emotion=sad" class="big-mood-btn sad-color">
-            <i class="fas fa-sad-tear"></i>
-            <span>Sad 🌧️</span>
+        <a href="emotion-coping.html?emotion=high_pleasant" class="big-mood-btn high-pleasant-color">
+            <span>High Energy<br>Pleasant</span>
         </a>
 
-        <a href="emotion-coping.html?emotion=angry" class="big-mood-btn angry-color">
-            <i class="fas fa-angry"></i>
-            <span>Angry/Irritated 🔥</span>
+        <a href="emotion-coping.html?emotion=low_unpleasant" class="big-mood-btn low-unpleasant-color">
+            <span>Low Energy<br>Unpleasant</span>
         </a>
 
-        <a href="emotion-coping.html?emotion=anxious" class="big-mood-btn anxious-color">
-            <i class="fas fa-surprise"></i>
-            <span>Fearful/Anxious 🦋</span>
-        </a>
-
-        <a href="emotion-coping.html?emotion=overwhelmed" class="big-mood-btn overwhelmed-color">
-            <i class="fas fa-cloud-rain"></i>
-            <span>Overwhelmed 🌪️</span>
-        </a>
-
-        <!-- Second Row: 4 buttons -->
-        <a href="emotion-coping.html?emotion=lonely" class="big-mood-btn lonely-color">
-            <i class="fas fa-user-alone"></i>
-            <span>Lonely 🌙</span>
-        </a>
-
-        <a href="emotion-coping.html?emotion=tired" class="big-mood-btn tired-color">
-            <i class="fas fa-tired"></i>
-            <span>Tired/Burnt Out 💤</span>
-        </a>
-
-        <a href="emotion-coping.html?emotion=calm" class="big-mood-btn calm-color">
-            <i class="fas fa-peace"></i>
-            <span>Calm/Peaceful 🌿</span>
-        </a>
-
-        <a href="emotion-coping.html?emotion=unknown" class="big-mood-btn unknown-color">
-            <i class="fas fa-question-circle"></i>
-            <span>I'm Not Sure 🤔</span>
+        <a href="emotion-coping.html?emotion=low_pleasant" class="big-mood-btn low-pleasant-color">
+            <span>Low Energy<br>Pleasant</span>
         </a>
     </div>
 

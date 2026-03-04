@@ -229,57 +229,51 @@
             <h2>Mood</h2>
             <h4>Choose how you feel and jump into the right support.</h4>
 
-            <div class="mood-buttons">
-                <a href="../../module-2/v_emotion-coping.html?emotion=happy" class="big-mood-btn happy-color">
-                    <i class="fas fa-smile-beam"></i>
-                    <span>Happy 😊</span>
-                </a>
-                <a href="../../module-2/v_emotion-coping.html?emotion=sad" class="big-mood-btn sad-color">
-                    <i class="fas fa-sad-tear"></i>
-                    <span>Sad 🌧️</span>
-                </a>
-                <a href="../../module-2/v_emotion-coping.html?emotion=angry" class="big-mood-btn angry-color">
-                    <i class="fas fa-angry"></i>
-                    <span>Angry/Irritated 🔥</span>
-                </a>
-                <a href="../../module-2/v_emotion-coping.html?emotion=anxious" class="big-mood-btn anxious-color">
-                    <i class="fas fa-surprise"></i>
-                    <span>Fearful/Anxious 🦋</span>
-                </a>
-                <a href="../../module-2/v_emotion-coping.html?emotion=overwhelmed" class="big-mood-btn overwhelmed-color">
-                    <i class="fas fa-cloud-rain"></i>
-                    <span>Overwhelmed 🌪️</span>
-                </a>
-                <a href="../../module-2/v_emotion-coping.html?emotion=lonely" class="big-mood-btn lonely-color">
-                    <i class="fas fa-user-alone"></i>
-                    <span>Lonely 🌙</span>
-                </a>
-                <a href="../../module-2/v_emotion-coping.html?emotion=tired" class="big-mood-btn tired-color">
-                    <i class="fas fa-tired"></i>
-                    <span>Tired/Burnt Out 💤</span>
-                </a>
-                <a href="../../module-2/v_emotion-coping.html?emotion=calm" class="big-mood-btn calm-color">
-                    <i class="fas fa-peace"></i>
-                    <span>Calm/Peaceful 🌿</span>
-                </a>
-                <a href="../../module-2/v_emotion-coping.html?emotion=unknown" class="big-mood-btn unknown-color">
-                    <i class="fas fa-question-circle"></i>
-                    <span>I'm Not Sure 🤔</span>
-                </a>
-            </div>
-
-            <div class="nav-buttons">
-                <a href="../../module-2/v_stats.html" class="nav-btn">
-                    <i class="fas fa-chart-line"></i> View Your Stats 📊
-                </a>
-            </div>
-
-            <footer>
-                <p>Welcome to your space! Even cloudy feelings look brighter here! ☁️➡️☀️</p>
-                <div class="emergency-contact">
-                    If you need immediate help, contact a mental health professional. You're not alone. 💙
+            <div class="mood-hub">
+                <div class="mood-core">
+                    <div class="mood-buttons quadrant-grid">
+                        <a href="../../module-2/v_emotion-coping.html?emotion=high_unpleasant" class="big-mood-btn high-unpleasant-color">
+                            <span>High Energy<br>Unpleasant</span>
+                        </a>
+                        <a href="../../module-2/v_emotion-coping.html?emotion=high_pleasant" class="big-mood-btn high-pleasant-color">
+                            <span>High Energy<br>Pleasant</span>
+                        </a>
+                        <a href="../../module-2/v_emotion-coping.html?emotion=low_unpleasant" class="big-mood-btn low-unpleasant-color">
+                            <span>Low Energy<br>Unpleasant</span>
+                        </a>
+                        <a href="../../module-2/v_emotion-coping.html?emotion=low_pleasant" class="big-mood-btn low-pleasant-color">
+                            <span>Low Energy<br>Pleasant</span>
+                        </a>
+                    </div>
                 </div>
-            </footer>
+
+                <div class="mood-insights">
+                    <div class="insight-card main-emotion-card">
+                        <div class="main-emotion">
+                            <div class="main-emotion-circle neutral-color" id="mainEmotionCircle">Log</div>
+                            <div class="main-emotion-info">
+                                <div class="main-emotion-label">Main Emotion</div>
+                                <div class="main-emotion-name" id="mainEmotionName">No entries yet</div>
+                                <div class="main-emotion-count" id="mainEmotionCount">Log your first mood</div>
+                            </div>
+                        </div>
+                        <div class="streak-box">
+                            <div>
+                                <div class="streak-label">Daily Streak</div>
+                                <div class="streak-sub">Days in a row</div>
+                            </div>
+                            <div class="streak-value" id="dashboardStreakValue">0</div>
+                        </div>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="insight-title">Emotion Graph</div>
+                        <div class="emotion-graph" id="emotionGraph"></div>
+                        <div class="emotion-graph-note">Based on your recent check-ins.</div>
+                    </div>
+                </div>
+            </div>
+
         </section>
 
         <!-- GAMES SNAP -->
