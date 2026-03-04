@@ -495,50 +495,45 @@
         }
         initDashboardQuoteCarousel();
 
-        // Dashboard mood insights (main emotion, streak, emotion graph)
-        const DASHBOARD_EMOTIONS = ['high_unpleasant', 'high_pleasant', 'low_unpleasant', 'low_pleasant'];
-        const DASHBOARD_EMOTION_LABELS = {
-            high_unpleasant: 'High Energy Unpleasant',
-            high_pleasant: 'High Energy Pleasant',
-            low_unpleasant: 'Low Energy Unpleasant',
-            low_pleasant: 'Low Energy Pleasant'
-        };
+        // Dashboard mood insights (main emotion)
 
-        function getMoodEntries() {
+        async function getMoodEntries() {
+            const authUser = JSON.parse(localStorage.getItem('heldUser') || '{}');
+            const admissionId = authUser.admissionId || authUser.adminId;
+            if (!admissionId) {
+                return [];
+            }
+
+            try {
+                const SUPABASE_URL = "https://itslbcqnjqqukimbjnrt.supabase.co";
+                const SUPABASE_ANON_KEY = "sb_publishable_J41ksi8SfMQ2bAlyqEf0RA_mjWGtQsZ";
+                const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+                const { data, error } = await supabaseClient
+                    .from('mood_entries')
+                    .select('core_emotion,specific_emotion,created_at')
+                    .eq('admin_id', admissionId)
+                    .order('created_at', { ascending: false });
+
+                if (error) {
+                    console.error('Error loading mood entries:', error);
+                } else if (data) {
+                    return data.map(entry => ({
+                        coreEmotion: entry.core_emotion,
+                        specificEmotion: entry.specific_emotion,
+                        timestamp: new Date(entry.created_at).getTime()
+                    }));
+                }
+            } catch (err) {
+                console.error('Error loading mood entries:', err);
+            }
+
             try {
                 return JSON.parse(localStorage.getItem('moodEntries') || '[]');
             } catch (err) {
                 console.error('Error loading mood entries:', err);
                 return [];
             }
-        }
-
-        function calculateStreak(entries) {
-            if (entries.length === 0) return 0;
-
-            const sorted = [...entries].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
-            let streak = 1;
-            let currentDate = new Date(sorted[0].timestamp);
-
-            for (let i = 1; i < sorted.length; i++) {
-                const entryDate = new Date(sorted[i].timestamp);
-                const prevDate = new Date(currentDate);
-
-                entryDate.setHours(0, 0, 0, 0);
-                prevDate.setHours(0, 0, 0, 0);
-
-                const dayDiff = Math.floor((entryDate - prevDate) / (1000 * 60 * 60 * 24));
-
-                if (dayDiff === 1) {
-                    streak++;
-                } else if (dayDiff > 1) {
-                    streak = 1;
-                }
-
-                currentDate = new Date(sorted[i].timestamp);
-            }
-
-            return streak;
         }
 
         function setMainEmotionCircle(circleEl, moodKey, label) {
@@ -559,70 +554,285 @@
             circleEl.textContent = label;
         }
 
-        function updateDashboardMoodInsights() {
+        async function updateDashboardMoodInsights() {
             const circleEl = document.getElementById('mainEmotionCircle');
             const nameEl = document.getElementById('mainEmotionName');
             const countEl = document.getElementById('mainEmotionCount');
-            const streakEl = document.getElementById('dashboardStreakValue');
-            const graphEl = document.getElementById('emotionGraph');
 
-            if (!circleEl || !nameEl || !countEl || !streakEl || !graphEl) return;
+            if (!circleEl || !nameEl || !countEl) return;
 
-            const entries = getMoodEntries();
-            const moodFrequency = {
-                high_unpleasant: 0,
-                high_pleasant: 0,
-                low_unpleasant: 0,
-                low_pleasant: 0
-            };
-
-            entries.forEach(entry => {
-                if (moodFrequency[entry.coreEmotion] !== undefined) {
-                    moodFrequency[entry.coreEmotion]++;
-                }
-            });
-
-            const total = Object.values(moodFrequency).reduce((sum, count) => sum + count, 0);
-            const streak = calculateStreak(entries);
-            streakEl.textContent = streak;
+            const entries = await getMoodEntries();
+            const total = entries.length;
 
             if (total === 0) {
                 setMainEmotionCircle(circleEl, 'neutral', 'Log');
                 nameEl.textContent = 'No entries yet';
                 countEl.textContent = 'Log your first mood';
-                graphEl.innerHTML = '<div class="emotion-graph-empty">Log your first mood to see your graph.</div>';
                 return;
             }
 
-            // Use most recent specific emotion for the main display
-            const latestEntry = entries[0];
-            const latestSpecific = latestEntry?.specificEmotion || 'No entry';
-            const latestCore = latestEntry?.coreEmotion || 'high_pleasant';
-            const specificCount = entries.filter((e) => e.specificEmotion === latestSpecific).length;
-
-            setMainEmotionCircle(circleEl, latestCore, latestSpecific);
-            nameEl.textContent = latestSpecific;
-            countEl.textContent = `${specificCount} check-ins`;
-
-            graphEl.innerHTML = '';
-            DASHBOARD_EMOTIONS.forEach(mood => {
-                const count = moodFrequency[mood] || 0;
-                const percent = total > 0 ? Math.round((count / total) * 100) : 0;
-                const width = count > 0 ? Math.max(percent, 8) : 0;
-                const row = document.createElement('div');
-                row.className = 'emotion-graph-row';
-                row.innerHTML = `
-                    <div class="emotion-graph-label">${DASHBOARD_EMOTION_LABELS[mood]}</div>
-                    <div class="emotion-graph-bar">
-                        <div class="emotion-graph-fill ${mood.replace('_', '-')}-fill" style="width: ${width}%"></div>
-                    </div>
-                    <div class="emotion-graph-value">${percent}%</div>
-                `;
-                graphEl.appendChild(row);
+            const tally = {};
+            entries.forEach(entry => {
+                if (!entry.specificEmotion) return;
+                tally[entry.specificEmotion] = tally[entry.specificEmotion] || { count: 0, core: entry.coreEmotion };
+                tally[entry.specificEmotion].count += 1;
+                tally[entry.specificEmotion].core = entry.coreEmotion || tally[entry.specificEmotion].core;
             });
+
+            const topSpecific = Object.keys(tally).sort((a, b) => tally[b].count - tally[a].count)[0];
+            const topData = tally[topSpecific];
+            const topCore = topData?.core || 'high_pleasant';
+            const topCount = topData?.count || entries.length;
+
+            setMainEmotionCircle(circleEl, topCore, topSpecific || 'Log');
+            nameEl.textContent = topSpecific || 'No entries yet';
+            countEl.textContent = `${topCount} check-ins`;
         }
 
         updateDashboardMoodInsights();
+
+        // ====== Mood Analytics (monthly / weekly / daily) ======
+        const analyticsTabs = document.querySelectorAll('.mood-analytics-tab');
+        const calendarEl = document.getElementById('moodCalendar');
+        const periodTitleEl = document.getElementById('moodPeriodTitle');
+        const periodSubtitleEl = document.getElementById('moodPeriodSubtitle');
+        const dailyEmotionsEl = document.getElementById('dailyEmotions');
+        const periodSummaryEl = document.getElementById('moodPeriodSummary');
+
+        function formatDateKey(dateObj) {
+            const year = dateObj.getFullYear();
+            const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const day = String(dateObj.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function getEntriesByDate(entries) {
+            const map = {};
+            entries.forEach(entry => {
+                const date = new Date(entry.timestamp);
+                const key = formatDateKey(date);
+                if (!map[key]) {
+                    map[key] = [];
+                }
+                map[key].push(entry);
+            });
+            return map;
+        }
+
+
+        function buildCalendarForMonth(entriesMap, dateObj) {
+            if (!calendarEl) return;
+            calendarEl.innerHTML = '';
+
+            const year = dateObj.getFullYear();
+            const month = dateObj.getMonth();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const firstDay = new Date(year, month, 1).getDay();
+            const labels = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+            labels.forEach(label => {
+                const el = document.createElement('div');
+                el.className = 'day-label';
+                el.textContent = label;
+                calendarEl.appendChild(el);
+            });
+
+            for (let i = 0; i < firstDay; i++) {
+                const spacer = document.createElement('div');
+                spacer.className = 'calendar-spacer';
+                calendarEl.appendChild(spacer);
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateKey = formatDateKey(new Date(year, month, day));
+                const dayEntries = entriesMap[dateKey] || [];
+                const dotHtml = dayEntries.map(entry => {
+                    const dotClass = entry.coreEmotion ? entry.coreEmotion.replace('_', '-') : '';
+                    return `<span class="dot ${dotClass} has-entry"></span>`;
+                }).join('');
+
+                const cell = document.createElement('div');
+                cell.className = 'date-cell';
+                cell.innerHTML = `
+                    <div class="dot-stack">${dotHtml || '<span class="dot"></span>'}</div>
+                    <span class="date-num">${day}</span>
+                `;
+                calendarEl.appendChild(cell);
+            }
+        }
+
+        function buildCalendarForWeek(entriesMap, endDate) {
+            if (!calendarEl) return;
+            calendarEl.innerHTML = '';
+
+            const labels = [];
+            const days = [];
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date(endDate);
+                date.setDate(endDate.getDate() - i);
+                labels.push(date.toLocaleDateString(undefined, { weekday: 'short' }).slice(0, 1));
+                days.push(date);
+            }
+
+            labels.forEach(label => {
+                const el = document.createElement('div');
+                el.className = 'day-label';
+                el.textContent = label;
+                calendarEl.appendChild(el);
+            });
+
+            days.forEach(date => {
+                const key = formatDateKey(date);
+                const dayEntries = entriesMap[key] || [];
+                const dotHtml = dayEntries.map(entry => {
+                    const dotClass = entry.coreEmotion ? entry.coreEmotion.replace('_', '-') : '';
+                    return `<span class="dot ${dotClass} has-entry"></span>`;
+                }).join('');
+                const cell = document.createElement('div');
+                cell.className = 'date-cell';
+                cell.innerHTML = `
+                    <div class="dot-stack">${dotHtml || '<span class="dot"></span>'}</div>
+                    <span class="date-num">${date.getDate()}</span>
+                `;
+                calendarEl.appendChild(cell);
+            });
+        }
+
+        function buildCalendarForDay(entriesMap, dateObj) {
+            if (!calendarEl) return;
+            calendarEl.innerHTML = '';
+
+            const label = dateObj.toLocaleDateString(undefined, { weekday: 'short' }).slice(0, 1);
+            const key = formatDateKey(dateObj);
+            const dayEntries = entriesMap[key] || [];
+            const dotHtml = dayEntries.map(entry => {
+                const dotClass = entry.coreEmotion ? entry.coreEmotion.replace('_', '-') : '';
+                return `<span class="dot ${dotClass} has-entry"></span>`;
+            }).join('');
+
+            const labelEl = document.createElement('div');
+            labelEl.className = 'day-label';
+            labelEl.textContent = label;
+            calendarEl.appendChild(labelEl);
+
+            for (let i = 0; i < 6; i++) {
+                const spacer = document.createElement('div');
+                spacer.className = 'calendar-spacer';
+                calendarEl.appendChild(spacer);
+            }
+
+            const cell = document.createElement('div');
+            cell.className = 'date-cell';
+            cell.innerHTML = `
+                <div class="dot-stack">${dotHtml || '<span class="dot"></span>'}</div>
+                <span class="date-num">${dateObj.getDate()}</span>
+            `;
+            calendarEl.appendChild(cell);
+        }
+
+        async function updateMoodAnalytics(mode = 'monthly') {
+            const entries = await getMoodEntries();
+            const entriesMap = getEntriesByDate(entries);
+            const now = new Date();
+
+            if (mode === 'weekly') {
+                periodTitleEl.textContent = 'This Week';
+                periodSubtitleEl.textContent = entries.length
+                    ? `${entries.length} total check-ins logged`
+                    : 'Log a check-in to start your week.';
+                buildCalendarForWeek(entriesMap, now);
+                const weekStart = new Date(now);
+                weekStart.setDate(now.getDate() - 6);
+                const weekEntries = entries.filter(entry => new Date(entry.timestamp) >= weekStart);
+                if (periodSummaryEl) {
+                    if (weekEntries.length === 0) {
+                        periodSummaryEl.textContent = 'No check-ins yet this week.';
+                    } else {
+                        const tally = {};
+                        weekEntries.forEach(entry => {
+                            if (!entry.specificEmotion) return;
+                            tally[entry.specificEmotion] = tally[entry.specificEmotion] || { count: 0, core: entry.coreEmotion };
+                            tally[entry.specificEmotion].count += 1;
+                        });
+                        const topSpecific = Object.keys(tally).sort((a, b) => tally[b].count - tally[a].count)[0];
+                        const topCount = tally[topSpecific]?.count || 0;
+                        periodSummaryEl.textContent = `Lately you've felt mostly ${topSpecific} (${topCount} check-ins this week).`;
+                    }
+                }
+                if (dailyEmotionsEl) {
+                    dailyEmotionsEl.classList.remove('active');
+                    dailyEmotionsEl.innerHTML = '';
+                }
+                return;
+            }
+
+            if (mode === 'daily') {
+                periodTitleEl.textContent = 'Today';
+                periodSubtitleEl.textContent = entries.length
+                    ? 'Your check-ins for today.'
+                    : 'No check-ins today yet.';
+                buildCalendarForDay(entriesMap, now);
+                if (periodSummaryEl) {
+                    periodSummaryEl.textContent = '';
+                }
+                const todayKey = formatDateKey(now);
+                const todayEntries = entriesMap[todayKey] || [];
+                if (dailyEmotionsEl) {
+                    if (todayEntries.length === 0) {
+                        dailyEmotionsEl.classList.add('active');
+                        dailyEmotionsEl.innerHTML = `
+                            <div class="daily-emotions-title">Today's Emotions</div>
+                            <div class="daily-emotions-list">
+                                <span class="daily-emotion-pill">No check-ins yet</span>
+                            </div>
+                        `;
+                    } else {
+                        const pills = todayEntries.map(entry => {
+                            const pillClass = entry.coreEmotion ? entry.coreEmotion.replace('_', '-') : '';
+                            const label = entry.specificEmotion || 'Emotion';
+                            return `<span class="daily-emotion-pill ${pillClass}">${label}</span>`;
+                        }).join('');
+                        dailyEmotionsEl.classList.add('active');
+                        dailyEmotionsEl.innerHTML = `
+                            <div class="daily-emotions-title">Today's Emotions</div>
+                            <div class="daily-emotions-list">${pills}</div>
+                        `;
+                    }
+                }
+                return;
+            }
+
+            const monthName = now.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+            periodTitleEl.textContent = monthName;
+            const monthEntries = entries.filter(entry => {
+                const entryDate = new Date(entry.timestamp);
+                return entryDate.getFullYear() === now.getFullYear() && entryDate.getMonth() === now.getMonth();
+            });
+            periodSubtitleEl.textContent = monthEntries.length
+                ? `${monthEntries.length} check-ins logged this month.`
+                : 'Log a check-in to start your month.';
+            buildCalendarForMonth(entriesMap, now);
+            if (periodSummaryEl) {
+                periodSummaryEl.textContent = '';
+            }
+            if (dailyEmotionsEl) {
+                dailyEmotionsEl.classList.remove('active');
+                dailyEmotionsEl.innerHTML = '';
+            }
+        }
+
+        function setActiveAnalyticsTab(target) {
+            analyticsTabs.forEach(tab => tab.classList.remove('active'));
+            target.classList.add('active');
+            updateMoodAnalytics(target.dataset.mode);
+        }
+
+        if (analyticsTabs.length) {
+            analyticsTabs.forEach(tab => {
+                tab.addEventListener('click', () => setActiveAnalyticsTab(tab));
+            });
+            updateMoodAnalytics('monthly');
+        }
         // ====== HELPINGAI API CALL ======
         async function sendMessage() {
             const userText = chatInput.value.trim();

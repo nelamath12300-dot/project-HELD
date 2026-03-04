@@ -1340,6 +1340,7 @@
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -3798,12 +3799,21 @@
                 return;
             }
 
+            const authUser = JSON.parse(localStorage.getItem('heldUser') || '{}');
+            const admissionId = authUser.admissionId || authUser.adminId;
+            if (!admissionId) {
+                alert("Please log in again to save your mood.");
+                window.location.href = "../../index.html";
+                return;
+            }
+
             // Save to localStorage
             const entry = {
                 date: new Date().toISOString(),
                 coreEmotion: selectedCoreEmotion,
                 specificEmotion: selectedSpecificEmotion,
-                timestamp: Date.now()
+                timestamp: Date.now(),
+                admissionId
             };
 
             // Get existing entries
@@ -3817,11 +3827,28 @@
 
             localStorage.setItem('moodEntries', JSON.stringify(entries));
 
-            // Show confirmation
-            alert("🎉 Check-in saved! Remember to shine bright today! ✨");
+            const SUPABASE_URL = "https://itslbcqnjqqukimbjnrt.supabase.co";
+            const SUPABASE_ANON_KEY = "sb_publishable_J41ksi8SfMQ2bAlyqEf0RA_mjWGtQsZ";
+            const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-            // Go back to index.html
-            window.location.href = "index.html";
+            supabaseClient
+                .from('mood_entries')
+                .insert([{
+                    admin_id: admissionId,
+                    core_emotion: selectedCoreEmotion,
+                    specific_emotion: selectedSpecificEmotion
+                }])
+                .then(({ error }) => {
+                    if (error) {
+                        console.error("Supabase insert failed:", error);
+                    }
+
+                    // Show confirmation
+                    alert("🎉 Check-in saved! Remember to shine bright today! ✨");
+
+                    // Go back to dashboard mood page
+                    window.location.href = "../dashboard/dash/HELD.html#view-mood";
+                });
         }
 
         // Initialize the app

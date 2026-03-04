@@ -172,6 +172,12 @@
     </style>
 </head>
 <body>
+<script>
+    if (localStorage.getItem('heldAuth') !== 'true') {
+        window.location.href = '../../../index.html';
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <!-- MOBILE HEADER WITH LOGO -->
     <div class="mobile-header">
@@ -257,19 +263,33 @@
                                 <div class="main-emotion-count" id="mainEmotionCount">Log your first mood</div>
                             </div>
                         </div>
-                        <div class="streak-box">
-                            <div>
-                                <div class="streak-label">Daily Streak</div>
-                                <div class="streak-sub">Days in a row</div>
-                            </div>
-                            <div class="streak-value" id="dashboardStreakValue">0</div>
-                        </div>
                     </div>
 
-                    <div class="insight-card">
-                        <div class="insight-title">Emotion Graph</div>
-                        <div class="emotion-graph" id="emotionGraph"></div>
-                        <div class="emotion-graph-note">Based on your recent check-ins.</div>
+                    <div class="insight-card mood-analytics-card">
+                        <div class="mood-analytics-header">
+                            <div class="mood-analytics-title">
+                                Mood Analytics <span class="mood-analytics-caret">⌄</span>
+                            </div>
+                            <button class="mood-analytics-share" type="button" aria-label="Share">
+                                ⇪
+                            </button>
+                        </div>
+
+                        <div class="mood-analytics-tabs">
+                            <button class="mood-analytics-tab active" type="button" data-mode="monthly">Monthly</button>
+                            <button class="mood-analytics-tab" type="button" data-mode="weekly">Weekly</button>
+                            <button class="mood-analytics-tab" type="button" data-mode="daily">Daily</button>
+                        </div>
+
+                        <div class="mood-analytics-section">
+                            <h3 id="moodPeriodTitle">This Month</h3>
+                            <p id="moodPeriodSubtitle">Track your check-ins over time.</p>
+                            <p class="mood-period-summary" id="moodPeriodSummary"></p>
+
+                            <div class="mood-calendar" id="moodCalendar"></div>
+                            <div class="daily-emotions" id="dailyEmotions"></div>
+                        </div>
+
                     </div>
                 </div>
             </div>
