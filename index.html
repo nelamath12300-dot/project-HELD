@@ -368,6 +368,15 @@
         <form id="signupForm">
           <div class="form-body">
             <div class="input-group">
+              <span class="input-icon">🙋</span>
+              <input
+                type="text"
+                id="signupName"
+                placeholder="Full Name"
+                required
+              >
+            </div>
+            <div class="input-group">
               <span class="input-icon">🆔</span>
               <input
                 type="text"
@@ -450,7 +459,7 @@
 
     const { data, error } = await supabaseClient
       .from('held_users')
-      .select('admin_id,email')
+      .select('admin_id,email,full_name')
       .eq('admin_id', admissionId)
       .eq('password_hash', passwordHash)
       .maybeSingle();
@@ -463,13 +472,15 @@
     localStorage.setItem(AUTH_KEY, "true");
     localStorage.setItem(USER_KEY, JSON.stringify({
       admissionId: data.admin_id,
-      email: data.email
+      email: data.email,
+      fullName: data.full_name
     }));
     window.location.href = './student_page/dashboard/dash/HELD.html';
   });
 
   document.getElementById('signupForm').addEventListener('submit', async function(e){
     e.preventDefault();
+    const fullName = document.getElementById('signupName').value.trim();
     const adminId = document.getElementById('signupAdminId').value.trim();
     const email = document.getElementById('signupEmail').value.trim();
     const password = document.getElementById('signupPassword').value;
@@ -477,7 +488,7 @@
 
     const { error } = await supabaseClient
       .from('held_users')
-      .insert([{ admin_id: adminId, email, password_hash: passwordHash }]);
+      .insert([{ full_name: fullName, admin_id: adminId, email, password_hash: passwordHash }]);
 
     if (error) {
       if (error.code === '23505') {
@@ -489,6 +500,11 @@
     }
 
     alert("Account created! Please log in.");
+    localStorage.setItem(USER_KEY, JSON.stringify({
+      adminId,
+      email,
+      fullName
+    }));
     document.getElementById('card').classList.remove('flipped');
   });
 

@@ -71,7 +71,26 @@
         });
         
         // Time & Greeting
-        function updateGreeting() {
+        async function getDisplayNameFromSupabase(admissionId) {
+            if (!admissionId || typeof supabase === 'undefined') return '';
+            try {
+                const SUPABASE_URL = "https://itslbcqnjqqukimbjnrt.supabase.co";
+                const SUPABASE_ANON_KEY = "sb_publishable_J41ksi8SfMQ2bAlyqEf0RA_mjWGtQsZ";
+                const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                const { data, error } = await supabaseClient
+                    .from('held_users')
+                    .select('full_name')
+                    .eq('admin_id', admissionId)
+                    .maybeSingle();
+                if (error || !data?.full_name) return '';
+                return data.full_name;
+            } catch (err) {
+                console.error('Error fetching name:', err);
+                return '';
+            }
+        }
+
+        async function updateGreeting() {
             const hour = new Date().getHours();
             const greetingText = document.getElementById('greeting-text');
             const dateBadge = document.getElementById('date-badge');
@@ -80,7 +99,20 @@
             if (hour >= 12 && hour < 17) greet = 'Good Afternoon';
             else if (hour >= 17) greet = 'Good Evening';
             
-            greetingText.innerText = `${greet}, Alen`;
+            const authUser = JSON.parse(localStorage.getItem('heldUser') || '{}');
+            let displayName = authUser.fullName || authUser.name || '';
+            const admissionId = authUser.admissionId || authUser.adminId;
+
+            if (!displayName && admissionId) {
+                displayName = await getDisplayNameFromSupabase(admissionId);
+                if (displayName) {
+                    localStorage.setItem('heldUser', JSON.stringify({
+                        ...authUser,
+                        fullName: displayName
+                    }));
+                }
+            }
+            greetingText.innerText = displayName ? `${greet}, ${displayName}` : greet;
             
             const options = { weekday: 'long', month: 'short', day: 'numeric' };
             dateBadge.innerText = new Date().toLocaleDateString('en-US', options);
