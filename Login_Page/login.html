@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -320,8 +320,8 @@
                 id="loginAdmissionId"
                 placeholder="Admission ID"
                 required
-                pattern="^[0-9]{3}[A-Za-z0-9]{4,5}[0-9]{2,3}$"
-                title="Admission ID must be 3 numbers, followed by 4-5 letters/numbers, then 2-3 numbers."
+                pattern="^[0-9]{3}[A-Za-z0-9]{3,4,5}[0-9]{2,3}$"
+                title="Admission ID must be 3 numbers, followed by 3-5 letters/numbers, then 2-3 numbers."
               >
             </div>
             <div class="input-group">
@@ -390,8 +390,8 @@
                 id="signupAdminId"
                 placeholder="Admin ID"
                 required
-                pattern="^[0-9]{3}[A-Za-z0-9]{4,5}[0-9]{2,3}$"
-                title="Admin ID must be 3 numbers, followed by 4-5 letters/numbers, then 2-3 numbers."
+                pattern="^[0-9]{3}[A-Za-z0-9]{3,4}[0-9]{2,3}$"
+                title="Admin ID must be 3 numbers, followed by 3-4 letters/numbers, then 2-3 numbers."
               >
             </div>
             <div class="input-group">
@@ -435,12 +435,14 @@
 
   document.getElementById('loginForm').addEventListener('submit', function(e){
     e.preventDefault();
-    alert('Login clicked');
+    // Redirect to HELD dashboard after sign in
+    window.location.href = '../student_page/dashboard/dash/HELD.html';
   });
 
   document.getElementById('signupForm').addEventListener('submit', function(e){
     e.preventDefault();
-    alert('Signup clicked');
+    // Redirect to HELD dashboard after account creation
+    window.location.href = '../student_page/dashboard/dash/HELD.html';
   });
   
     // toggle show / hide password
